@@ -21,6 +21,8 @@ class MochaRunner extends Component {
 
     const mocha = new Mocha({});
     const runner = mocha.run();
+
+    this.eventHandler = this.eventHandler.bind(this);
   }
 
   componentWillMount() {
