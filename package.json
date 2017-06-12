@@ -15,7 +15,9 @@
   "dependencies": {
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
+    "grommet": "^1.4.1",
     "jquery": "2.2.3",
+    "mocha": "^3.4.2",
     "react": "15.0.2",
     "react-dom": "15.0.2",
     "react-redux": "4.4.5",
@@ -50,7 +52,6 @@
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.8.5",
     "jsdom": "8.5.0",
-    "mocha": "2.4.5",
     "nock": "8.0.0",
     "npm-run-all": "1.8.0",
     "open": "0.0.5",

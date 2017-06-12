@@ -3,9 +3,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from '../components/App';
+import './styles/styles.css';
 
-console.log('App is running...');
+import App from './App';
 
-const element = document.getElementById('content');
+console.log('Index is running...');
+
+const element = document.getElementById('app');
 ReactDOM.render(<App />, element);
