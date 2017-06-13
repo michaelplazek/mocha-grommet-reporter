@@ -6,6 +6,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
+import Paragraph from 'grommet/components/Paragraph';
 
 class MochaStatus extends Component {
 
@@ -16,6 +17,10 @@ class MochaStatus extends Component {
 
   componentDidMount() {
 
+
+
+    // this.setTimer();
+    this.eventHandler();
     console.log('MochaStatus is running...');
   }
 
@@ -23,24 +28,52 @@ class MochaStatus extends Component {
 
   }
 
+  eventHandler(){
+    // this.props.runner.on('end', this.endTimer);
+  }
+
+  // setTimer(){
+  //   let start = new Date();
+  // }
+  //
+  // endTimer(){
+  //   let end = new Date();
+  // }
+
+
+  getNumberOfTests(){
+    let count = 0;
+    for(let i = 0; i < this.props.runner.suite.suites.length; i++) {
+      for(let j = 0; j < this.props.runner.suite.suites[i].tests.length; j++) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  // updateComplete(){
+  //   let test = 0;
+  //   this.props.runner.on('test end', () => {
+  //     test++;
+  //   });
+  //   return test;
+  // }
+
   render() {
 
-    const { suite, failures } = this.props;
+    const { suite, failures } = this.props.runner;
+
+    const count = this.getNumberOfTests();
 
     return(
-      <Box>
-        <Label># of Suites:&nbsp;{suite.suites.length}</Label>
-        <Label>&nbsp; | &nbsp;</Label>
-        <Label># of Failures:&nbsp;{failures}</Label>
-      </Box>
+        <Label size="small" margin="medium"># of Suites:&nbsp;{suite.suites.length}&nbsp; | &nbsp;# of Tests:&nbsp;{count}&nbsp; | &nbsp;# of Failures:&nbsp;{failures}</Label>
     );
 
   }
 }
 
 MochaStatus.propTypes = {
-  suite: PropTypes.Object,
-  failures: PropTypes.isInteger
+  runner: PropTypes.Object
 };
 
 export default MochaStatus;

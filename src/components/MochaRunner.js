@@ -10,6 +10,8 @@ import { Mocha } from 'mocha/mocha.js';
 
 require('mocha/mocha.css');
 
+
+
 class MochaRunner extends Component {
 
   constructor(props) {
@@ -38,6 +40,8 @@ mocha.setup({
   timeout: 10000,
   reporter: reporter
 });
+
+require('../index.test.js');
 
 function eventHandler(){
   console.log('HANDLE EVENTS HERE MAYBE');
