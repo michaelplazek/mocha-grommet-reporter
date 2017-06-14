@@ -36,8 +36,8 @@ class MochaEvents extends Component {
         {
           tests.map(test => (
             <AccordionPanel
-              key={this.props.runner.suite.tests.title}
-              heading={this.props.runner.suite.tests.title}
+              key={test.title}
+              heading={test.title}
               pad="medium"
             >
               Enter Test Info!!!
@@ -60,8 +60,8 @@ class MochaEvents extends Component {
         {
           suites.map(suite => (
             <AccordionPanel
-              key={this.props.runner.suite.suites.title}
-              heading={this.props.runner.suite.suites.title}
+              key={suite.title}
+              heading={suite.title}
               pad="medium"
             >
               {this.getSuite(suite)}
