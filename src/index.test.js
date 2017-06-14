@@ -7,5 +7,5 @@ describe('Our first test', () => {
 
   it('shouldnt pass', () => {
     expect(true).toEqual(false);
-  })
+  });
 });

@@ -10,17 +10,17 @@ import { Mocha } from 'mocha/mocha.js';
 
 require('mocha/mocha.css');
 
-
-
 class MochaRunner extends Component {
 
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
 
   }
+
+  // componentDidMount() {
+  //
+  //   runner.on('start', )
+  // }
 
   render() {
     return(

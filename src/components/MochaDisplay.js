@@ -2,35 +2,41 @@
  * Created by plazek on 6/12/2017.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import Article from 'grommet/components/Article';
-import Headline from 'grommet/components/Headline';
 import Heading from 'grommet/components/Headline';
 import Section from 'grommet/components/Section';
 import Box from 'grommet/components/Box';
-import Split from 'grommet/components/Box';
-import Sidebar from 'grommet/components/Sidebar';
 
 import MochaStatus from './MochaStatus';
+import MochaEvents from './MochaEvents';
 
 const MochaDisplay = (props) => {
 
   return (
+    <Section>
     <Box colorIndex="neutral-4-t" alignContent="center">
-        <Headline>
+      <Box pad="large">
+        <Heading>
           Mocha Display
-        </Headline>
-            <MochaStatus
-              runner = {props.runner}
-            />
+        </Heading>
+        <MochaStatus
+          runner = {props.runner}
+        />
+      </Box>
     </Box>
+      <MochaEvents
+        runner = {props.runner}
+      />
+    </Section>
+
     // TODO: add components we want to display
   );
 };
 
-MochaStatus.propTypes = {
-  runner: PropTypes.Object
+MochaDisplay.propTypes = {
+  runner: PropTypes.object
 };
 
 export default MochaDisplay;

@@ -2,7 +2,8 @@
  * Created by plazek on 6/12/2017.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
@@ -73,7 +74,7 @@ class MochaStatus extends Component {
 }
 
 MochaStatus.propTypes = {
-  runner: PropTypes.Object
+  runner: PropTypes.object
 };
 
 export default MochaStatus;
