@@ -65,7 +65,7 @@ class MochaStatus extends Component {
     const count = this.getNumberOfTests();
 
     return(
-        <Label size="small" margin="medium"># of Suites:&nbsp;{suite.suites.length}&nbsp; | &nbsp;# of Tests:&nbsp;{count}&nbsp; | &nbsp;# of Failures:&nbsp;{failures}</Label>
+        <Label size="medium" margin="medium">{suite.suites.length}&nbsp;Suites&nbsp; | &nbsp;{count}&nbsp;Tests&nbsp; | &nbsp;{failures}&nbsp;Failures</Label>
     );
 
   }

@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import Heading from 'grommet/components/Headline';
 import Section from 'grommet/components/Section';
 import Box from 'grommet/components/Box';
+import Split from 'grommet/components/Split';
+import Sidebar from 'grommet/components/Sidebar';
 
 import MochaStatus from './MochaStatus';
 import MochaEvents from './MochaEvents';
@@ -16,16 +18,16 @@ const MochaDisplay = (props) => {
 
   return (
     <Section>
-    <Box colorIndex="neutral-4-t" alignContent="center">
-      <Box pad="large">
-        <Heading>
-          Mocha Display
-        </Heading>
-        <MochaStatus
-          runner = {props.runner}
-        />
-      </Box>
-    </Box>
+        <Box colorIndex="neutral-4-t" alignContent="center">
+          <Box pad="large">
+            <Heading>
+              NCS API Tester
+            </Heading>
+            <MochaStatus
+              runner = {props.runner}
+            />
+          </Box>
+        </Box>
       <MochaEvents
         runner = {props.runner}
       />
