@@ -38,7 +38,6 @@ class MochaEvents extends Component {
             <AccordionPanel
               key={test.title}
               heading={test.title}
-              pad="medium"
             >
               Enter Test Info!!!
             </AccordionPanel>
@@ -62,7 +61,6 @@ class MochaEvents extends Component {
             <AccordionPanel
               key={suite.title}
               heading={suite.title}
-              pad="medium"
             >
               {this.getSuite(suite)}
             </AccordionPanel>
