@@ -18,8 +18,6 @@ class MochaStatus extends Component {
 
   componentDidMount() {
 
-
-
     // this.setTimer();
     this.eventHandler();
     console.log('MochaStatus is running...');

@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Section from 'grommet/components/Section';
+import Label from 'grommet/components/Label';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
@@ -39,7 +40,7 @@ class MochaEvents extends Component {
               key={test.title}
               heading={test.title}
             >
-              Enter Test Info!!!
+              <Label>{test.body}</Label>
             </AccordionPanel>
           ))
         }
