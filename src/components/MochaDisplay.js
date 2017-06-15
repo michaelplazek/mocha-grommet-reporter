@@ -18,7 +18,7 @@ const MochaDisplay = (props) => {
 
   return (
     <Section>
-        <Box colorIndex="neutral-4-t" alignContent="center">
+        <Box colorIndex="brand" alignContent="center">
           <Box pad="large">
             <Heading>
               NCS API Tester

@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import 'grommet/grommet-hpe.min.css';
-import 'grommet/grommet.min.css';
+// import 'grommet/grommet.min.css';
 
 import App from './App';
 

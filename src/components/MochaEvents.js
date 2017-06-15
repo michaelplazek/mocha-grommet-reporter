@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Section from 'grommet/components/Section';
-import Label from 'grommet/components/Label';
+import Status from 'grommet/components/icons/Status';
 import Box from 'grommet/components/Box';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
@@ -15,6 +15,16 @@ class MochaEvents extends Component {
 
   constructor(props){
     super(props);
+
+  }
+
+  componentDidMount(){
+
+    this.props.runner.on('test end', this.getTestStatus);
+    this.props.runner.on('suite end', this.getSuiteStatus);
+    this.props.runner.on('fail', this.onFail);
+    this.props.runner.on('pass', this.onPass);
+    this.props.runner.on('pending', this.onPending);
   }
 
   getSuite(suite){
@@ -42,6 +52,7 @@ class MochaEvents extends Component {
                   key={test.title}
                   heading={test.title}
                 >
+                  <Status value={this.getTestState()} />
                   <Box pad="large">{test.body}</Box>
                 </AccordionPanel>
               ))
@@ -78,6 +89,42 @@ class MochaEvents extends Component {
     return result;
   }
 
+  // add function to grab status of each test && suite
+  getTestStatus(){
+
+  }
+
+  getSuiteStatus(event){
+  }
+
+  getTestState(){
+    switch(this.state)
+    {
+      case "passed":
+        return "ok";
+
+      case "failed":
+        return "critical";
+
+      default:
+        return "warning";
+    }
+  }
+
+  onFail(event){
+    console.log('TEST HAS FAILED!!');
+    this.state = event.state;
+  }
+
+  onPass(event){
+    console.log('TEST HAS PASSED!!');
+    this.state = event.state;
+  }
+
+  onPending(){
+    console.log('TEST IS PENDING!!');
+  }
+
   render(){
 
     return (
@@ -85,7 +132,6 @@ class MochaEvents extends Component {
         {this.getSuite(this.props.runner.suite)}
       </Section>
     );
-
   }
 }
 

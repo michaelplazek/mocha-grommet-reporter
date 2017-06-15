@@ -41,7 +41,7 @@ mocha.setup({
   reporter: reporter
 });
 
-require('../index.test.js');
+require('../../api-tests/index.test.js');
 
 function eventHandler(){
   console.log('HANDLE EVENTS HERE MAYBE');
@@ -50,7 +50,12 @@ function eventHandler(){
 function reporter(runner){
   // mocha.reporters.Base.call(this, runner);
   runner.on('start', eventHandler);
+  runner.on('end', () => {
+    console.log(runner);
+    debugger;
+  });
 }
+
 
 const runner = mocha.run();
 
