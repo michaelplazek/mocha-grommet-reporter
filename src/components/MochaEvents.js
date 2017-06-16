@@ -99,10 +99,9 @@ class MochaEvents extends Component {
   getSuiteStatus(event){
   }
 
-  getTestStatus(test){
-    // if(test in window && test.state in window) {
-    //   switch(test.state)
-    //   {
+  getTestStatus(test) {
+    // if (test in window && test.state in window) {
+    //   switch (test.state) {
     //     case "passed":
     //       console.log("passed");
     //       return "ok";
@@ -117,8 +116,10 @@ class MochaEvents extends Component {
     // }
     //
     // else {
-      switch(this.state.status)
-      {
+
+    if(typeof test !== "undefined" && typeof test.state !== "undefined")
+    {
+      switch (test.state) {
         case "passed":
           console.log("passed");
           return "ok";
@@ -130,7 +131,9 @@ class MochaEvents extends Component {
         default:
           return "warning";
       }
+    }
   }
+
 
   onFail(event){
     console.log('TEST HAS FAILED!!');
@@ -151,7 +154,6 @@ class MochaEvents extends Component {
     return (
       <Section>
         {this.getSuite(this.props.runner.suite)}
-        <Status value={this.getTestStatus()} />
       </Section>
     );
   }
