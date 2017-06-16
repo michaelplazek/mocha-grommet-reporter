@@ -1,6 +1,7 @@
 import expect from 'expect';
 
 describe('Our first suite', () => {
+
   // it.only('test 3.1', (done) => {
   //   let num = getRand(0, 10000);
   //   setTimeout(() => {
@@ -9,12 +10,9 @@ describe('Our first suite', () => {
   //   }, num);
   // });
 
-  it.only('test 3.1', (done) => {
-    setTimeout(() => {
-      debugger;
-      done();
-
-    }, 5000);
+  it('test 3.1', (done) => {
+    let num = getRand(0, 10000);
+    setTimeout(function(){return getBoolTrue(done);}, num);
   });
 
   it('test 3.2', (done) => {

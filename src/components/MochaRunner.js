@@ -15,11 +15,17 @@ class MochaRunner extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {};
+    // this.update = this.update.bind(this);
   }
 
   // componentDidMount() {
   //
-  //   runner.on('start', )
+  //   runner.on('test end', this.update);
+  // }
+
+  // update() {
+  //   this.setState({});
   // }
 
   render() {

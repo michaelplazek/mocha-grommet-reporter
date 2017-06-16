@@ -16,6 +16,7 @@ class MochaEvents extends Component {
   constructor(props){
     super(props);
 
+    this.state = {status:""};
   }
 
   componentDidMount(){
@@ -52,7 +53,7 @@ class MochaEvents extends Component {
                   key={test.title}
                   heading={test.title}
                 >
-                  <Status value={this.getTestState()} />
+                  {/*<Status value={this.getTestStatus()} />*/}
                   <Box pad="large">{test.body}</Box>
                 </AccordionPanel>
               ))
@@ -90,20 +91,19 @@ class MochaEvents extends Component {
   }
 
   // add function to grab status of each test && suite
-  getTestStatus(){
-
-  }
 
   getSuiteStatus(event){
   }
 
-  getTestState(){
-    switch(this.state)
+  getTestStatus(){
+    switch(this.status)
     {
       case "passed":
+        console.log("passed");
         return "ok";
 
       case "failed":
+        console.log("failed");
         return "critical";
 
       default:
@@ -113,12 +113,12 @@ class MochaEvents extends Component {
 
   onFail(event){
     console.log('TEST HAS FAILED!!');
-    this.state = event.state;
+    this.status = event.state;
   }
 
   onPass(event){
     console.log('TEST HAS PASSED!!');
-    this.state = event.state;
+    this.status = event.state;
   }
 
   onPending(){
@@ -130,6 +130,7 @@ class MochaEvents extends Component {
     return (
       <Section>
         {this.getSuite(this.props.runner.suite)}
+        <Status value={this.getTestStatus()} />
       </Section>
     );
   }
