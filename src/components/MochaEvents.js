@@ -16,6 +16,10 @@ class MochaEvents extends Component {
   constructor(props){
     super(props);
 
+    this.onFail = this.onFail.bind(this);
+    this.onPass = this.onPass.bind(this);
+    this.getTestStatus = this.getTestStatus.bind(this);
+
     this.state = {status:""};
   }
 
@@ -53,7 +57,7 @@ class MochaEvents extends Component {
                   key={test.title}
                   heading={test.title}
                 >
-                  {/*<Status value={this.getTestStatus()} />*/}
+                  <Status value={this.getTestStatus()} />
                   <Box pad="large">{test.body}</Box>
                 </AccordionPanel>
               ))
@@ -96,7 +100,7 @@ class MochaEvents extends Component {
   }
 
   getTestStatus(){
-    switch(this.status)
+    switch(this.state.status)
     {
       case "passed":
         console.log("passed");
@@ -113,12 +117,12 @@ class MochaEvents extends Component {
 
   onFail(event){
     console.log('TEST HAS FAILED!!');
-    this.status = event.state;
+    this.setState({status: event.state});
   }
 
   onPass(event){
     console.log('TEST HAS PASSED!!');
-    this.status = event.state;
+    this.setState({status: event.state});
   }
 
   onPending(){
