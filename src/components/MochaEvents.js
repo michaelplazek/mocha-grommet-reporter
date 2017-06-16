@@ -57,7 +57,7 @@ class MochaEvents extends Component {
                   key={test.title}
                   heading={test.title}
                 >
-                  <Status value={this.getTestStatus()} />
+                  <Status value={this.getTestStatus(test)} />
                   <Box pad="large">{test.body}</Box>
                 </AccordionPanel>
               ))
@@ -99,7 +99,7 @@ class MochaEvents extends Component {
   getSuiteStatus(event){
   }
 
-  getTestStatus(){
+  getTestStatus(test){
     switch(this.state.status)
     {
       case "passed":
