@@ -58,7 +58,7 @@ function reporter(runner){
   runner.on('start', eventHandler);
   runner.on('end', () => {
     console.log(runner);
-    debugger;
+    // debugger;
   });
 }
 

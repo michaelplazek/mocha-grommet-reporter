@@ -100,19 +100,36 @@ class MochaEvents extends Component {
   }
 
   getTestStatus(test){
-    switch(this.state.status)
-    {
-      case "passed":
-        console.log("passed");
-        return "ok";
+    // if(test in window && test.state in window) {
+    //   switch(test.state)
+    //   {
+    //     case "passed":
+    //       console.log("passed");
+    //       return "ok";
+    //
+    //     case "failed":
+    //       console.log("failed");
+    //       return "critical";
+    //
+    //     default:
+    //       return "warning";
+    //   }
+    // }
+    //
+    // else {
+      switch(this.state.status)
+      {
+        case "passed":
+          console.log("passed");
+          return "ok";
 
-      case "failed":
-        console.log("failed");
-        return "critical";
+        case "failed":
+          console.log("failed");
+          return "critical";
 
-      default:
-        return "warning";
-    }
+        default:
+          return "warning";
+      }
   }
 
   onFail(event){
