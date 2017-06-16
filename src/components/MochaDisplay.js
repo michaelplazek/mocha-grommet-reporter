@@ -28,6 +28,7 @@ const MochaDisplay = (props) => {
             />
           </Box>
         </Box>
+
       <MochaEvents
         runner = {props.runner}
       />

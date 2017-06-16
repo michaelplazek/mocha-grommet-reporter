@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import Section from 'grommet/components/Section';
 import Status from 'grommet/components/icons/Status';
 import Box from 'grommet/components/Box';
+import Label from 'grommet/components/Label';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 
@@ -57,8 +58,12 @@ class MochaEvents extends Component {
                   key={test.title}
                   heading={test.title}
                 >
-                  <Status value={this.getTestStatus(test)} />
-                  <Box pad="large">{test.body}</Box>
+                  <Box pad="large">
+
+                    <Label size="small"><Status value={this.getTestStatus(test)} />&nbsp;Duration:&nbsp;{this.getTestDuration(test)}</Label>
+                    {/*{test.body}*/}
+
+                  </Box>
                 </AccordionPanel>
               ))
             }
@@ -100,25 +105,8 @@ class MochaEvents extends Component {
   }
 
   getTestStatus(test) {
-    // if (test in window && test.state in window) {
-    //   switch (test.state) {
-    //     case "passed":
-    //       console.log("passed");
-    //       return "ok";
-    //
-    //     case "failed":
-    //       console.log("failed");
-    //       return "critical";
-    //
-    //     default:
-    //       return "warning";
-    //   }
-    // }
-    //
-    // else {
 
-    if(typeof test !== "undefined" && typeof test.state !== "undefined")
-    {
+    if(typeof test !== "undefined" && typeof test.state !== "undefined") {
       switch (test.state) {
         case "passed":
           console.log("passed");
@@ -131,6 +119,20 @@ class MochaEvents extends Component {
         default:
           return "warning";
       }
+    }
+
+    // else {
+    //   return
+    // }
+  }
+
+  getTestDuration(test) {
+
+    if(typeof test !== "undefined" && typeof test.duration !== "undefined") {
+      return test.duration/1000;
+    }
+    else {
+      return "...";
     }
   }
 
