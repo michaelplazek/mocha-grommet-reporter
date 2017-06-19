@@ -30,11 +30,11 @@ class MochaBody extends Component {
 
   componentDidMount(){
 
-    // this.props.runner.on('test end', this.getTestStatus);
-    // this.props.runner.on('suite end', this.getSuiteStatus);
-    // this.props.runner.on('fail', this.onFail);
-    // this.props.runner.on('pass', this.onPass);
-    // this.props.runner.on('pending', this.onPending);
+    this.props.runner.on('test end', this.getTestStatus);
+    this.props.runner.on('suite end', this.getSuiteStatus);
+    this.props.runner.on('fail', this.onFail);
+    this.props.runner.on('pass', this.onPass);
+    this.props.runner.on('pending', this.onPending);
   }
 
   getSuite(suite){
@@ -177,7 +177,6 @@ class MochaBody extends Component {
 
       </Box>
     </Split>
-
 
     );
   }
