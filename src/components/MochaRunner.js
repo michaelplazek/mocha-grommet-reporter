@@ -10,8 +10,6 @@ import { Mocha } from 'mocha/mocha.js';
 
 require('mocha/mocha.css');
 
-var mocharunner;
-
 // require('../../api-tests/index.test.js');
 
 
@@ -28,25 +26,21 @@ function generate(ref) {
     }
 
     console.log('after reporter');
-  }
+  };
 }
 
 class MochaRunner extends Component {
 
-
   constructor(props) {
     super(props);
-    mocharunner = this;
 
     console.log('start of MochaRunner constructor');
 
-    // this.reporter = this.reporter.bind(this);
     this.eventHandler = this.eventHandler.bind(this);
 
     mocha.setup({
       ui: 'bdd',
       slow: 1500,
-
       timeout: 10000,
       reporter: generate(this)
     });
@@ -89,5 +83,7 @@ class MochaRunner extends Component {
     return null;
   }
 }
+
+
 
 export default MochaRunner;
