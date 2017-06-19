@@ -12,7 +12,7 @@ import Split from 'grommet/components/Split';
 import Sidebar from 'grommet/components/Sidebar';
 
 import MochaStatus from './MochaStatus';
-import MochaEvents from './MochaEvents';
+import MochaBody from './MochaBody';
 
 const MochaDisplay = (props) => {
 
@@ -29,7 +29,7 @@ const MochaDisplay = (props) => {
           </Box>
         </Box>
 
-      <MochaEvents
+      <MochaBody
         runner = {props.runner}
       />
     </Section>

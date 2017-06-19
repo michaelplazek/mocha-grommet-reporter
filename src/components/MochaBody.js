@@ -16,7 +16,7 @@ import Split from 'grommet/components/Split';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 
 
-class MochaEvents extends Component {
+class MochaBody extends Component {
 
   constructor(props){
     super(props);
@@ -183,8 +183,8 @@ class MochaEvents extends Component {
   }
 }
 
-MochaEvents.propTypes = {
+MochaBody.propTypes = {
   runner: PropTypes.object
 };
 
-export default MochaEvents;
+export default MochaBody;
