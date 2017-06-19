@@ -11,6 +11,10 @@ import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
+import Sidebar from 'grommet/components/Sidebar';
+import Split from 'grommet/components/Split';
+import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
+
 
 class MochaEvents extends Component {
 
@@ -154,9 +158,27 @@ class MochaEvents extends Component {
   render(){
 
     return (
-      <Section>
+    <Split flex="right" priority="right">
+      <Sidebar size="large">
+        <Section full="horizontal">
+          <AnnotatedMeter
+            legend={false}
+            type="circle"
+            size="large"
+            max={this.props.runner.total}
+            series={[{"label":"Passed", "colorIndex":"ok", "value":2},
+              {"label":"Failed", "colorIndex":"critical", "value":1}]}
+          />
+        </Section>
+      </Sidebar>
+      <Box alignContent="center" pad="medium">
+
         {this.getSuite(this.props.runner.suite)}
-      </Section>
+
+      </Box>
+    </Split>
+
+
     );
   }
 }

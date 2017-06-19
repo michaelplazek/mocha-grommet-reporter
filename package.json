@@ -19,6 +19,7 @@
     "chai": "^4.0.2",
     "grommet": "^1.4.1",
     "grommet-form": "^1.1.1",
+    "grommet-addons": "*",
     "jquery": "2.2.3",
     "prop-types": "^15.5.10",
     "react": "^15.6.0",

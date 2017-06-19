@@ -10,17 +10,17 @@ describe('Our first suite', () => {
   //   }, num);
   // });
 
-  it('test 3.1', (done) => {
+  it('test 1.1', (done) => {
     let num = getRand(0, 10000);
     setTimeout(function(){return getBoolTrue(done);}, num);
   });
 
-  it('test 3.2', (done) => {
+  it('test 1.2', (done) => {
     let num = getRand(0, 10000);
     setTimeout(function(){return getBoolFalse(done);}, num);
   });
 
-  it('test 3.3', (done) => {
+  it('test 1.3', (done) => {
     let num = getRand(0, 10000);
     setTimeout(function(){return getBoolFalse(done);}, num);
   });
