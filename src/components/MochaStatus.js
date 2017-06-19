@@ -40,6 +40,7 @@ class MochaStatus extends Component {
   // }
 
 
+  // unnecessary - just pull runner.total for total tests
   getNumberOfTests(){
     let count = 0;
     for(let i = 0; i < this.props.runner.suite.suites.length; i++) {

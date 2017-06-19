@@ -30,11 +30,11 @@ class MochaBody extends Component {
 
   componentDidMount(){
 
-    this.props.runner.on('test end', this.getTestStatus);
-    this.props.runner.on('suite end', this.getSuiteStatus);
-    this.props.runner.on('fail', this.onFail);
-    this.props.runner.on('pass', this.onPass);
-    this.props.runner.on('pending', this.onPending);
+    // this.props.runner.on('test end', this.getTestStatus);
+    // this.props.runner.on('suite end', this.getSuiteStatus);
+    // this.props.runner.on('fail', this.onFail);
+    // this.props.runner.on('pass', this.onPass);
+    // this.props.runner.on('pending', this.onPending);
   }
 
   getSuite(suite){
@@ -110,7 +110,7 @@ class MochaBody extends Component {
 
   getTestStatus(test) {
 
-    if(typeof test !== "undefined" && typeof test.state !== "undefined") {
+    if(test && test.state) {
       switch (test.state) {
         case "passed":
           console.log("passed");
@@ -132,7 +132,7 @@ class MochaBody extends Component {
 
   getTestDuration(test) {
 
-    if(typeof test !== "undefined" && typeof test.duration !== "undefined") {
+    if(test && test.duration) {
       return test.duration/1000;
     }
     else {

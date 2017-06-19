@@ -10,61 +10,84 @@ import { Mocha } from 'mocha/mocha.js';
 
 require('mocha/mocha.css');
 
+var mocharunner;
+
+// require('../../api-tests/index.test.js');
+
+
+function generate(ref) {
+  return function (runner) {
+
+    console.log('before reporter');
+
+    if (runner) {
+      runner.on('start', () => {
+        ref.eventHandler();
+        console.log('HANDLE EVENTS HERE MAYBE');
+      });
+    }
+
+    console.log('after reporter');
+  }
+}
+
 class MochaRunner extends Component {
+
 
   constructor(props) {
     super(props);
+    mocharunner = this;
 
+    console.log('start of MochaRunner constructor');
+
+    // this.reporter = this.reporter.bind(this);
+    this.eventHandler = this.eventHandler.bind(this);
+
+    mocha.setup({
+      ui: 'bdd',
+      slow: 1500,
+
+      timeout: 10000,
+      reporter: generate(this)
+    });
+
+    this.runner = {};
     this.state = {};
-    // this.update = this.update.bind(this);
+
+    console.log('end of MochaRunner constructor');
   }
 
-  // componentDidMount() {
+  componentDidMount(){
+    console.log('MochaRunner is mounted');
+    this.runner = mocha.run();
+  }
+
+  // reporter(runner){
   //
-  //   runner.on('test end', this.update);
+  //   console.log('before reporter');
+  //
+  //   if(runner) {
+  //     runner.on('start', () => {
+  //       this.eventHandler();
+  //       console.log('HANDLE EVENTS HERE MAYBE');
+  //     });
+  //   }
+  //
+  //   console.log('after reporter');
   // }
 
-  // update() {
-  //   this.setState({});
-  // }
+  eventHandler(){
+    console.log('HANDLE EVENTS HERE MAYBE');
+  }
 
   render() {
-    return(
-        <MochaDisplay
-           runner={runner}
-        />
-
-    );
+    // return(
+    //     <MochaDisplay
+    //        runner={this.runner}
+    //     />
+    // );
+    return null;
   }
 }
-
-// SET UP MOCHA OUTSIDE OF CLASS
-
-mocha.setup({
-  ui: 'bdd',
-  slow: 1500,
-  timeout: 10000,
-  reporter: reporter
-});
-
-require('../../api-tests/index.test.js');
-
-function eventHandler(){
-  console.log('HANDLE EVENTS HERE MAYBE');
-}
-
-function reporter(runner){
-  // mocha.reporters.Base.call(this, runner);
-  runner.on('start', eventHandler);
-  runner.on('end', () => {
-    console.log(runner);
-    // debugger;
-  });
-}
-
-
-const runner = mocha.run();
-
-// END OF MOCHA SETUP
 
 export default MochaRunner;
