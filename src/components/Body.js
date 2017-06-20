@@ -158,7 +158,7 @@ class Body extends Component {
             legend={false}
             type="circle"
             size="large"
-            max= {3}
+            max= {this.props.total}
             series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
               {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
           />
@@ -175,7 +175,11 @@ class Body extends Component {
 }
 
 Body.propTypes = {
-  runner: PropTypes.object
+  suites: PropTypes.array,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number
 };
 
 export default Body;

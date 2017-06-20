@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 import Heading from 'grommet/components/Headline';
 import Section from 'grommet/components/Section';
 import Box from 'grommet/components/Box';
-import Split from 'grommet/components/Split';
-import Sidebar from 'grommet/components/Sidebar';
 
 import StatusHeader from './StatusHeader';
 import Body from './Body';
@@ -45,7 +43,13 @@ const Display = (props) => {
 };
 
 Display.propTypes = {
-  runner: PropTypes.object
+  suites: PropTypes.array,
+  tests: PropTypes.array,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number,
+  time: PropTypes.number
 };
 
 export default Display;

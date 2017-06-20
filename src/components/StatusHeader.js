@@ -6,8 +6,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Label from 'grommet/components/Label';
-import Box from 'grommet/components/Box';
-import Paragraph from 'grommet/components/Paragraph';
 
 class StatusHeader extends Component {
 
@@ -16,7 +14,6 @@ class StatusHeader extends Component {
   }
 
   componentDidMount() {
-
     console.log('MochaStatus is running...');
   }
 
@@ -25,16 +22,16 @@ class StatusHeader extends Component {
   }
 
   render() {
-
     return(
         <Label size="medium" margin="medium">{this.props.suites.length}&nbsp;Suites&nbsp; | &nbsp;{this.props.total}&nbsp;Tests&nbsp; | &nbsp;Elapsed Time:&nbsp;{this.props.time}</Label>
     );
-
   }
 }
 
 StatusHeader.propTypes = {
-  runner: PropTypes.object
+  suites: PropTypes.array,
+  total: PropTypes.number,
+  time: PropTypes.number
 };
 
 export default StatusHeader;
