@@ -11,10 +11,10 @@ import Box from 'grommet/components/Box';
 import Split from 'grommet/components/Split';
 import Sidebar from 'grommet/components/Sidebar';
 
-import MochaStatus from './MochaStatus';
-import MochaBody from './MochaBody';
+import StatusHeader from './StatusHeader';
+import Body from './Body';
 
-const MochaDisplay = (props) => {
+const Display = (props) => {
 
   return (
     <Section>
@@ -23,14 +23,20 @@ const MochaDisplay = (props) => {
             <Heading>
               NCS API Tester
             </Heading>
-            <MochaStatus
-              runner = {props.runner}
+            <StatusHeader
+              total = {props.total}
+              suites = {props.suites}
+              time = {props.time}
             />
           </Box>
         </Box>
 
-      <MochaBody
-        runner = {props.runner}
+      <Body
+        suites = {props.suites}
+        passes = {props.passes}
+        failures = {props.failures}
+        pending = {props.pending}
+        total = {props.total}
       />
     </Section>
 
@@ -38,8 +44,8 @@ const MochaDisplay = (props) => {
   );
 };
 
-MochaDisplay.propTypes = {
+Display.propTypes = {
   runner: PropTypes.object
 };
 
-export default MochaDisplay;
+export default Display;

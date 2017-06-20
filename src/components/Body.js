@@ -16,32 +16,22 @@ import Split from 'grommet/components/Split';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 
 
-class MochaBody extends Component {
+class Body extends Component {
 
   constructor(props){
     super(props);
 
-    this.onFail = this.onFail.bind(this);
-    this.onPass = this.onPass.bind(this);
     this.getTestStatus = this.getTestStatus.bind(this);
-
-    this.state = {status:""};
   }
 
-  componentDidMount(){
-
-    this.props.runner.on('test end', this.getTestStatus);
-    this.props.runner.on('suite end', this.getSuiteStatus);
-    this.props.runner.on('fail', this.onFail);
-    this.props.runner.on('pass', this.onPass);
-    this.props.runner.on('pending', this.onPending);
+  componentDidMount() {
   }
 
   getSuite(suite){
     if(suite){
       return(
         <div>
-          {this.getSuites(suite.suites)}
+          {this.getSuites(suite)}
           {this.getTests(suite.tests)}
         </div>
       );
@@ -140,19 +130,22 @@ class MochaBody extends Component {
     }
   }
 
-
-  onFail(event){
-    console.log('TEST HAS FAILED!!');
-    this.setState({status: event.state});
+  getPasses(){
+    if(this.props.passes) {
+      return this.props.passes.length
+    }
+    else {
+      return 0;
+    }
   }
 
-  onPass(event){
-    console.log('TEST HAS PASSED!!');
-    this.setState({status: event.state});
-  }
-
-  onPending(){
-    console.log('TEST IS PENDING!!');
+  getFailures(){
+    if(this.props.failures) {
+      return this.props.failures.length
+    }
+    else {
+      return 0;
+    }
   }
 
   render(){
@@ -165,25 +158,24 @@ class MochaBody extends Component {
             legend={false}
             type="circle"
             size="large"
-            max={this.props.runner.total}
-            series={[{"label":"Passed", "colorIndex":"ok", "value":2},
-              {"label":"Failed", "colorIndex":"critical", "value":1}]}
+            max= {3}
+            series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
+              {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
           />
         </Section>
       </Sidebar>
       <Box alignContent="center" pad="medium">
 
-        {this.getSuite(this.props.runner.suite)}
+        {this.getSuite(this.props.suites)}
 
       </Box>
     </Split>
-
     );
   }
 }
 
-MochaBody.propTypes = {
+Body.propTypes = {
   runner: PropTypes.object
 };
 
-export default MochaBody;
+export default Body;
