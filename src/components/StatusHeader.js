@@ -13,21 +13,30 @@ class StatusHeader extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {time: 0}
   }
 
   componentDidMount() {
-
+    this.getTotalTime();
     console.log('MochaStatus is running...');
   }
 
-  componentWillUpdate(){
+  componentDidUpdate(){
+
+  }
+
+  getTotalTime(){
+    if(this.props.time){
+      this.setState({time: this.props.time});
+    }
 
   }
 
   render() {
 
     return(
-        <Label size="medium" margin="medium">{this.props.suites.length}&nbsp;Suites&nbsp; | &nbsp;{this.props.total}&nbsp;Tests&nbsp; | &nbsp;Elapsed Time:&nbsp;{this.props.time}</Label>
+        <Label size="medium" margin="medium">{this.props.suites.length}&nbsp;Suites&nbsp; | &nbsp;{this.props.total}&nbsp;Tests&nbsp; | &nbsp;Elapsed Time:&nbsp;{this.state.time}</Label>
     );
 
   }

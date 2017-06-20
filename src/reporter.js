@@ -24,7 +24,6 @@ export default function JSONReporter(runner) {
   let pending = [];
   let failures = [];
   let passes = [];
-  let time = 0;
 
   runner.on('start', ()=> {
     ReactDOM.render(
@@ -34,8 +33,8 @@ export default function JSONReporter(runner) {
         failures = {failures}
         pending = {pending}
         total = {runner.total}
-
         listeners = {listeners}
+        time = {getTime(tests)}
       />
       , mochaElement);
   });
@@ -46,20 +45,7 @@ export default function JSONReporter(runner) {
 
   runner.on('test end', function (test) {
     tests.push(test);
-
     notifyListeners();
-
-    // ReactDOM.render(
-    //   <Main
-    //     tests = {tests}
-    //     suites = {runner.suite}
-    //     passes = {passes}
-    //     failures = {failures}
-    //     pending = {pending}
-    //     total = {runner.total}
-    //     time = {getTotalTime(time, test)}
-    //   />
-    //   , mochaElement);
 
   });
 
@@ -92,10 +78,9 @@ export default function JSONReporter(runner) {
   });
 }
 
-function getTotalTime(time, test){
-  if(test.duration) {
-    time += (test.duration/1000);
-  }
+function getTime(tests){
+  let time = 0;
+  tests.forEach((test) => {time += test.duration});
   return time;
 }
 
