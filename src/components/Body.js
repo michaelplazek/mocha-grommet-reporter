@@ -158,7 +158,7 @@ class Body extends Component {
             legend={false}
             type="circle"
             size="large"
-            max= {3}
+            max= {this.props.total}
             series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
               {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
           />

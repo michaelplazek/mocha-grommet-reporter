@@ -3,8 +3,16 @@ import ReactDOM from 'react-dom';
 
 import Main from './Main';
 
+const listeners = [];
+
 export default function JSONReporter(runner) {
   //Base.call(this, runner);
+
+  function notifyListeners(){
+    listeners.forEach( (listener) => {
+      listener();
+    } )
+  }
 
   const mochaElement = document.getElementById('mocha');
 
@@ -26,6 +34,8 @@ export default function JSONReporter(runner) {
         failures = {failures}
         pending = {pending}
         total = {runner.total}
+
+        listeners = {listeners}
       />
       , mochaElement);
   });
@@ -37,17 +47,19 @@ export default function JSONReporter(runner) {
   runner.on('test end', function (test) {
     tests.push(test);
 
-    ReactDOM.render(
-      <Main
-        tests = {tests}
-        suites = {runner.suite}
-        passes = {passes}
-        failures = {failures}
-        pending = {pending}
-        total = {runner.total}
-        time = {getTotalTime(time, test)}
-      />
-      , mochaElement);
+    notifyListeners();
+
+    // ReactDOM.render(
+    //   <Main
+    //     tests = {tests}
+    //     suites = {runner.suite}
+    //     passes = {passes}
+    //     failures = {failures}
+    //     pending = {pending}
+    //     total = {runner.total}
+    //     time = {getTotalTime(time, test)}
+    //   />
+    //   , mochaElement);
 
   });
 
