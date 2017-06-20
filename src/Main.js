@@ -1,6 +1,6 @@
 /** * Created by plazek on 6/9/2017. */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import listeners from './Main';
 
 import App from 'grommet/components/App';
@@ -36,6 +36,17 @@ class Main extends Component {
       </App>
     );
   }
+}
+
+Main.propTypes = {
+  listeners: PropTypes.array,
+  suites: PropTypes.array,
+  tests: PropTypes.array,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number,
+  time: PropTypes.number
 }
 
 export default Main;

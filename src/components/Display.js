@@ -45,7 +45,13 @@ const Display = (props) => {
 };
 
 Display.propTypes = {
-  runner: PropTypes.object
-};
+  suites: PropTypes.array,
+  tests: PropTypes.array,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number,
+  time: PropTypes.number
+}
 
 export default Display;

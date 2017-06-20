@@ -6,24 +6,23 @@ import Main from './Main';
 const listeners = [];
 
 export default function JSONReporter(runner) {
-  //Base.call(this, runner);
 
   function notifyListeners(){
     listeners.forEach( (listener) => {
       listener();
-    } )
+    })
   }
 
   const mochaElement = document.getElementById('mocha');
 
   console.log("START mocha-ui JSON reporter called");
 
-  let self = this;
   let suites = [];
   let tests = [];
   let pending = [];
   let failures = [];
   let passes = [];
+  let time = 0;
 
   runner.on('start', ()=> {
     ReactDOM.render(
@@ -34,7 +33,7 @@ export default function JSONReporter(runner) {
         pending = {pending}
         total = {runner.total}
         listeners = {listeners}
-        time = {getTime(tests)}
+        // time = {getTime(tests)}
       />
       , mochaElement);
   });
@@ -46,7 +45,6 @@ export default function JSONReporter(runner) {
   runner.on('test end', function (test) {
     tests.push(test);
     notifyListeners();
-
   });
 
   runner.on('pass', function (test) {
@@ -63,26 +61,24 @@ export default function JSONReporter(runner) {
 
   runner.on('end', function () {
     console.log("END mocha-ui JSON reporter called");
+    //
+    // let obj = {
+    //   stats: self.stats,
+    //   tests: tests.map(clean),
+    //   pending: pending.map(clean),
+    //   failures: failures.map(clean),
+    //   passes: passes.map(clean)
+    // };
+    //
+    // runner.testResults = obj;
 
-    let obj = {
-      stats: self.stats,
-      tests: tests.map(clean),
-      pending: pending.map(clean),
-      failures: failures.map(clean),
-      passes: passes.map(clean)
-    };
-
-    runner.testResults = obj;
-
-    //process.stdout.write(JSON.stringify(obj, null, 2));
   });
 }
 
-function getTime(tests){
-  let time = 0;
-  tests.forEach((test) => {time += test.duration});
-  return time;
-}
+// function getTime(time, test){
+//   test.forEach(() => {time += test.duration});
+//   return time;
+// }
 
 /**
  * Return a plain-object representation of `test`
@@ -92,15 +88,15 @@ function getTime(tests){
  * @param {Object} test
  * @return {Object}
  */
-function clean(test) {
-  return {
-    title: test.title,
-    fullTitle: test.fullTitle(),
-    duration: test.duration,
-    currentRetry: test.currentRetry(),
-    err: errorJSON(test.err || {})
-  };
-}
+// function clean(test) {
+//   return {
+//     title: test.title,
+//     fullTitle: test.fullTitle(),
+//     duration: test.duration,
+//     currentRetry: test.currentRetry(),
+//     err: errorJSON(test.err || {})
+//   };
+// }
 
 /**
  * Transform `error` into a JSON object.
@@ -109,10 +105,10 @@ function clean(test) {
  * @param {Error} err
  * @return {Object}
  */
-function errorJSON(err) {
-  let res = {};
-  Object.getOwnPropertyNames(err).forEach(function (key) {
-    res[key] = err[key];
-  }, err);
-  return res;
-}
+// function errorJSON(err) {
+//   let res = {};
+//   Object.getOwnPropertyNames(err).forEach(function (key) {
+//     res[key] = err[key];
+//   }, err);
+//   return res;
+// }

@@ -175,7 +175,11 @@ class Body extends Component {
 }
 
 Body.propTypes = {
-  runner: PropTypes.object
-};
+  suites: PropTypes.array,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number
+}
 
 export default Body;

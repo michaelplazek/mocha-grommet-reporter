@@ -43,7 +43,9 @@ class StatusHeader extends Component {
 }
 
 StatusHeader.propTypes = {
-  runner: PropTypes.object
-};
+  suites: PropTypes.array,
+  total: PropTypes.number,
+  time: PropTypes.number
+}
 
 export default StatusHeader;
