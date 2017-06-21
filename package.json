@@ -1,7 +1,7 @@
 {
-  "name": "mocha-ui",
+  "name": "mocha-grommet-ui",
   "version": "1.0.0",
-  "description": "Mocha UI for API testing by Michael Plazek",
+  "description": "Mocha Web UI built in React/Grommet",
   "main": "./dist/reporter.js",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
@@ -15,15 +15,18 @@
     "test": "mocha --opts ./.mocharc tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch"
   },
+  "files": [
+    "src",
+    "dist",
+    "tools"
+  ],
   "author": "Michael Plazek",
   "dependencies": {
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
-    "chai": "^4.0.2",
     "grommet": "^1.4.1",
     "grommet-addons": "*",
     "grommet-form": "^1.1.1",
-    "jquery": "2.2.3",
     "prop-types": "^15.5.10",
     "react": "^15.6.0",
     "react-dom": "^15.5.4",
@@ -58,7 +61,6 @@
     "express": "4.13.4",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.8.5",
-    "grommet-cli": "^3.0.0",
     "jsdom": "8.5.0",
     "mocha": "^3.4.2",
     "nock": "8.0.0",

@@ -5,7 +5,11 @@ import Main from './Main';
 
 const listeners = [];
 
-export default function MochaReporter(runner) {
+export function add(set) {
+  listeners.push(set);
+}
+
+export default function reporter(runner) {
 
   function notifyListeners() {
     listeners.forEach(function (listener) {
@@ -24,18 +28,19 @@ export default function MochaReporter(runner) {
   let passes = [];
   let time = 0;
 
+  ReactDOM.render(
+    <Main
+      suites = {runner.suite.suites}
+      passes = {passes}
+      failures = {failures}
+      pending = {pending}
+      total = {runner.total}
+      time = {time}
+    />
+    , mochaElement);
+
   runner.on('start', ()=> {
-    ReactDOM.render(
-      <Main
-        suites = {runner.suite.suites}
-        passes = {passes}
-        failures = {failures}
-        pending = {pending}
-        total = {runner.total}
-        time = {time}
-        listeners = {listeners}
-      />
-      , mochaElement);
+
   });
 
   runner.on('suite end', function (suite) {

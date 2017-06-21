@@ -5,6 +5,8 @@ import React, { Component, PropTypes } from 'react';
 import App from 'grommet/components/App';
 import Display from './components/Display';
 
+import { add } from './reporter';
+
 import 'grommet/grommet-hpe.min.css';
 
 class Main extends Component {
@@ -13,7 +15,10 @@ class Main extends Component {
     super(props);
 
     this.set = this.set.bind(this);
-    props.listeners.push(this.set);
+  }
+
+  componentDidMount() {
+    add(this.set);
   }
 
   set() {
@@ -43,7 +48,6 @@ Main.propTypes = {
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  listeners: PropTypes.array,
   time: PropTypes.number
 }
 
