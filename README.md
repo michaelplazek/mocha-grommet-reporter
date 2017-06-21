@@ -7,6 +7,7 @@ This is a UI for the mocha reporter written in React/[Grommet](https://grommet.g
 `npm install mocha-grommet-reporter`
 
 Place `<div id='mocha'></div>` where you want the application to run. NOTE: div MUST have `id='mocha'`
+
 Create index.js and place the following code inside:
 
 ```import mochaUi from 'mocha-grommet-reporter';
