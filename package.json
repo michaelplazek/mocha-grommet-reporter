@@ -1,6 +1,6 @@
 {
   "name": "mocha-grommet-reporter",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Mocha Web UI built in React/Grommet",
   "main": "./dist/reporter.js",
   "scripts": {

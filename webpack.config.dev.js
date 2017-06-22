@@ -27,8 +27,7 @@ export default {
   module: {
     loaders: [
       {test: /\.js$/, include: [
-        path.join(__dirname, 'src'),
-        path.join(__dirname, 'api-tests')
+        path.join(__dirname, 'src')
       ], loaders: ['babel']},
       {test: /(\.css)$/, loaders: ['style', 'css']},
       {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
