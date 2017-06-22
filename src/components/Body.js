@@ -14,6 +14,7 @@ import AccordionPanel from 'grommet/components/AccordionPanel';
 import Sidebar from 'grommet/components/Sidebar';
 import Split from 'grommet/components/Split';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
+import Paragraph from 'grommet/components/Paragraph';
 
 
 class Body extends Component {
@@ -50,11 +51,11 @@ class Body extends Component {
               tests.map(test => (
                 <AccordionPanel
                   key={test.title}
-                  heading={test.title}
+                  heading={this.getTestHeading(test)}
                 >
                   <Box pad="large">
 
-                    <Label size="small"><Status value={this.getTestStatus(test)} />&nbsp;{this.checkTimeOut(test)}&nbsp;Duration:&nbsp;{this.getTestDuration(test)}&nbsp;s</Label>
+                    <Label size="small">{this.checkTimeOut(test)}&nbsp;Duration:&nbsp;{this.getTestDuration(test)}&nbsp;s</Label>
                     <Label></Label>
                     <Label size="small">{this.getBody(test)}</Label>
                     {/*{test.body}*/}
@@ -82,7 +83,7 @@ class Body extends Component {
               suites.map(suite => (
                 <AccordionPanel
                   key={suite.title}
-                  heading={suite.title}
+                  heading={this.getSuiteHeading(suite)}
                 >
                   {this.getSuite(suite)}
                 </AccordionPanel>
@@ -97,7 +98,20 @@ class Body extends Component {
 
   // add function to grab status of each test && suite
 
-  getSuiteStatus(event){
+  getSuiteStatus(suite) {
+    let result = 'unknown';
+    if(suite && suite.tests){
+      if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+        result = 'ok';
+      } else if (suite.tests.every(test => this.getTestStatus(test) === 'critical')) {
+        result = 'critical';
+      } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
+        result = 'unknown';
+      } else {
+        result = 'warning';
+      }
+      return result;
+    }
   }
 
   getTestStatus(test) {
@@ -130,6 +144,24 @@ class Body extends Component {
     else {
       return "...";
     }
+  }
+
+  getTestHeading(test){
+    return(
+      <Paragraph>
+        <Status value={this.getTestStatus(test)} />&nbsp;&nbsp;
+        {test.title}
+      </Paragraph>
+    )
+  }
+
+  getSuiteHeading(suite){
+    return(
+      <Paragraph>
+        <Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;
+        {suite.title}
+      </Paragraph>
+    )
   }
 
   checkTimeOut(test) {

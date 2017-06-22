@@ -28,6 +28,6 @@ Create index.js in the source directory and place the following code inside:
  
 ## To test:
 
-Use the [mocha-grommet-reporter-example](https://github.com/michaelplazek/mocha-grommet-reporter-example.git) to test
+Use the [mocha-grommet-reporter-example](https://github.com/michaelplazek/mocha-grommet-reporter-example.git) to test 
    
    
