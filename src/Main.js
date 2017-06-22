@@ -26,6 +26,7 @@ class Main extends Component {
   }
 
   render(){
+
     return (
       <App>
         <Display
@@ -44,11 +45,12 @@ class Main extends Component {
 
 Main.propTypes = {
   suites: PropTypes.array,
+  tests: PropTypes.array,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  time: PropTypes.number
+  // time: PropTypes.number
 }
 
 export default Main;

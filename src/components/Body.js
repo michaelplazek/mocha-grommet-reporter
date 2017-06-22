@@ -54,7 +54,9 @@ class Body extends Component {
                 >
                   <Box pad="large">
 
-                    <Label size="small"><Status value={this.getTestStatus(test)} />&nbsp;Duration:&nbsp;{this.getTestDuration(test)}</Label>
+                    <Label size="small"><Status value={this.getTestStatus(test)} />&nbsp;{this.checkTimeOut(test)}&nbsp;Duration:&nbsp;{this.getTestDuration(test)}&nbsp;s</Label>
+                    <Label></Label>
+                    <Label size="small">{this.getBody(test)}</Label>
                     {/*{test.body}*/}
 
                   </Box>
@@ -127,6 +129,20 @@ class Body extends Component {
     }
     else {
       return "...";
+    }
+  }
+
+  checkTimeOut(test) {
+    if (test && test.timedOut) {
+      if (test.status == "failed") {
+        return ("Test timed out...")
+      }
+    }
+  }
+
+  getBody(test){
+    if(test && test.body){
+      return test.body;
     }
   }
 

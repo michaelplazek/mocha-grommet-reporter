@@ -19,7 +19,7 @@ const Display = (props) => {
         <Box colorIndex="brand" alignContent="center">
           <Box pad="large">
             <Heading>
-              NCS API Tester
+              Mocha Tester
             </Heading>
             <StatusHeader
               total = {props.total}
@@ -49,7 +49,7 @@ Display.propTypes = {
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  time: PropTypes.number
+  // time: PropTypes.number
 };
 
 export default Display;

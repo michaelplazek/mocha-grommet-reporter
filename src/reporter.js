@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import Main from './Main';
 
 const listeners = [];
+let time = 0
 
 export function add(set) {
   listeners.push(set);
@@ -26,7 +27,7 @@ export default function reporter(runner) {
   let pending = [];
   let failures = [];
   let passes = [];
-  let time = 0;
+  let time = [];
 
   ReactDOM.render(
     <Main
@@ -49,6 +50,11 @@ export default function reporter(runner) {
 
   runner.on('test end', function (test) {
     tests.push(test);
+
+    if(test.duration){
+      time.push(test.duration);
+    }
+
     notifyListeners();
   });
 
@@ -68,6 +74,8 @@ export default function reporter(runner) {
     console.log("END mocha-ui JSON reporter called");
   });
 }
+
+
 
 // function getTotalTime(time, test){
 //   if(test.duration) {
