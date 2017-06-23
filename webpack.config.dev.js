@@ -2,13 +2,14 @@ import webpack from 'webpack';
 import path from 'path';
 
 export default {
+  context: __dirname,
   debug: true,
   devtool: 'inline-source-map',
   noInfo: true,
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
     'webpack-hot-middleware/client?reload=true', //note that it reloads the page if hot module reloading fails.
-    path.resolve(__dirname, 'src/index')
+    path.resolve(__dirname,'src/reporter.js')
   ],
   target: 'node',
   output: {
@@ -17,7 +18,7 @@ export default {
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'src')
+    contentBase: path.resolve(__dirname, '/dist')
     // stats: 'errors-only'
   },
   plugins: [
