@@ -16,7 +16,6 @@ class StatusHeader extends Component {
   }
 
   componentDidMount() {
-    console.log('MochaStatus is running...');
   }
 
   componentDidUpdate(){

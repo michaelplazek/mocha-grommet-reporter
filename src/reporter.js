@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import Main from './Main';
 
 const listeners = [];
-let time = 0
 
 export function add(set) {
   listeners.push(set);
@@ -75,12 +74,4 @@ export default function reporter(runner) {
   });
 }
 
-
-
-// function getTotalTime(time, test){
-//   if(test.duration) {
-//     time += (test.duration/1000);
-//   }
-//   return time;
-// }
 

@@ -15,6 +15,7 @@ import Sidebar from 'grommet/components/Sidebar';
 import Split from 'grommet/components/Split';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
+import Button from 'grommet/components/Button';
 
 
 class Body extends Component {
@@ -96,8 +97,6 @@ class Body extends Component {
     return result;
   }
 
-  // add function to grab status of each test && suite
-
   getSuiteStatus(suite) {
     let result = 'unknown';
     if(suite && suite.tests){
@@ -119,30 +118,14 @@ class Body extends Component {
     if(test && test.state) {
       switch (test.state) {
         case "passed":
-          console.log("passed");
           return "ok";
 
         case "failed":
-          console.log("failed");
           return "critical";
 
         default:
           return "warning";
       }
-    }
-
-    // else {
-    //   return
-    // }
-  }
-
-  getTestDuration(test) {
-
-    if(test && test.duration) {
-      return test.duration/1000;
-    }
-    else {
-      return "...";
     }
   }
 
@@ -169,6 +152,16 @@ class Body extends Component {
       if (test.status == "failed") {
         return ("Test timed out...")
       }
+    }
+  }
+
+  getTestDuration(test) {
+
+    if(test && test.duration) {
+      return test.duration/1000;
+    }
+    else {
+      return "...";
     }
   }
 
