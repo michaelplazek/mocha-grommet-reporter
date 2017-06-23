@@ -19,7 +19,7 @@ export default function reporter(runner) {
 
   const mochaElement = document.getElementById('mocha');
 
-  console.log("START mocha-ui JSON reporter called");
+  console.log("START mocha-grommet-reporter called");
 
   let suites = [];
   let tests = [];
@@ -70,7 +70,7 @@ export default function reporter(runner) {
   });
 
   runner.on('end', function () {
-    console.log("END mocha-ui JSON reporter called");
+    console.log("END mocha-grommet-reporter called");
   });
 }
 
