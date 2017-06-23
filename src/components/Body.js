@@ -104,6 +104,8 @@ class Body extends Component {
         result = 'ok';
       } else if (suite.tests.every(test => this.getTestStatus(test) === 'critical')) {
         result = 'critical';
+      } else if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
+        result = 'critical';
       } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
         result = 'unknown';
       } else {
