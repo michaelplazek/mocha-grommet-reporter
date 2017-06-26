@@ -30,7 +30,7 @@ class Main extends Component {
     return (
       <App>
         <Display
-          suites = {this.props.suites}
+          suite = {this.props.suite}
           tests = {this.props.tests}
           passes = {this.props.passes}
           failures = {this.props.failures}
@@ -44,13 +44,13 @@ class Main extends Component {
 }
 
 Main.propTypes = {
-  suites: PropTypes.array,
+  suite: PropTypes.object,
   tests: PropTypes.array,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  // time: PropTypes.number
+  time: PropTypes.array
 }
 
 export default Main;

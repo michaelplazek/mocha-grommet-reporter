@@ -30,7 +30,7 @@ export default function reporter(runner) {
 
   ReactDOM.render(
     <Main
-      suites = {runner.suite.suites}
+      suite = {runner.suite}
       passes = {passes}
       failures = {failures}
       pending = {pending}

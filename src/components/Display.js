@@ -23,14 +23,14 @@ const Display = (props) => {
             </Heading>
             <StatusHeader
               total = {props.total}
-              suites = {props.suites}
+              suites = {props.suite.suites}
               time = {props.time}
             />
           </Box>
         </Box>
 
       <Body
-        suites = {props.suites}
+        suite = {props.suite}
         passes = {props.passes}
         failures = {props.failures}
         pending = {props.pending}
@@ -43,13 +43,13 @@ const Display = (props) => {
 };
 
 Display.propTypes = {
-  suites: PropTypes.array,
+  suite: PropTypes.object,
   tests: PropTypes.array,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  // time: PropTypes.number
+  time: PropTypes.array
 };
 
 export default Display;

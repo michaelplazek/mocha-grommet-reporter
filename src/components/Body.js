@@ -33,7 +33,7 @@ class Body extends Component {
     if(suite){
       return(
         <div>
-          {this.getSuites(suite)}
+          {this.getSuites(suite.suites)}
           {this.getTests(suite.tests)}
         </div>
       );
@@ -57,8 +57,8 @@ class Body extends Component {
                   <Box pad="large">
 
                     <Label size="small">{this.checkTimeOut(test)}&nbsp;Duration:&nbsp;{this.getTestDuration(test)}&nbsp;s</Label>
-                    <Label></Label>
-                    <Label size="small">{this.getBody(test)}</Label>
+                    {/*<Label></Label>*/}
+                    {/*<Label size="small">{this.getBody(test)}</Label>*/}
                     {/*{test.body}*/}
 
                   </Box>
@@ -68,8 +68,9 @@ class Body extends Component {
           </Accordion>
         </Box>
       );
+      return result;
     }
-    return result;
+
   }
 
   getSuites(suites){
@@ -208,7 +209,7 @@ class Body extends Component {
       </Sidebar>
       <Box alignContent="center" pad="medium">
 
-        {this.getSuite(this.props.suites)}
+        {this.getSuite(this.props.suite)}
 
       </Box>
     </Split>
@@ -217,7 +218,7 @@ class Body extends Component {
 }
 
 Body.propTypes = {
-  suites: PropTypes.array,
+  suite: PropTypes.object,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
