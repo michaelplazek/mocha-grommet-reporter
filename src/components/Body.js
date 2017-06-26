@@ -107,7 +107,7 @@ class Body extends Component {
       } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
         result = 'unknown';
       } else {
-        result = 'warning';
+        result = 'unknown';
       }
       return result;
     }
@@ -200,6 +200,7 @@ class Body extends Component {
             type="circle"
             size="large"
             max= {this.props.total}
+            units=''
             series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
               {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
           />
