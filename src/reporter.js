@@ -26,6 +26,7 @@ export default function reporter(runner) {
   let pending = [];
   let failures = [];
   let passes = [];
+  let errors = [];
   let time = [];
 
   ReactDOM.render(
@@ -36,6 +37,7 @@ export default function reporter(runner) {
       pending = {pending}
       total = {runner.total}
       time = {time}
+      errors = {errors}
     />
     , mochaElement);
 
@@ -61,8 +63,9 @@ export default function reporter(runner) {
     passes.push(test);
   });
 
-  runner.on('fail', function (test) {
+  runner.on('fail', function (test, err) {
     failures.push(test);
+    errors.push(err.message);
   });
 
   runner.on('pending', function (test) {

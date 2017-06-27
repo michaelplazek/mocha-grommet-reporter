@@ -37,6 +37,7 @@ class Main extends Component {
           pending = {this.props.pending}
           total = {this.props.total}
           time = {this.props.time}
+          errors = {this.props.errors}
         />
       </App>
     );
@@ -50,7 +51,8 @@ Main.propTypes = {
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  time: PropTypes.array
+  time: PropTypes.array,
+  errors: PropTypes.array
 }
 
 export default Main;

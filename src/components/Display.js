@@ -35,6 +35,7 @@ const Display = (props) => {
         failures = {props.failures}
         pending = {props.pending}
         total = {props.total}
+        errors = {props.errors}
       />
     </Section>
 
@@ -49,7 +50,8 @@ Display.propTypes = {
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  time: PropTypes.array
+  time: PropTypes.array,
+  errors: PropTypes.array
 };
 
 export default Display;

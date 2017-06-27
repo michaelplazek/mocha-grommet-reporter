@@ -56,7 +56,8 @@ class Body extends Component {
                 >
                   <Box pad="large">
 
-                    <Label size="small">{this.checkTimeOut(test)}&nbsp;Duration:&nbsp;{this.getTestDuration(test)}&nbsp;s</Label>
+                    {this.getTestDuration(test)}
+                    {this.getError(test)}
                     {/*<Label></Label>*/}
                     {/*<Label size="small">{this.getBody(test)}</Label>*/}
                     {/*{test.body}*/}
@@ -70,7 +71,6 @@ class Body extends Component {
       );
       return result;
     }
-
   }
 
   getSuites(suites){
@@ -130,6 +130,16 @@ class Body extends Component {
     }
   }
 
+  getError(test){
+    if(test && test.state && test.state == 'failed'){
+      return(
+        <Label size="small">
+          {this.props.errors[this.props.errors.length-1]}
+        </Label>
+      )
+    }
+  }
+
   getTestHeading(test){
     return(
       <Paragraph>
@@ -159,11 +169,11 @@ class Body extends Component {
   getTestDuration(test) {
 
     if(test && test.duration) {
-      return test.duration/1000;
+      return  <Label size="small">{test.duration/1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>
     }
-    else {
-      return "...";
-    }
+    // else {
+    //   return "...";
+    // }
   }
 
   getBody(test){
