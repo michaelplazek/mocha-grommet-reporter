@@ -38,6 +38,8 @@ class Main extends Component {
           total = {this.props.total}
           time = {this.props.time}
           errors = {this.props.errors}
+          suite_list = {this.props.suite_list}
+          top4 = {this.props.top4}
         />
       </App>
     );
@@ -52,7 +54,9 @@ Main.propTypes = {
   pending: PropTypes.array,
   total: PropTypes.number,
   time: PropTypes.array,
-  errors: PropTypes.array
+  errors: PropTypes.array,
+  suite_list: PropTypes.array,
+  top4: PropTypes.array
 }
 
 export default Main;

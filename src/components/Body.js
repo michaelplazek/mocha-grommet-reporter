@@ -15,7 +15,8 @@ import Sidebar from 'grommet/components/Sidebar';
 import Split from 'grommet/components/Split';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
-import Button from 'grommet/components/Button';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
 
 
 class Body extends Component {
@@ -29,12 +30,11 @@ class Body extends Component {
   componentDidMount() {
   }
 
-  getSuite(suite){
-    if(suite){
+  getSuite(suites){
+    if(suites){
       return(
         <div>
-          {this.getSuites(suite.suites)}
-          {this.getTests(suite.tests)}
+          {this.getSuites(suites)}
         </div>
       );
     }
@@ -57,7 +57,6 @@ class Body extends Component {
                   <Box pad="large">
 
                     {this.getTestDuration(test)}
-                    {this.getError(test)}
                     {/*<Label></Label>*/}
                     {/*<Label size="small">{this.getBody(test)}</Label>*/}
                     {/*{test.body}*/}
@@ -78,20 +77,35 @@ class Body extends Component {
     if(suites && suites.length > 0) {
       result = (
         <Box pad="small">
-          <Accordion
-            openMulti={true}
+          <List
+            selectable={false}
           >
             {
               suites.map(suite => (
-                <AccordionPanel
+                <ListItem
                   key={suite.title}
-                  heading={this.getSuiteHeading(suite)}
                 >
-                  {this.getSuite(suite)}
-                </AccordionPanel>
+                  <Box alignSelf="center">
+                    <div>
+                      {this.getSuiteHeading(suite)}
+                    </div>
+                    <Box flex="grow" alignContent="stretch">
+                      <AnnotatedMeter
+                        max={suite.tests.length}
+                        className="suite-meter"
+                        type="bar"
+                        units="tests"
+                        size="medium"
+                        series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getTestPasses(suite))},
+                          {"label":"Failed", "colorIndex":"critical", "value":Number(this.getTestFailures(suite))}]}
+                      />
+                    </Box>
+                    {this.getSuite(suite)}
+                  </Box>
+                </ListItem>
               ))
             }
-          </Accordion>
+          </List>
         </Box>
       );
     }
@@ -130,16 +144,6 @@ class Body extends Component {
     }
   }
 
-  getError(test){
-    if(test && test.state && test.state == 'failed'){
-      return(
-        <Label size="small">
-          {this.props.errors[this.props.errors.length-1]}
-        </Label>
-      )
-    }
-  }
-
   getTestHeading(test){
     return(
       <Paragraph>
@@ -151,7 +155,7 @@ class Body extends Component {
 
   getSuiteHeading(suite){
     return(
-      <Paragraph>
+      <Paragraph size="large">
         <Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;
         {suite.title}
       </Paragraph>
@@ -182,44 +186,88 @@ class Body extends Component {
     }
   }
 
-  getPasses(){
-    if(this.props.passes) {
-      return this.props.passes.length
-    }
-    else {
-      return 0;
+  getTestPasses(suite){
+    let count = 0;
+    if(suite) {
+      suite.tests.forEach(test => {
+        if(test.state === "passed"){
+          count++;
+        }
+      })
+      return count;
     }
   }
 
-  getFailures(){
-    if(this.props.failures) {
-      return this.props.failures.length
+  getSuitePasses(){
+    let pass = 0;
+    if(this.props.suite) {
+      this.props.suite.suites.forEach(suite => {
+        if(suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+          pass++;
+        }
+      })
     }
     else {
-      return 0;
+      pass = 0;
+    }
+    return pass;
+  }
+
+  getTestFailures(suite){
+    let count = 0;
+    if(suite) {
+      suite.tests.forEach(test => {
+        if(test.state === "failed"){
+          count++;
+        }
+      })
+      return count;
+    }
+  }
+
+  getSuiteFailures(){
+    let fail = 0;
+    if(this.props.suite) {
+      this.props.suite.suites.forEach(suite => {
+        if(suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
+          fail++;
+        }
+      })
+    }
+    else {
+      fail = 0;
+    }
+    return fail;
+  }
+
+  getSuiteLength() {
+    if(this.props.suite){
+      return this.props.suite.suites.length;
     }
   }
 
   render(){
 
     return (
-    <Split flex="right" priority="right">
+    <Split flex="right" priority="left">
       <Sidebar size="large">
         <Section full="horizontal">
+          <Label></Label>
+          <Label></Label>
           <AnnotatedMeter
             legend={false}
             type="circle"
             size="large"
-            max= {this.props.total}
-            units=''
-            series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
-              {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
+            units="suites"
+            max= {this.getSuiteLength()}
+            series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getSuitePasses())},
+              {"label":"Failed", "colorIndex":"critical", "value":Number(this.getSuiteFailures())}]}
           />
         </Section>
       </Sidebar>
       <Box alignContent="center" pad="medium">
 
-        {this.getSuite(this.props.suite)}
+        {this.getSuite(this.props.top4)}
 
       </Box>
     </Split>
@@ -232,7 +280,8 @@ Body.propTypes = {
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
-  total: PropTypes.number
+  total: PropTypes.number,
+  suite_list: PropTypes.array
 };
 
 export default Body;

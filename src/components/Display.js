@@ -18,24 +18,22 @@ const Display = (props) => {
     <Section>
         <Box colorIndex="brand" alignContent="center">
           <Box pad="large">
-            <Heading>
-              Mocha Tester
-            </Heading>
-            <StatusHeader
-              total = {props.total}
-              suites = {props.suite.suites}
-              time = {props.time}
-            />
+            <Heading>NCS API Tester</Heading>
+            {/*<StatusHeader*/}
+              {/*total = {props.total}*/}
+              {/*suites = {props.suite.suites}*/}
+            {/*/>*/}
           </Box>
         </Box>
 
       <Body
         suite = {props.suite}
+        suite_list = {props.suite_list}
         passes = {props.passes}
         failures = {props.failures}
         pending = {props.pending}
         total = {props.total}
-        errors = {props.errors}
+        top4 = {props.top4}
       />
     </Section>
 
@@ -50,8 +48,8 @@ Display.propTypes = {
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
-  time: PropTypes.array,
-  errors: PropTypes.array
+  suite_list: PropTypes.array,
+  top4: PropTypes.array
 };
 
 export default Display;

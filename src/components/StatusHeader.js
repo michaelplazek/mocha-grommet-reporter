@@ -11,26 +11,17 @@ class StatusHeader extends Component {
 
   constructor(props) {
     super(props);
-
-    this.timer = 0;
   }
 
   componentDidMount() {
   }
 
   componentDidUpdate(){
-    this.getTime();
-  }
-
-  getTime(){
-    if(this.props.time.length > 0){
-      this.timer += this.props.time.pop()/1000;
-    }
   }
 
   render() {
     return(
-        <Label size="medium" margin="medium">{this.props.suites.length}&nbsp;Suites&nbsp; | &nbsp;{this.props.total}&nbsp;Tests&nbsp; | &nbsp;Elapsed Time:&nbsp;{this.timer.toFixed(2)}&nbsp;s</Label>
+        <Label size="medium" margin="medium">{this.props.suites.length}&nbsp;Suites&nbsp; | &nbsp;{this.props.total}&nbsp;Tests</Label>
     );
   }
 }
@@ -38,7 +29,6 @@ class StatusHeader extends Component {
 StatusHeader.propTypes = {
   suites: PropTypes.array,
   total: PropTypes.number,
-  // time: PropTypes.number
 };
 
 export default StatusHeader;
