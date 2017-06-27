@@ -76,7 +76,7 @@ class Body extends Component {
     let result = null;
     if(suites && suites.length > 0) {
       result = (
-        <Box pad="small">
+        <Box pad="small" margin="medium">
           <List
             selectable={false}
           >
@@ -85,11 +85,11 @@ class Body extends Component {
                 <ListItem
                   key={suite.title}
                 >
-                  <Box alignSelf="center">
+                  <Box alignSelf="center" alignContent="center">
                     <div>
                       {this.getSuiteHeading(suite)}
                     </div>
-                    <Box flex="grow" alignContent="stretch">
+                    <Box flex="grow" alignContent="stretch" alignSelf="center">
                       <AnnotatedMeter
                         max={suite.tests.length}
                         className="suite-meter"
@@ -156,7 +156,7 @@ class Body extends Component {
   getSuiteHeading(suite){
     return(
       <Paragraph size="large">
-        <Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;
+        {/*<Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;*/}
         {suite.title}
       </Paragraph>
     )
@@ -252,6 +252,7 @@ class Body extends Component {
     <Split flex="right" priority="left">
       <Sidebar size="large">
         <Section full="horizontal">
+          <Box margin="medium">
           <Label></Label>
           <Label></Label>
           <AnnotatedMeter
@@ -263,6 +264,7 @@ class Body extends Component {
             series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getSuitePasses())},
               {"label":"Failed", "colorIndex":"critical", "value":Number(this.getSuiteFailures())}]}
           />
+          </Box>
         </Section>
       </Sidebar>
       <Box alignContent="center" pad="medium">
