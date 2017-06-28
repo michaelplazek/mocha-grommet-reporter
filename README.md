@@ -30,4 +30,6 @@ Create index.js in the source directory and place the following code inside:
 
 Use the [mocha-grommet-reporter-example](https://github.com/michaelplazek/mocha-grommet-reporter-example.git) to test 
    
-   
+## UPDATE: 
+
+There is an overhead Dashboard view being developed for displaying a visualization of suite data at a higher level. Stay tuned for new updates. 
