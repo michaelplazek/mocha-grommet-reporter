@@ -1,6 +1,6 @@
 # Mocha Grommet Reporter
 
-This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/)
+This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/). This is designed to be a view for developers and will eventually include more extensive drill downs into test data.
 
 ## To use:
 
