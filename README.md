@@ -32,4 +32,4 @@ Use the [mocha-grommet-reporter-example](https://github.com/michaelplazek/mocha-
    
 ## UPDATE: 
 
-There is an overhead Dashboard view being developed for displaying a visualization of suite data at a higher level. Stay tuned for new updates. 
+There is an overhead dashboard view being developed for displaying a visualization of suite data at a higher level. Stay tuned for new updates. 
