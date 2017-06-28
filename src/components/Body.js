@@ -85,7 +85,7 @@ class Body extends Component {
                 <ListItem
                   key={suite.title}
                 >
-                  <Box alignSelf="center" alignContent="center">
+                  <Box alignSelf="center"  full="horizontal" size="large" flex="grow">
                     <div>
                       {this.getSuiteHeading(suite)}
                     </div>
@@ -246,6 +246,12 @@ class Body extends Component {
     }
   }
 
+  getSuitesMessage(){
+    if(this.getSuiteFailures() + this.getSuitePasses() == this.getSuiteLength()){
+      return <Paragraph size="small">4 out of {this.getSuiteLength()} suites</Paragraph>
+    }
+  }
+
   render(){
 
     return (
@@ -270,6 +276,10 @@ class Body extends Component {
       <Box alignContent="center" pad="medium">
 
         {this.getSuite(this.props.top4)}
+
+        <Box alignContent="center" align="center">
+          {this.getSuitesMessage()}
+        </Box>
 
       </Box>
     </Split>

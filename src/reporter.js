@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import '../dist/index.css';
+
 import Main from './Main';
 
 const listeners = [];
