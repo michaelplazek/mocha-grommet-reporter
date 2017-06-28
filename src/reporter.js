@@ -19,27 +19,14 @@ export default function reporter(runner) {
     });
   }
 
-  function findWorst(){
-    let temp = 0;
-    let count =0;
-    let suite_failures = [suites.length];
-    suites.forEach(suite => {
-      suite.tests.forEach(test => {
-        if(test && test.state && test.state === 'failed' ){
-          temp += 1;
+  function findFailedSuites(){
+    if(suites){
+      suites.forEach(suite => {
+        if(suite.tests.some(test => test.state === "failed")){
+          failed_suites.push(suite);
         }
       })
-      suite_failures[count] = temp;
-      temp = 0;
-      count++;
-    })
-    for(var i = 0; i <= 3; i++){
-      let max = suite_failures.indexOf(Math.max(...suite_failures));
-      top4.push(suites[max]);
-      suite_failures.splice(max, 1);
-      suites.splice(max,1);
     }
-    top4.sort();
   }
 
   const mochaElement = document.getElementById('mocha');
@@ -47,13 +34,13 @@ export default function reporter(runner) {
   console.log("START mocha-grommet-reporter called");
 
   let suites = [];
+  let failed_suites = [];
   let tests = [];
   let pending = [];
   let failures = [];
   let passes = [];
   let errors = [];
   let time = [];
-  let top4 = [];
 
   ReactDOM.render(
     <Main
@@ -65,7 +52,7 @@ export default function reporter(runner) {
       total = {runner.total}
       time = {time}
       errors = {errors}
-      top4 = {top4}
+      failed_suites = {failed_suites}
     />
     , mochaElement);
 
@@ -101,7 +88,7 @@ export default function reporter(runner) {
   });
 
   runner.on('end', function () {
-    findWorst();
+    findFailedSuites();
     notifyListeners();
     console.log("END mocha-grommet-reporter called");
   });
