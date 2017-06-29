@@ -29,6 +29,25 @@ export default function reporter(runner) {
     }
   }
 
+  function getTime(){
+    let currentdate = new Date();
+    if(last_test.length == 0){
+      last_test .push(currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/"
+        + currentdate.getFullYear() + " at "
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes());
+    }
+    else{
+      last_test.pop();
+      last_test .push(currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/"
+        + currentdate.getFullYear() + " @ "
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes());
+    }
+  }
+
   const mochaElement = document.getElementById('mocha');
 
   console.log("START mocha-grommet-reporter called");
@@ -41,6 +60,7 @@ export default function reporter(runner) {
   let passes = [];
   let errors = [];
   let time = [];
+  let last_test = [];
 
   ReactDOM.render(
     <Main
@@ -53,6 +73,7 @@ export default function reporter(runner) {
       time = {time}
       errors = {errors}
       failed_suites = {failed_suites}
+      last_test = {last_test}
     />
     , mochaElement);
 
@@ -89,6 +110,7 @@ export default function reporter(runner) {
 
   runner.on('end', function () {
     findFailedSuites();
+    getTime();
     notifyListeners();
     console.log("END mocha-grommet-reporter called");
   });

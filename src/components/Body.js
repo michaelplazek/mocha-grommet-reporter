@@ -12,7 +12,8 @@ import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
-
+import Label from 'grommet/components/Label';
+import Notification from 'grommet/components/Notification';
 
 class Body extends Component {
 
@@ -196,8 +197,8 @@ class Body extends Component {
         </Carousel>
       );
     }
-    else if(suites.length == 0){
-      return null
+    else if(this.getSuitePasses() == this.getSuiteLength() || suites.length == 0){
+      return <Label size="large">All Suites Passed</Label>
     }
     else {
       return (
@@ -210,7 +211,7 @@ class Body extends Component {
 
     return (
       <Split flex="right" priority="left">
-        <Box pad="medium" full="vertical" justify="center">
+        <Box pad={{vertical:"large"}} full="vertical" justify="start">
           <AnnotatedMeter
             legend={false}
             type="circle"
@@ -221,7 +222,7 @@ class Body extends Component {
               {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}]}
           />
         </Box>
-        <Box justify="center" align="center" full="vertical">
+        <Box justify="start" align="center" full="vertical" pad="medium">
           {this.getContent()}
         </Box>
       </Split>
