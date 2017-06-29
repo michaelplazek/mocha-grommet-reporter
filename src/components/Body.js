@@ -15,6 +15,8 @@ import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
 import Notification from 'grommet/components/Notification';
 
+import Alert from './Alert';
+
 class Body extends Component {
 
   constructor(props) {
@@ -36,16 +38,16 @@ class Body extends Component {
           <div>
             {this.getSuiteHeading(suite)}
           </div>
-          <Box >
+
             <Meter
               max={suite.tests.length}
               type="bar"
-              size="medium"
+              size="large"
               stacked={true}
               series={[{"colorIndex": "ok", "value": Number(this.getTestPasses(suite))},
                 {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))}]}
             />
-          </Box>
+
         </Box>
       </ListItem>
     );
@@ -191,13 +193,13 @@ class Body extends Component {
           autoplay={true}
           infinite={true}
           persistentNav={false}
-          autoplaySpeed={2000}
+          autoplaySpeed={4000}
         >
           {suites}
         </Carousel>
       );
     }
-    else if(this.getSuitePasses() == this.getSuiteLength() || suites.length == 0){
+    else if(this.getSuitePasses() == this.getSuiteLength()){
       return <Label size="large">All Suites Passed</Label>
     }
     else {
@@ -211,7 +213,7 @@ class Body extends Component {
 
     return (
       <Split flex="right" priority="left">
-        <Box pad={{vertical:"large"}} full="vertical" justify="start">
+        <Box pad={{vertical:"large"}} full="vertical" justify="center">
           <AnnotatedMeter
             legend={false}
             type="circle"
@@ -221,8 +223,14 @@ class Body extends Component {
             series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses())},
               {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}]}
           />
+
+          {/*<Alert*/}
+            {/*suite = {this.props.suite_list}*/}
+            {/*tests = {this.props.tests}*/}
+          {/*/>*/}
+
         </Box>
-        <Box justify="start" align="center" full="vertical" pad="medium">
+        <Box justify="center" align="center" full="vertical" pad="medium">
           {this.getContent()}
         </Box>
       </Split>
