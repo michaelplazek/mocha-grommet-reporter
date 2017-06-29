@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 
 import chunk from 'lodash.chunk';
 
-import Status from 'grommet/components/icons/Status';
 import Box from 'grommet/components/Box';
-import Label from 'grommet/components/Label';
-import Accordion from 'grommet/components/Accordion';
-import AccordionPanel from 'grommet/components/AccordionPanel';
 import Split from 'grommet/components/Split';
 import Meter from 'grommet/components/Meter';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
@@ -42,94 +38,16 @@ class Body extends Component {
           <Box >
             <Meter
               max={suite.tests.length}
-              // className="suite-meter"
               type="bar"
-              // units="tests"
               size="medium"
               stacked={true}
               series={[{"colorIndex": "ok", "value": Number(this.getTestPasses(suite))},
                 {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))}]}
             />
           </Box>
-
-          {/*{this.getSuite(suite)}*/}
-
         </Box>
       </ListItem>
-    )
-  }
-
-  getTests(tests) {
-    let result = null;
-    if (tests && tests.length > 0) {
-      result = (
-        <Box pad="medium">
-          <Accordion
-            openMulti={true}
-          >
-            {
-              tests.map(test => (
-                <AccordionPanel
-                  key={test.title}
-                  heading={this.getTestHeading(test)}
-                >
-                  <Box pad="large">
-
-                    {this.getTestDuration(test)}
-                    {/*<Label></Label>*/}
-                    {/*<Label size="small">{this.getBody(test)}</Label>*/}
-                    {/*{test.body}*/}
-
-                  </Box>
-                </AccordionPanel>
-              ))
-            }
-          </Accordion>
-        </Box>
-      );
-      return result;
-    }
-  }
-
-  getSuites(suites) {
-    let result = null;
-    if (suites && suites.length > 0) {
-      result = (
-        <Box pad="small" margin="medium">
-          <List
-            selectable={false}
-          >
-            {
-              suites.map(suite => (
-                <ListItem
-                  key={suite.title}
-                >
-                  <Box alignSelf="center" full="horizontal" size="large" flex="grow">
-                    <div>
-                      {this.getSuiteHeading(suite)}
-                    </div>
-                    <Box >
-                      <Meter
-                        max={suite.tests.length}
-                        // className="suite-meter"
-                        type="bar"
-                        // units="tests"
-                        size="medium"
-                        stacked={true}
-                        series={[{"colorIndex": "ok", "value": Number(this.getTestPasses(suite))},
-                          {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))}]}
-                      />
-                    </Box>
-                    {this.getSuite(suite)}
-                  </Box>
-                </ListItem>
-              ))
-            }
-          </List>
-        </Box>
-      );
-    }
-    return result;
+    );
   }
 
   getSuiteStatus(suite) {
@@ -164,46 +82,13 @@ class Body extends Component {
     }
   }
 
-  getTestHeading(test) {
-    return (
-      <Paragraph>
-        <Status value={this.getTestStatus(test)}/>&nbsp;&nbsp;
-        {test.title}
-      </Paragraph>
-    )
-  }
-
   getSuiteHeading(suite) {
     return (
       <Paragraph size="large">
         {/*<Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;*/}
         {suite.title}
       </Paragraph>
-    )
-  }
-
-  checkTimeOut(test) {
-    if (test && test.timedOut) {
-      if (test.status == "failed") {
-        return ("Test timed out...")
-      }
-    }
-  }
-
-  getTestDuration(test) {
-
-    if (test && test.duration) {
-      return <Label size="small">{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>
-    }
-    // else {
-    //   return "...";
-    // }
-  }
-
-  getBody(test) {
-    if (test && test.body) {
-      return test.body;
-    }
+    );
   }
 
   getTestPasses(suite) {
@@ -213,7 +98,7 @@ class Body extends Component {
         if (test.state === "passed") {
           count++;
         }
-      })
+      });
       return count;
     }
   }
@@ -225,7 +110,7 @@ class Body extends Component {
         if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
           pass++;
         }
-      })
+      });
     }
     else {
       pass = 0;
@@ -240,7 +125,7 @@ class Body extends Component {
         if (test.state === "failed") {
           count++;
         }
-      })
+      });
       return count;
     }
   }
@@ -289,7 +174,7 @@ class Body extends Component {
       result = chunk(result, 5).map((item, index) => {
         return (
           <List key={index}>{item}</List>
-        )
+        );
       });
     }
     return result;
@@ -309,12 +194,12 @@ class Body extends Component {
         >
           {suites}
         </Carousel>
-      )
+      );
     }
     else {
       return (
         <Spinning size="large"/>
-      )
+      );
     }
   }
 

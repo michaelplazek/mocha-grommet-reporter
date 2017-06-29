@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Heading from 'grommet/components/Headline';
-import Section from 'grommet/components/Section';
-import Box from 'grommet/components/Box';
-import Label from 'grommet/components/Label';
 import CheckBox from 'grommet/components/CheckBox';
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
 
-import StatusHeader from './StatusHeader';
 import Body from './Body';
 import Alert from './Alert';
 
