@@ -184,7 +184,7 @@ class Body extends Component {
 
     let suites = this.splitSuites();
 
-    if (suites.length > 0) {
+    if (this.isLoaded()) {
       return (
         <Carousel
           autoplay={true}
