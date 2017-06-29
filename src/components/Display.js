@@ -10,6 +10,7 @@ import Box from 'grommet/components/Box';
 import Notification from 'grommet/components/Notification';
 
 import Body from './Body';
+import PlotGraph from './PlotGraph';
 import Alert from './Alert';
 
 const Display = (props) => {
@@ -35,6 +36,12 @@ const Display = (props) => {
           total = {props.total}
           failed_suites = {props.failed_suites}
         />
+
+      {/*<PlotGraph*/}
+        {/*failed_suites = {props.failed_suites}*/}
+        {/*suite_list = {props.suite_list}*/}
+        {/*time = {props.last_test}*/}
+      {/*/>*/}
       {/*<Notification*/}
         {/*size="small"*/}
         {/*status="warning"*/}
