@@ -210,7 +210,7 @@ class Body extends Component {
   render() {
 
     return (
-      <Split flex="right" priority="left">
+      <Split flex="right" priority="right">
         <Box pad={{vertical:"large"}} full="vertical" justify="center">
           <AnnotatedMeter
             legend={false}
