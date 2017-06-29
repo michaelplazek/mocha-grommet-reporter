@@ -15,12 +15,20 @@ import PlotGraph from './PlotGraph';
 
 const Display = (props) => {
 
+  function getLastTestTag(){
+    let result = null;
+    if(props.last_test.length > 0){
+      result = <Label>Last test performed on&nbsp;{props.last_test[0]}</Label>;
+    }
+    return result;
+  }
+
   return (
     <Article>
       <Header colorIndex="brand" pad="large" justify="between" direction="row">
         <Box>
           <Heading>NCS API Dashboard</Heading>
-          <Label>Last test performed on&nbsp;{props.last_test[0]}</Label>
+          {getLastTestTag()}
         </Box>
           <CheckBox
             toggle={true}
@@ -55,7 +63,8 @@ Display.propTypes = {
   pending: PropTypes.array,
   total: PropTypes.number,
   suite_list: PropTypes.array,
-  failed_suites: PropTypes.array
+  failed_suites: PropTypes.array,
+  last_test: PropTypes.array
 };
 
 export default Display;

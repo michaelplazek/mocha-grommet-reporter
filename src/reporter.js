@@ -29,31 +29,31 @@ export default function reporter(runner) {
     }
   }
 
-  function getTime(){
-    let currentdate = new Date();
-    if(last_test.length == 0){
-      last_test.push(currentdate.getDate() + "/"
-        + (currentdate.getMonth()+1)  + "/"
-        + currentdate.getFullYear() + " at "
-        + currentdate.getHours() + ":"
-        + addZero(currentdate));
-    }
-    else{
-      last_test.pop();
-      last_test.push(currentdate.getDate() + "/"
-        + (currentdate.getMonth()+1)  + "/"
-        + currentdate.getFullYear() + " @ "
-        + currentdate.getHours() + ":"
-        + addZero(currentdate));
-    }
-  }
-
   function addZero(currentdate){
     if(currentdate.getMinutes.toString().length == 1){
       return "0" + currentdate.getMinutes.toString();
     }
     else{
       return currentdate.getMinutes();
+    }
+  }
+
+  function getTime(){
+    let currentdate = new Date();
+    if(last_test.length == 0){
+      last_test.push((currentdate.getMonth()+1) + "/"
+        + currentdate.getDate() + "/"
+        + currentdate.getFullYear() + " at "
+        + currentdate.getHours() + ":"
+        + addZero(currentdate));
+    }
+    else{
+      last_test.pop();
+      last_test.push((currentdate.getMonth()+1) + "/"
+        + currentdate.getDate() + "/"
+        + currentdate.getFullYear() + " at "
+        + currentdate.getHours() + ":"
+        + addZero(currentdate));
     }
   }
 

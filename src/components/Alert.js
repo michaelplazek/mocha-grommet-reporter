@@ -30,7 +30,10 @@ class Alert extends Component {
     }
     timeouts = timeouts.map((test, index) => {
       return (
-        <Box pad="small">
+        <Box
+          pad="small"
+          key={test.title + index}
+        >
           <Notification
             message={test.title + " timed out after " + (test.duration/1000).toFixed(2) + " seconds"}
             status="warning"

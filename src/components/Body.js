@@ -13,9 +13,7 @@ import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
-import Notification from 'grommet/components/Notification';
 
-import Alert from './Alert';
 
 class Body extends Component {
 
@@ -223,11 +221,6 @@ class Body extends Component {
             series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses())},
               {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}]}
           />
-
-          {/*<Alert*/}
-            {/*suite = {this.props.suite_list}*/}
-            {/*tests = {this.props.tests}*/}
-          {/*/>*/}
 
         </Box>
         <Box justify="center" align="center" full="vertical" pad="medium">
