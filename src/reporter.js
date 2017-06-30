@@ -30,8 +30,9 @@ export default function reporter(runner) {
   }
 
   function addZero(currentdate){
-    if(currentdate.getMinutes.toString().length == 1){
-      return "0" + currentdate.getMinutes.toString();
+    let test = currentdate.getMinutes().toString();
+    if(currentdate.getMinutes().toString().length == 1){
+      return "0" + currentdate.getMinutes().toString();
     }
     else{
       return currentdate.getMinutes();
