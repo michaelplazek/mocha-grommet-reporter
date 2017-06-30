@@ -34,11 +34,12 @@ class Pages extends Component {
     else {
       return (
         <Developer
-          suite_list={this.props.suite_list}
+          suite={this.props.suite}
           passes={this.props.passes}
           failures={this.props.failures}
           pending={this.props.pending}
           total={this.props.total}
+          errors={this.props.errors}
         />
       );
     }

@@ -64,6 +64,7 @@ class Display extends Component {
           total={this.props.total}
           failed_suites={this.props.failed_suites}
           page={this.state.page}
+          errors = {this.props.errors}
         />
 
       </Article>
@@ -81,7 +82,8 @@ Display.propTypes = {
   total: PropTypes.number,
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
-  last_test: PropTypes.array
+  last_test: PropTypes.array,
+  errors: PropTypes.array
 };
 
 export default Display;

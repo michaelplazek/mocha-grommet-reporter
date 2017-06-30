@@ -8,11 +8,12 @@ const Developer = (props) => {
   return (
     <Box>
       <DevBody
-        suite_list = {props.suite_list}
+        suite = {props.suite}
         passes = {props.passes}
         failures = {props.failures}
         pending = {props.pending}
         total = {props.total}
+        errors = {props.errors}
       />
     </Box>
   );
