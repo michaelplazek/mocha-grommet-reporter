@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import Body from './Body';
 import Alert from './Alert';
@@ -25,6 +25,19 @@ const Dashboard = (props) => {
       />
     </Box>
   );
+};
+
+Dashboard.propTypes = {
+  suite: PropTypes.object,
+  tests: PropTypes.array,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number,
+  suite_list: PropTypes.array,
+  failed_suites: PropTypes.array,
+  last_test: PropTypes.array,
+  errors: PropTypes.array
 };
 
 export default Dashboard;

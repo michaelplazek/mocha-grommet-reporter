@@ -72,7 +72,6 @@ class Display extends Component {
   }
 }
 
-
 Display.propTypes = {
   suite: PropTypes.object,
   tests: PropTypes.array,

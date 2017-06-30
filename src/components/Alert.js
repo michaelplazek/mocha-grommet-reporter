@@ -28,38 +28,56 @@ class Alert extends Component {
         }
       });
     }
-    timeouts = timeouts.map((test, index) => {
-      return (
-        <Box
-          pad="small"
-          key={test.title + index}
-        >
-          <Notification
-            message={test.title + " timed out after " + (test.duration/1000).toFixed(2) + " seconds"}
-            status="warning"
-            size="medium"
-          />
-        </Box>
-      );
-    });
+
+    // timeouts = timeouts.map((test, index) => {
+    //   return (
+    //     <Box
+    //       pad="small"
+    //       key={test.title + index}
+    //     >
+    //       <Notification
+    //         message={test.title + " timed out after " + (test.duration/1000).toFixed(2) + " seconds"}
+    //         status="warning"
+    //         size="medium"
+    //       />
+    //     </Box>
+    //   );
+    // });
+
     return timeouts;
   }
 
   render() {
+
     let timeouts = this.getTimeouts();
-    if (timeouts.length > 0) {
-      return (
-        <Columns
-          justify="center"
-          maxCount={1}
-        >
-          {timeouts}
-        </Columns>
+
+    if(timeouts.length > 0){
+      return(
+        <Notification
+              message={timeouts.length + " test(s) timed out"}
+              status="warning"
+              size="medium"
+            />
       );
     }
+
     else {
-      return null
+      return null;
     }
+    // let timeouts = this.getTimeouts();
+    // if (timeouts.length > 0) {
+    //   return (
+    //     <Columns
+    //       justify="center"
+    //       maxCount={1}
+    //     >
+    //       {timeouts}
+    //     </Columns>
+    //   );
+    // }
+    // else {
+    //   return null
+    // }
   }
 }
 

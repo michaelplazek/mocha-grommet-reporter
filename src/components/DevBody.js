@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Section from 'grommet/components/Section';
@@ -12,9 +12,9 @@ import Split from 'grommet/components/Split';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
 
-class Body extends Component {
+class DevBody extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.getTestStatus = this.getTestStatus.bind(this);
@@ -23,9 +23,9 @@ class Body extends Component {
   componentDidMount() {
   }
 
-  getSuite(suite){
-    if(suite){
-      return(
+  getSuite(suite) {
+    if (suite) {
+      return (
         <div>
           {this.getSuites(suite.suites)}
           {this.getTests(suite.tests)}
@@ -34,9 +34,9 @@ class Body extends Component {
     }
   }
 
-  getTests(tests){
+  getTests(tests) {
     let result = null;
-    if(tests && tests.length > 0) {
+    if (tests && tests.length > 0) {
       result = (
         <Box pad="medium">
           <Accordion
@@ -64,9 +64,9 @@ class Body extends Component {
     }
   }
 
-  getSuites(suites){
+  getSuites(suites) {
     let result = null;
-    if(suites && suites.length > 0) {
+    if (suites && suites.length > 0) {
       result = (
         <Box pad="small">
           <Accordion
@@ -91,7 +91,7 @@ class Body extends Component {
 
   getSuiteStatus(suite) {
     let result = 'unknown';
-    if(suite && suite.tests){
+    if (suite && suite.tests) {
       if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
         result = 'ok';
       } else if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
@@ -107,7 +107,7 @@ class Body extends Component {
 
   getTestStatus(test) {
 
-    if(test && test.state) {
+    if (test && test.state) {
       switch (test.state) {
         case "passed":
           return "ok";
@@ -121,29 +121,29 @@ class Body extends Component {
     }
   }
 
-  getError(test){
-    if(test && test.state && test.state == 'failed'){
-      return(
+  getError(test) {
+    if (test && test.state && test.state == 'failed') {
+      return (
         <Label size="small">
-          {this.props.errors[this.props.errors.length-1]}
+          {this.props.errors[this.props.errors.length - 1]}
         </Label>
       );
     }
   }
 
-  getTestHeading(test){
-    return(
+  getTestHeading(test) {
+    return (
       <Paragraph>
-        <Status value={this.getTestStatus(test)} />&nbsp;&nbsp;
+        <Status value={this.getTestStatus(test)}/>&nbsp;&nbsp;
         {test.title}
       </Paragraph>
     );
   }
 
-  getSuiteHeading(suite){
-    return(
+  getSuiteHeading(suite) {
+    return (
       <Paragraph>
-        <Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;
+        <Status value={this.getSuiteStatus(suite)}/>&nbsp;&nbsp;
         {suite.title}
       </Paragraph>
     );
@@ -159,19 +159,22 @@ class Body extends Component {
 
   getTestDuration(test) {
 
-    if(test && test.duration) {
-      return  <Label size="small">{test.duration/1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>
+    if (test && test.duration) {
+      return <Label size="small">{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
+    }
+    else {
+      return <Label size="small">~0 s{this.checkTimeOut(test)}</Label>;
     }
   }
 
-  getBody(test){
-    if(test && test.body){
+  getBody(test) {
+    if (test && test.body) {
       return test.body;
     }
   }
 
-  getPasses(){
-    if(this.props.passes) {
+  getPasses() {
+    if (this.props.passes) {
       return this.props.passes.length;
     }
     else {
@@ -179,8 +182,8 @@ class Body extends Component {
     }
   }
 
-  getFailures(){
-    if(this.props.failures) {
+  getFailures() {
+    if (this.props.failures) {
       return this.props.failures.length;
     }
     else {
@@ -188,39 +191,37 @@ class Body extends Component {
     }
   }
 
-  render(){
+  render() {
 
     return (
-      <Split flex="right" priority="right">
-        <Sidebar size="large">
-          <Section full="horizontal">
-            <AnnotatedMeter
-              legend={false}
-              type="circle"
-              size="large"
-              max= {this.props.total}
-              units="tests"
-              series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
-                {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
-            />
-          </Section>
-        </Sidebar>
-        <Box alignContent="center" pad="medium">
+      <Box>
+        <Box align="center" pad="large">
+          <AnnotatedMeter
+            legend={false}
+            type="circle"
+            size="large"
+            max={this.props.total}
+            units="tests"
+            series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getPasses())},
+              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getFailures())}]}
+          />
+        </Box>
+        <Box alignContent="center" pad="small">
 
           {this.getSuite(this.props.suite)}
 
         </Box>
-      </Split>
+      </Box>
     );
   }
 }
 
-Body.propTypes = {
-  suite: PropTypes.array,
+DevBody.propTypes = {
+  suite: PropTypes.object,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number
 };
 
-export default Body;
+export default DevBody;

@@ -13,6 +13,9 @@ import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
+import Status from 'grommet/components/icons/Status';
+
+const TIMEOUT = 10000;
 
 
 class Body extends Component {
@@ -83,13 +86,32 @@ class Body extends Component {
     }
   }
 
+  checkTimeout(suite){
+    let result = false;
+    suite.tests.forEach(test => {
+      if(test.duration > TIMEOUT){
+        result = true;
+      }
+    });
+    return result;
+  }
+
   getSuiteHeading(suite) {
-    return (
-      <Paragraph size="large">
-        {/*<Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;*/}
-        {suite.title}
-      </Paragraph>
-    );
+    if(this.checkTimeout(suite)){
+      return (
+        <Paragraph size="large">
+          {suite.title}&nbsp;&nbsp;
+          <Status value="warning" />
+        </Paragraph>
+      );
+    }
+    else{
+      return (
+        <Paragraph size="large">
+          {suite.title}
+        </Paragraph>
+      );
+    }
   }
 
   getTestPasses(suite) {
