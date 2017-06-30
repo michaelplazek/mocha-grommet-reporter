@@ -1,6 +1,6 @@
 # Mocha Grommet Reporter
 
-This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/)
+This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/). The two current views are the Dashboard View - for an overhead look at total suite pass/fails - and the Developer View - for drilling down into test data.
 
 ## To use:
 
