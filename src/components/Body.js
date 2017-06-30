@@ -15,6 +15,8 @@ import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
 import Status from 'grommet/components/icons/Status';
 
+import Columns from 'grommet/components/Columns';
+
 const TIMEOUT = 10000;
 
 
@@ -232,7 +234,7 @@ class Body extends Component {
   render() {
 
     return (
-      <Split flex="right" priority="right">
+      <Split priority="right">
         <Box pad={{vertical:"large"}} full="vertical" justify="center">
           <AnnotatedMeter
             legend={false}

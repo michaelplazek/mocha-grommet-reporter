@@ -9,7 +9,8 @@ import Header from 'grommet/components/Header';
 import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
 
-import Pages from './Pages';
+import Dashboard from './Dashboard';
+import Developer from './Developer';
 
 class Display extends Component {
 
@@ -38,6 +39,36 @@ class Display extends Component {
     }
   }
 
+  getPage(){
+    if (this.state.page === 0) {
+      return (
+        <Dashboard
+          suite={this.props.suite}
+          tests={this.props.tests}
+          suite_list={this.props.suite_list}
+          passes={this.props.passes}
+          failures={this.props.failures}
+          pending={this.props.pending}
+          total={this.props.total}
+          failed_suites={this.props.failed_suites}
+        />
+      );
+    }
+
+    else {
+      return (
+        <Developer
+          suite={this.props.suite}
+          passes={this.props.passes}
+          failures={this.props.failures}
+          pending={this.props.pending}
+          total={this.props.total}
+          errors={this.props.errors}
+        />
+      );
+    }
+  }
+
   render() {
 
     return (
@@ -54,18 +85,7 @@ class Display extends Component {
 
         </Header>
 
-        <Pages
-          suite={this.props.suite}
-          tests={this.props.tests}
-          suite_list={this.props.suite_list}
-          passes={this.props.passes}
-          failures={this.props.failures}
-          pending={this.props.pending}
-          total={this.props.total}
-          failed_suites={this.props.failed_suites}
-          page={this.state.page}
-          errors = {this.props.errors}
-        />
+        {this.getPage()}
 
       </Article>
     );
