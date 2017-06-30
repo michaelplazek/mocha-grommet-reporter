@@ -1,26 +1,28 @@
-/**
- * Created by plazek on 6/14/2017.
- */
-
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Section from 'grommet/components/Section';
-import Status from 'grommet/components/icons/Status';
+import chunk from 'lodash.chunk';
+
 import Box from 'grommet/components/Box';
-import Label from 'grommet/components/Label';
-import Accordion from 'grommet/components/Accordion';
-import AccordionPanel from 'grommet/components/AccordionPanel';
-import Sidebar from 'grommet/components/Sidebar';
 import Split from 'grommet/components/Split';
+import Meter from 'grommet/components/Meter';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
-import Button from 'grommet/components/Button';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
+import Carousel from 'grommet/components/Carousel';
+import Spinning from 'grommet/components/icons/Spinning';
+import Label from 'grommet/components/Label';
+import Status from 'grommet/components/icons/Status';
+
+import Columns from 'grommet/components/Columns';
+
+const TIMEOUT = 10000;
 
 
 class Body extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.getTestStatus = this.getTestStatus.bind(this);
@@ -29,78 +31,34 @@ class Body extends Component {
   componentDidMount() {
   }
 
-  getSuite(suite){
-    if(suite){
-      return(
-        <div>
-          {this.getSuites(suite.suites)}
-          {this.getTests(suite.tests)}
-        </div>
-      );
-    }
-  }
+  //TODO: find way to deal with nested suites
+  getSuite(suite, index) {
+    return (
+      <ListItem
+        key={suite.title + index}
+      >
+        <Box alignSelf="center" full="horizontal" size="large" flex="grow">
+          <div>
+            {this.getSuiteHeading(suite)}
+          </div>
 
-  getTests(tests){
-    let result = null;
-    if(tests && tests.length > 0) {
-      result = (
-        <Box pad="medium">
-          <Accordion
-            openMulti={true}
-          >
-            {
-              tests.map(test => (
-                <AccordionPanel
-                  key={test.title}
-                  heading={this.getTestHeading(test)}
-                >
-                  <Box pad="large">
+            <Meter
+              max={suite.tests.length}
+              type="bar"
+              size="large"
+              stacked={true}
+              series={[{"colorIndex": "ok", "value": Number(this.getTestPasses(suite))},
+                {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))}]}
+            />
 
-                    {this.getTestDuration(test)}
-                    {this.getError(test)}
-                    {/*<Label></Label>*/}
-                    {/*<Label size="small">{this.getBody(test)}</Label>*/}
-                    {/*{test.body}*/}
-
-                  </Box>
-                </AccordionPanel>
-              ))
-            }
-          </Accordion>
         </Box>
-      );
-      return result;
-    }
-  }
-
-  getSuites(suites){
-    let result = null;
-    if(suites && suites.length > 0) {
-      result = (
-        <Box pad="small">
-          <Accordion
-            openMulti={true}
-          >
-            {
-              suites.map(suite => (
-                <AccordionPanel
-                  key={suite.title}
-                  heading={this.getSuiteHeading(suite)}
-                >
-                  {this.getSuite(suite)}
-                </AccordionPanel>
-              ))
-            }
-          </Accordion>
-        </Box>
-      );
-    }
-    return result;
+      </ListItem>
+    );
   }
 
   getSuiteStatus(suite) {
     let result = 'unknown';
-    if(suite && suite.tests){
+    if (suite && suite.tests) {
       if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
         result = 'ok';
       } else if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
@@ -116,7 +74,7 @@ class Body extends Component {
 
   getTestStatus(test) {
 
-    if(test && test.state) {
+    if (test && test.state) {
       switch (test.state) {
         case "passed":
           return "ok";
@@ -130,99 +88,169 @@ class Body extends Component {
     }
   }
 
-  getError(test){
-    if(test && test.state && test.state == 'failed'){
-      return(
-        <Label size="small">
-          {this.props.errors[this.props.errors.length-1]}
-        </Label>
-      )
-    }
-  }
-
-  getTestHeading(test){
-    return(
-      <Paragraph>
-        <Status value={this.getTestStatus(test)} />&nbsp;&nbsp;
-        {test.title}
-      </Paragraph>
-    )
-  }
-
-  getSuiteHeading(suite){
-    return(
-      <Paragraph>
-        <Status value={this.getSuiteStatus(suite)} />&nbsp;&nbsp;
-        {suite.title}
-      </Paragraph>
-    )
-  }
-
-  checkTimeOut(test) {
-    if (test && test.timedOut) {
-      if (test.status == "failed") {
-        return ("Test timed out...")
+  checkTimeout(suite){
+    let result = false;
+    suite.tests.forEach(test => {
+      if(test.duration > TIMEOUT){
+        result = true;
       }
+    });
+    return result;
+  }
+
+  getSuiteHeading(suite) {
+    if(this.checkTimeout(suite)){
+      return (
+        <Paragraph size="large">
+          {suite.title}&nbsp;&nbsp;
+          <Status value="warning" />
+        </Paragraph>
+      );
+    }
+    else{
+      return (
+        <Paragraph size="large">
+          {suite.title}
+        </Paragraph>
+      );
     }
   }
 
-  getTestDuration(test) {
-
-    if(test && test.duration) {
-      return  <Label size="small">{test.duration/1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>
-    }
-    // else {
-    //   return "...";
-    // }
-  }
-
-  getBody(test){
-    if(test && test.body){
-      return test.body;
+  getTestPasses(suite) {
+    let count = 0;
+    if (suite) {
+      suite.tests.forEach(test => {
+        if (test.state === "passed") {
+          count++;
+        }
+      });
+      return count;
     }
   }
 
-  getPasses(){
-    if(this.props.passes) {
-      return this.props.passes.length
+  getSuitePasses() {
+    let pass = 0;
+    if (this.props.suite) {
+      this.props.suite.suites.forEach(suite => {
+        if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+          pass++;
+        }
+      });
     }
     else {
-      return 0;
+      pass = 0;
+    }
+    return pass;
+  }
+
+  getTestFailures(suite) {
+    let count = 0;
+    if (suite) {
+      suite.tests.forEach(test => {
+        if (test.state === "failed") {
+          count++;
+        }
+      });
+      return count;
     }
   }
 
-  getFailures(){
-    if(this.props.failures) {
-      return this.props.failures.length
+  getSuiteFailures() {
+    let fail = 0;
+    if (this.props.suite) {
+      this.props.suite.suites.forEach(suite => {
+        if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
+          fail++;
+        }
+      })
     }
     else {
-      return 0;
+      fail = 0;
+    }
+    return fail;
+  }
+
+  getSuiteLength() {
+    if (this.props.suite) {
+      return this.props.suite.suites.length;
     }
   }
 
-  render(){
+  getSuitesMessage() {
+    if (this.isLoaded()) {
+      return <Paragraph size="small">4 out of {this.getSuiteLength()} suites</Paragraph>
+    }
+  }
+
+  isLoaded() {
+    if (this.getSuiteFailures() + this.getSuitePasses() == this.getSuiteLength()) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  splitSuites() {
+    let result = this.props.failed_suites.map((suite, index) => {
+      return this.getSuite(suite, index);
+    });
+    if (this.isLoaded()) {
+      result = chunk(result, 5).map((item, index) => {
+        return (
+          <List key={index}>{item}</List>
+        );
+      });
+    }
+    return result;
+  }
+
+  getContent() {
+
+    let suites = this.splitSuites();
+
+    if (suites.length > 0 ) {
+      return (
+        <Carousel
+          autoplay={true}
+          infinite={true}
+          persistentNav={false}
+          autoplaySpeed={4000}
+        >
+          {suites}
+        </Carousel>
+      );
+    }
+    else if(this.getSuitePasses() == this.getSuiteLength()){
+      return <Label size="large">All Suites Passed</Label>
+    }
+    else {
+      return (
+        <Spinning size="large"/>
+      );
+    }
+  }
+
+  render() {
 
     return (
-    <Split flex="right" priority="right">
-      <Sidebar size="large">
-        <Section full="horizontal">
+      <Split priority="right">
+        <Box pad={{vertical:"large"}} full="vertical" justify="center">
           <AnnotatedMeter
             legend={false}
             type="circle"
             size="large"
-            max= {this.props.total}
-            units=''
-            series={[{"label":"Passed", "colorIndex":"ok", "value":Number(this.getPasses())},
-              {"label":"Failed", "colorIndex":"critical", "value":Number(this.getFailures())}]}
+            units="suites"
+            max={this.getSuiteLength()}
+            series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses())},
+              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}]}
           />
-        </Section>
-      </Sidebar>
-      <Box alignContent="center" pad="medium">
 
-        {this.getSuite(this.props.suite)}
-
-      </Box>
-    </Split>
+        </Box>
+        <Box justify="center" align="center" full="vertical" pad="medium">
+          {this.getContent()}
+        </Box>
+      </Split>
     );
   }
 }
@@ -232,7 +260,9 @@ Body.propTypes = {
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
-  total: PropTypes.number
+  total: PropTypes.number,
+  suite_list: PropTypes.array,
+  failed_suites: PropTypes.array
 };
 
 export default Body;

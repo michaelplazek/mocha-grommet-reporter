@@ -1,5 +1,3 @@
-/** * Created by plazek on 6/9/2017. */
-
 import React, { Component, PropTypes } from 'react';
 
 import App from 'grommet/components/App';
@@ -38,6 +36,9 @@ class Main extends Component {
           total = {this.props.total}
           time = {this.props.time}
           errors = {this.props.errors}
+          suite_list = {this.props.suite_list}
+          failed_suites = {this.props.failed_suites}
+          last_test = {this.props.last_test}
         />
       </App>
     );
@@ -52,7 +53,10 @@ Main.propTypes = {
   pending: PropTypes.array,
   total: PropTypes.number,
   time: PropTypes.array,
-  errors: PropTypes.array
+  errors: PropTypes.array,
+  suite_list: PropTypes.array,
+  failed_suites: PropTypes.array,
+  last_test: PropTypes.array
 }
 
 export default Main;
