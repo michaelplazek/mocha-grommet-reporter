@@ -7,6 +7,7 @@ This is a UI for the mocha reporter written in React/[Grommet](https://grommet.g
 1. duration of each test
 1. errors from from failed tests
 1. timeout information
+1. visually appealing widgets
 
 ## To use:
 
