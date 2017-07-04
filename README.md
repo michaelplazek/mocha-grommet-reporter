@@ -1,6 +1,6 @@
 # Mocha Grommet Reporter
 
-This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/). The two current views are the Dashboard View and Developer View, which includes: <br />
+This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/). The two current views are the Dashboard View and Developer View, which include: <br />
 1. total pass/ratio for all suites/tests
 1. time of last completed test
 1. alert for timed out tests <br />
@@ -12,7 +12,7 @@ This is a UI for the mocha reporter written in React/[Grommet](https://grommet.g
 
 `npm install mocha-grommet-reporter`
 
-Place `<div id='mocha'></div>` where you want the application to run. NOTE: div MUST have `id='mocha'`
+Place `<div id='mocha'></div>` where you want the application to run. <br />NOTE: div MUST have `id='mocha'`
 
 Create index.js in the source directory and place the following code inside:
 
