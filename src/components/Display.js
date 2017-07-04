@@ -11,6 +11,7 @@ import Box from 'grommet/components/Box';
 
 import Dashboard from './Dashboard';
 import Developer from './Developer';
+import TestMeter from "./TestMeter";
 
 class Display extends Component {
 
@@ -73,11 +74,18 @@ class Display extends Component {
 
     return (
       <Article>
-        <Header colorIndex="brand" pad="large" justify="between" direction="row">
+        <Header colorIndex="grey-2" pad="large" justify="between" direction="row">
           <Box>
             <Heading>NCS API Dashboard</Heading>
             {this.getLastTestTag()}
           </Box>
+
+          <TestMeter
+            passes = {this.props.passes}
+            failures = {this.props.failures}
+            total = {this.props.total}
+          />
+
           <CheckBox
             toggle={true}
             onChange={this.setPage}

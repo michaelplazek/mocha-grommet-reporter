@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import Section from 'grommet/components/Section';
 import Status from 'grommet/components/icons/Status';
 import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
-import Sidebar from 'grommet/components/Sidebar';
-import Split from 'grommet/components/Split';
-import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
+import Tabs from 'grommet/components/Tabs';
+import Tab from 'grommet/components/Tab';
 
 class DevBody extends Component {
 
@@ -48,7 +46,7 @@ class DevBody extends Component {
                   key={test.title}
                   heading={this.getTestHeading(test)}
                 >
-                  <Box pad="large">
+                  <Box pad="medium">
 
                     {this.getTestDuration(test)}
                     {this.getError(test)}
@@ -68,7 +66,7 @@ class DevBody extends Component {
     let result = null;
     if (suites && suites.length > 0) {
       result = (
-        <Box pad="small">
+        <Box>
           <Accordion
             openMulti={true}
           >
@@ -88,6 +86,30 @@ class DevBody extends Component {
     }
     return result;
   }
+
+  // getPassedSuites() {
+  //   let passed = [];
+  //   if (this.props.suite) {
+  //     this.props.suite.suites.forEach(suite => {
+  //       if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+  //         passed.push(suite);
+  //       }
+  //     });
+  //   }
+  //   return passed;
+  // }
+  //
+  // getFailedSuites() {
+  //   let failed = [];
+  //   if (this.props.suite) {
+  //     this.props.suite.suites.forEach(suite => {
+  //       if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+  //         failed.push(suite);
+  //       }
+  //     });
+  //   }
+  //   return failed;
+  // }
 
   getSuiteStatus(suite) {
     let result = 'unknown';
@@ -121,19 +143,9 @@ class DevBody extends Component {
     }
   }
 
-  getError(test) {
-    if (test && test.state && test.state == 'failed') {
-      return (
-        <Label size="small">
-          {this.props.errors[this.props.errors.length - 1]}
-        </Label>
-      );
-    }
-  }
-
   getTestHeading(test) {
     return (
-      <Paragraph>
+      <Paragraph size="large">
         <Status value={this.getTestStatus(test)}/>&nbsp;&nbsp;
         {test.title}
       </Paragraph>
@@ -142,7 +154,7 @@ class DevBody extends Component {
 
   getSuiteHeading(suite) {
     return (
-      <Paragraph>
+      <Paragraph size="large">
         <Status value={this.getSuiteStatus(suite)}/>&nbsp;&nbsp;
         {suite.title}
       </Paragraph>
@@ -160,10 +172,20 @@ class DevBody extends Component {
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="small">{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
+      return <Label size="medium" margin="none">{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
     }
     else {
-      return <Label size="small">~0 s{this.checkTimeOut(test)}</Label>;
+      return <Label size="medium" margin="none">~0 s{this.checkTimeOut(test)}</Label>;
+    }
+  }
+
+  getError(test) {
+    if (test && test.state && test.state == 'failed') {
+      return (
+        <Label size="medium" margin="none">
+          {this.props.errors[this.props.errors.length - 1]}
+        </Label>
+      );
     }
   }
 
@@ -173,44 +195,43 @@ class DevBody extends Component {
     }
   }
 
-  getPasses() {
-    if (this.props.passes) {
-      return this.props.passes.length;
-    }
-    else {
-      return 0;
-    }
-  }
-
-  getFailures() {
-    if (this.props.failures) {
-      return this.props.failures.length;
-    }
-    else {
-      return 0;
-    }
-  }
-
   render() {
 
     return (
-      <Box>
-        <Box align="center" pad="large">
-          <AnnotatedMeter
-            legend={false}
-            type="circle"
-            size="large"
-            max={this.props.total}
-            units="tests"
-            series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getPasses())},
-              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getFailures())}]}
-          />
-        </Box>
-        <Box alignContent="center" pad="small">
+      <Box margin="small">
+        <Tabs justify="start">
 
-          {this.getSuite(this.props.suite)}
+          <Tab title="All">
+            <Box align="center">
+            </Box>
+            <Box alignContent="center" pad="small">
 
-        </Box>
+              {this.getSuite(this.props.suite)}
+
+            </Box>
+          </Tab>
+
+          <Tab title="Passes">
+            <Box align="center">
+            </Box>
+            <Box alignContent="center" pad="small">
+
+              {this.getSuite(this.getSuites())}
+
+            </Box>
+          </Tab>
+
+          <Tab title="Failures">
+            <Box align="center">
+            </Box>
+            <Box alignContent="center" pad="small">
+
+              {this.getSuite(this.getSuites())}
+
+            </Box>
+          </Tab>
+
+        </Tabs>
       </Box>
     );
   }
