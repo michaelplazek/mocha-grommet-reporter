@@ -198,7 +198,11 @@ class Body extends Component {
     if (this.isLoaded()) {
       result = chunk(result, 5).map((item, index) => {
         return (
-          <List key={index}>{item}</List>
+        <Box>
+          <Box pad="large" margin="medium">
+            <List key={index}>{item}</List>
+          </Box>
+        </Box>
         );
       });
     }
