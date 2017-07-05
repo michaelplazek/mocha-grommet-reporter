@@ -11,11 +11,11 @@ This is a UI for the mocha reporter written in React/[Grommet](https://grommet.g
 
 ## Screenshots:
 
-![](https://github.com/michaelplazek/mocha-grommet-reporter/master/dash.png)
+![](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/dash.PNG)
 
-![](https://github.com/michaelplazek/mocha-grommet-reporter/master/dev.png)
+![](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/dev.PNG)
 
-![](https://github.com/michaelplazek/mocha-grommet-reporter/master/test.png)
+![](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/test.PNG)
 
 ## To use:
 
