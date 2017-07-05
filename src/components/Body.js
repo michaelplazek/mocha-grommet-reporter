@@ -101,21 +101,11 @@ class Body extends Component {
   }
 
   getSuiteHeading(suite) {
-    if(this.checkTimeout(suite)){
-      return (
-        <Paragraph size="large">
-          {suite.title}&nbsp;&nbsp;
-          <Status value="warning" />
-        </Paragraph>
-      );
-    }
-    else{
-      return (
-        <Paragraph size="large">
-          {suite.title}
-        </Paragraph>
-      );
-    }
+    return (
+      <Paragraph size="large">
+        {suite.title}
+      </Paragraph>
+    );
   }
 
   getTestPasses(suite) {
@@ -161,7 +151,7 @@ class Body extends Component {
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
-        if (test.state === "failed" && test.duration < TIMEOUT) {
+        if (test.state === "failed" && test.duration <= TIMEOUT) {
           count++;
         }
       });
