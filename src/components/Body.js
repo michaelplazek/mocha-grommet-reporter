@@ -48,7 +48,9 @@ class Body extends Component {
               size="large"
               stacked={true}
               series={[{"colorIndex": "ok", "value": Number(this.getTestPasses(suite))},
-                {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))}]}
+                {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))},
+                {"colorIndex": "warning", "value": Number(this.getTestTimeouts(suite))}
+              ]}
             />
 
         </Box>
@@ -143,11 +145,23 @@ class Body extends Component {
     return pass;
   }
 
+  getTestTimeouts(suite){
+    let count = 0;
+    if (suite) {
+      suite.tests.forEach(test => {
+        if (test.duration > TIMEOUT) {
+          count++;
+        }
+      });
+      return count;
+    }
+  }
+
   getTestFailures(suite) {
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
-        if (test.state === "failed") {
+        if (test.state === "failed" && test.duration < TIMEOUT) {
           count++;
         }
       });
@@ -247,7 +261,8 @@ class Body extends Component {
             units="suites"
             max={this.getSuiteLength()}
             series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses())},
-              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}]}
+              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}
+            ]}
           />
 
         </Box>
