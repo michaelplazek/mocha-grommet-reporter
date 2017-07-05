@@ -9,6 +9,14 @@ This is a UI for the mocha reporter written in React/[Grommet](https://grommet.g
 1. timeout information
 1. visually appealing widgets
 
+## Screenshots:
+
+![](https://github.com/michaelplazek/mocha-grommet-reporter/edit/master/dash.png)
+
+![](https://github.com/michaelplazek/mocha-grommet-reporter/edit/master/dev.png)
+
+![](https://github.com/michaelplazek/mocha-grommet-reporter/edit/master/test.png)
+
 ## To use:
 
 `npm install mocha-grommet-reporter`
@@ -39,6 +47,6 @@ Use the [mocha-grommet-reporter-example](https://github.com/michaelplazek/mocha-
 
 ## UPDATE:
 
-More features/screenshots coming soon. Feel free to email me at michael.plazek@hpe.com with suggestions.
+More features coming soon. Feel free to email me at michael.plazek@hpe.com with suggestions.
    
    
