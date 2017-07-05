@@ -73,7 +73,7 @@ class Display extends Component {
   render() {
 
     return (
-      <Article>
+      <Article full={true}>
         <Header colorIndex="grey-2" pad="large" justify="between" direction="row">
           <Box>
             <Heading>NCS API Dashboard</Heading>

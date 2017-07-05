@@ -37,7 +37,7 @@ class Body extends Component {
       <ListItem
         key={suite.title + index}
       >
-        <Box alignSelf="center" full="horizontal" size="large" flex="grow">
+        <Box>
           <div>
             {this.getSuiteHeading(suite)}
           </div>
@@ -198,7 +198,7 @@ class Body extends Component {
     if (this.isLoaded()) {
       result = chunk(result, 5).map((item, index) => {
         return (
-        <Box>
+        <Box key={item}>
           <Box pad="large" margin="medium">
             <List key={index}>{item}</List>
           </Box>
@@ -218,7 +218,7 @@ class Body extends Component {
         <Carousel
           autoplay={true}
           infinite={true}
-          persistentNav={false}
+          persistentNav={true}
           autoplaySpeed={4000}
         >
           {suites}
@@ -238,8 +238,8 @@ class Body extends Component {
   render() {
 
     return (
-      <Split priority="right">
-        <Box pad={{vertical:"large"}} full="vertical" justify="center">
+      <Box direction="row">
+        <Box pad={{vertical:"large"}} justify="center" size="large">
           <AnnotatedMeter
             legend={false}
             type="circle"
@@ -251,10 +251,10 @@ class Body extends Component {
           />
 
         </Box>
-        <Box justify="center" align="center" full="vertical" pad="medium">
+        <Box alignSelf="center" align="center" pad="medium" basis="1/3">
           {this.getContent()}
         </Box>
-      </Split>
+      </Box>
     );
   }
 }

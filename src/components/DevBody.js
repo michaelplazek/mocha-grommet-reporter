@@ -195,6 +195,26 @@ class DevBody extends Component {
     }
   }
 
+  getPassedSuites(){
+    let obj = {suites:[]}
+    this.props.suite.suites.forEach(suite => {
+      if(this.getSuiteStatus(suite) === 'ok'){
+        obj.suites.push(suite);
+      }
+    });
+    return obj;
+  }
+
+  getFailedSuites(){
+    let obj = {suites:[]}
+    this.props.suite.suites.forEach(suite => {
+      if(this.getSuiteStatus(suite) === 'critical'){
+        obj.suites.push(suite);
+      }
+    });
+    return obj;
+  }
+
   render() {
 
     return (
@@ -216,7 +236,7 @@ class DevBody extends Component {
             </Box>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getSuites())}
+              {this.getSuite(this.getPassedSuites())}
 
             </Box>
           </Tab>
@@ -226,7 +246,7 @@ class DevBody extends Component {
             </Box>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getSuites())}
+              {this.getSuite(this.getFailedSuites())}
 
             </Box>
           </Tab>
