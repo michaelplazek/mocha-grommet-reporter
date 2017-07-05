@@ -14,8 +14,9 @@ import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
 import Status from 'grommet/components/icons/Status';
-
 import Columns from 'grommet/components/Columns';
+
+import PlotGraph from './PlotGraph';
 
 const TIMEOUT = 10000;
 
@@ -240,10 +241,9 @@ class Body extends Component {
   }
 
   render() {
-
     return (
       <Box direction="row">
-        <Box pad={{vertical:"large"}} justify="center" size="large">
+        <Box pad={{vertical:"large"}} justify="center" align="center" size="large">
           <AnnotatedMeter
             legend={false}
             type="circle"
