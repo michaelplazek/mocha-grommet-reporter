@@ -74,7 +74,7 @@ class Display extends Component {
 
     return (
       <Article full={true}>
-        <Header colorIndex="grey-2" pad="large" justify="between" direction="row">
+        <Header colorIndex="grey-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
           <Box>
             <Heading>NCS API Dashboard</Heading>
             {this.getLastTestTag()}
