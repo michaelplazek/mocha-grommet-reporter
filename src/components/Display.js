@@ -70,13 +70,22 @@ class Display extends Component {
     }
   }
 
+  getTitle(){
+    if(this.state.page === 0){
+      return "Overhead Dashboard";
+    }
+    else{
+      return "Developer Dashboard";
+    }
+  }
+
   render() {
 
     return (
       <Article full={true}>
         <Header colorIndex="grey-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
           <Box>
-            <Heading>NCS API Dashboard</Heading>
+            <Heading>{this.getTitle()}</Heading>
             {this.getLastTestTag()}
           </Box>
 
