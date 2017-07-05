@@ -10,6 +10,8 @@ import Paragraph from 'grommet/components/Paragraph';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 
+const TIMEOUT = 10000;
+
 class DevBody extends Component {
 
   constructor(props) {
@@ -87,30 +89,6 @@ class DevBody extends Component {
     return result;
   }
 
-  // getPassedSuites() {
-  //   let passed = [];
-  //   if (this.props.suite) {
-  //     this.props.suite.suites.forEach(suite => {
-  //       if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
-  //         passed.push(suite);
-  //       }
-  //     });
-  //   }
-  //   return passed;
-  // }
-  //
-  // getFailedSuites() {
-  //   let failed = [];
-  //   if (this.props.suite) {
-  //     this.props.suite.suites.forEach(suite => {
-  //       if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
-  //         failed.push(suite);
-  //       }
-  //     });
-  //   }
-  //   return failed;
-  // }
-
   getSuiteStatus(suite) {
     let result = 'unknown';
     if (suite && suite.tests) {
@@ -135,7 +113,12 @@ class DevBody extends Component {
           return "ok";
 
         case "failed":
-          return "critical";
+          switch(true){
+            case test.duration > TIMEOUT:
+              return "warning";
+            case test.duration <= TIMEOUT:
+              return "critical";
+          }
 
         default:
           return "warning";
