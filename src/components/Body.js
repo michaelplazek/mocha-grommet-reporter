@@ -18,8 +18,10 @@ import Columns from 'grommet/components/Columns';
 
 import PlotGraph from './PlotGraph';
 
-const TIMEOUT = 10000;
+// var config = require('config');
+// const TIMEOUT = config.get('timeout');
 
+const TIMEOUT = 10000;
 
 class Body extends Component {
 

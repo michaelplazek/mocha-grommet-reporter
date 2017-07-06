@@ -3,6 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import Box from 'grommet/components/Box';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 
+// var config = require('config');
+// const TIMEOUT = config.get('timeout');
+
 const TIMEOUT = 10000;
 
 class TestMeter extends Component{
