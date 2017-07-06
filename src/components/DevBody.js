@@ -10,6 +10,9 @@ import Paragraph from 'grommet/components/Paragraph';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 
+// var config = require('config');
+// const TIMEOUT = config.get('timeout');
+
 const TIMEOUT = 10000;
 
 class DevBody extends Component {

@@ -8,6 +8,10 @@ import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
 import Columns from 'grommet/components/Columns';
 
+// var config = require('config');
+// var TIMEOUT = config.get('timeout');
+
+const TIMEOUT = 10000;
 
 class Alert extends Component {
   constructor(props) {
@@ -23,7 +27,7 @@ class Alert extends Component {
     let timeouts = [];
     if (this.props.tests) {
       this.props.tests.forEach(test => {
-        if (test.duration > 10000) {
+        if (test.duration > TIMEOUT) {
           timeouts.push(test);
         }
       });
