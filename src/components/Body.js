@@ -258,7 +258,7 @@ class Body extends Component {
           />
 
         </Box>
-        <Box alignSelf="center" align="center" pad="medium" basis="1/3">
+        <Box alignSelf="center" align="center" pad="medium"  >
           {this.getContent()}
         </Box>
       </Box>

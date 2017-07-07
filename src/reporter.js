@@ -124,5 +124,3 @@ export default function reporter(runner) {
     console.log("END mocha-grommet-reporter called");
   });
 }
-
-

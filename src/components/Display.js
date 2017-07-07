@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import Heading from 'grommet/components/Headline';
+import Headline from 'grommet/components/Headline';
 import CheckBox from 'grommet/components/CheckBox';
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
@@ -19,7 +19,6 @@ class Display extends Component {
     super(props);
 
     this.setPage = this.setPage.bind(this);
-
     this.state = {page: 0};
   }
 
@@ -85,7 +84,7 @@ class Display extends Component {
       <Article full={true}>
         <Header colorIndex="grey-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
           <Box>
-            <Heading>{this.getTitle()}</Heading>
+            <Headline>{this.getTitle()}</Headline>
             {this.getLastTestTag()}
           </Box>
 

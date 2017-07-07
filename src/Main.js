@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import App from 'grommet/components/App';
 import Display from './components/Display';
 
 import { add } from './reporter';
 
-import 'grommet/grommet-hpe.min.css';
+// import 'grommet/grommet-hpe.min.css';
 
 class Main extends Component {
 
