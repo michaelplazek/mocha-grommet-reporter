@@ -123,19 +123,44 @@ class Body extends Component {
     }
   }
 
-  getSuitePasses() {
-    let pass = 0;
-    if (this.props.suite) {
-      this.props.suite.suites.forEach(suite => {
-        if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+  getSuitePasses(suite, pass) {
+    if (suite) {
+      suite.suites.forEach(item => {
+        if (item.tests.every(test => this.getTestStatus(test) === 'ok')) {
           pass++;
+        }
+        if(item.suites.length > 0){
+          pass = this.getSuitePasses(item, pass);
         }
       });
     }
-    else {
-      pass = 0;
-    }
     return pass;
+  }
+
+  getSuiteFailures(suite, fail) {
+    if (suite) {
+      suite.suites.forEach(item => {
+        if (item.tests.some(test => this.getTestStatus(test) === 'critical')) {
+          fail++;
+        }
+        if(item.suites.length > 0){
+          fail = this.getSuiteFailures(item, fail);
+        }
+      });
+    }
+    return fail;
+  }
+
+  getSuiteLength(suite, count) {
+    if (suite) {
+      count += suite.suites.length;
+      suite.suites.forEach(item => {
+        if(item.suites.length > 0){
+          count = this.getSuiteLength(item, count);
+        }
+      });
+    }
+    return count;
   }
 
   getTestTimeouts(suite){
@@ -162,47 +187,24 @@ class Body extends Component {
     }
   }
 
-  getSuiteFailures() {
-    let fail = 0;
-    if (this.props.suite) {
-      this.props.suite.suites.forEach(suite => {
-        if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
-          fail++;
-        }
-      })
-    }
-    else {
-      fail = 0;
-    }
-    return fail;
-  }
-
-  getSuiteLength() {
-    if (this.props.suite) {
-      return this.props.suite.suites.length;
-    }
-  }
-
   getSuitesMessage() {
     if (this.isLoaded()) {
-      return <Paragraph size="small">4 out of {this.getSuiteLength()} suites</Paragraph>
+      return <Paragraph size="small">4 out of {this.getSuiteLength(this.props.suite, 0)} suites</Paragraph>;
     }
   }
 
   isLoaded() {
-    if (this.getSuiteFailures() + this.getSuitePasses() == this.getSuiteLength()) {
+    if(this.getSuiteFailures(this.props.suite, 0) + this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0)) {
       return true;
     }
-    else {
       return false;
-    }
   }
 
   splitSuites() {
     let result = this.props.failed_suites.map((suite, index) => {
       return this.getSuite(suite, index);
     });
-    if (this.isLoaded()) {
+    if (this.isLoaded(this.props.suite)) {
       result = chunk(result, 5).map((item, index) => {
         return (
         <Box key={item}>
@@ -232,8 +234,8 @@ class Body extends Component {
         </Carousel>
       );
     }
-    else if(this.getSuitePasses() == this.getSuiteLength()){
-      return <Label size="large">All Suites Passed</Label>
+    else if(this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0)){
+      return <Label size="large">All Suites Passed</Label>;
     }
     else {
       return (
@@ -251,14 +253,14 @@ class Body extends Component {
             type="circle"
             size="large"
             units="suites"
-            max={this.getSuiteLength()}
-            series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses())},
-              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures())}
+            max={this.getSuiteLength(this.props.suite, 0)}
+            series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses(this.props.suite, 0))},
+              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures(this.props.suite, 0))}
             ]}
           />
 
         </Box>
-        <Box alignSelf="center" align="center" pad="medium"  >
+        <Box alignSelf="center" align="center" pad="medium" basis="1/3" >
           {this.getContent()}
         </Box>
       </Box>

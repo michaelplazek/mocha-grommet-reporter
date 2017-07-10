@@ -17,13 +17,16 @@ export default function reporter(runner) {
     });
   }
 
-  function findFailedSuites(){
+  function findFailedSuites(suites){
     if(suites){
       suites.forEach(suite => {
         if(suite.tests.some(test => test.state === "failed")){
           failed_suites.push(suite);
+          if(suite.suites.length > 0){
+            findFailedSuites(suite.suites);
+          }
         }
-      })
+      });
     }
   }
 
@@ -118,7 +121,7 @@ export default function reporter(runner) {
   });
 
   runner.on('end', function () {
-    findFailedSuites();
+    findFailedSuites(suites);
     getTime();
     notifyListeners();
     console.log("END mocha-grommet-reporter called");

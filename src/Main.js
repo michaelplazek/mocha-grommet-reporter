@@ -5,7 +5,7 @@ import Display from './components/Display';
 
 import { add } from './reporter';
 
-// import 'grommet/grommet-hpe.min.css';
+import 'grommet/grommet-hpe.min.css';
 
 class Main extends Component {
 
