@@ -182,7 +182,7 @@ class DevBody extends Component {
   }
 
   getPassedSuites(){
-    let obj = {suites:[]}
+    let obj = {suites:[]};
     this.props.suite.suites.forEach(suite => {
       if(this.getSuiteStatus(suite) === 'ok'){
         obj.suites.push(suite);
@@ -192,7 +192,7 @@ class DevBody extends Component {
   }
 
   getFailedSuites(){
-    let obj = {suites:[]}
+    let obj = {suites:[]};
     this.props.suite.suites.forEach(suite => {
       if(this.getSuiteStatus(suite) === 'critical'){
         obj.suites.push(suite);
