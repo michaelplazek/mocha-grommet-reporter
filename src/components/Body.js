@@ -31,10 +31,6 @@ class Body extends Component {
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
-  componentDidMount() {
-  }
-
-  //TODO: find way to deal with nested suites
   getSuite(suite, index) {
     return (
       <ListItem
@@ -59,22 +55,6 @@ class Body extends Component {
         </Box>
       </ListItem>
     );
-  }
-
-  getSuiteStatus(suite) {
-    let result = 'unknown';
-    if (suite && suite.tests) {
-      if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
-        result = 'ok';
-      } else if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
-        result = 'critical';
-      } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
-        result = 'unknown';
-      } else {
-        result = 'unknown';
-      }
-      return result;
-    }
   }
 
   getTestStatus(test) {
@@ -260,7 +240,7 @@ class Body extends Component {
           />
 
         </Box>
-        <Box alignSelf="center" align="center" pad="medium" basis="1/3" >
+        <Box alignSelf="center" align="center" pad="medium" basis="2/3" >
           {this.getContent()}
         </Box>
       </Box>
