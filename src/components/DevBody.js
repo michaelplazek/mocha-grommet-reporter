@@ -9,6 +9,7 @@ import AccordionPanel from 'grommet/components/AccordionPanel';
 import Paragraph from 'grommet/components/Paragraph';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
+import Section from 'grommet/components/Section';
 
 import flatten from 'lodash.flatten';
 
@@ -31,10 +32,10 @@ class DevBody extends Component {
   getSuite(suite) {
     if (suite) {
       return (
-        <div>
+        <Section pad="medium">
           {this.getSuites(suite.suites)}
           {this.getTests(suite.tests)}
-        </div>
+        </Section>
       );
     }
   }
@@ -43,7 +44,7 @@ class DevBody extends Component {
     let result = null;
     if (tests && tests.length > 0) {
       result = (
-        <Box pad="medium">
+        <Box>
           <Accordion
             openMulti={true}
           >
@@ -199,7 +200,7 @@ class DevBody extends Component {
   getPassedSuites(){
     let obj = {suites:[]};
     this.props.suite.suites.forEach(suite => {
-      if(this.getSuiteStatus(suite) === 'ok'){
+      if(this.getStatuses(suite) === 'ok'){
         obj.suites.push(suite);
       }
     });
@@ -209,7 +210,7 @@ class DevBody extends Component {
   getFailedSuites(){
     let obj = {suites:[]};
     this.props.suite.suites.forEach(suite => {
-      if(this.getSuiteStatus(suite) === 'critical'){
+      if(this.getStatuses(suite) === 'critical'){
         obj.suites.push(suite);
       }
     });
@@ -237,7 +238,7 @@ class DevBody extends Component {
             </Box>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getPassedSuites())}
+              {this.getSuite(this.getPassedSuites(this.props.suite))}
 
             </Box>
           </Tab>
@@ -247,7 +248,7 @@ class DevBody extends Component {
             </Box>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getFailedSuites())}
+              {this.getSuite(this.getFailedSuites(this.props.suite))}
 
             </Box>
           </Tab>
