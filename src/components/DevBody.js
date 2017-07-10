@@ -10,6 +10,8 @@ import Paragraph from 'grommet/components/Paragraph';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 
+import flatten from 'lodash.flatten';
+
 // var config = require('config');
 // const TIMEOUT = config.get('timeout');
 
@@ -92,6 +94,18 @@ class DevBody extends Component {
     return result;
   }
 
+  getStatuses(suite){
+    let result = this.getSuiteStatus(suite);
+    if(result === "critical"){return "critical";}
+
+    if(suite.suites.length > 0){
+      suite.suites.forEach(item => {
+        result = this.getStatuses(item);
+      });
+    }
+    return result;
+  }
+
   getSuiteStatus(suite) {
     let result = 'unknown';
     if (suite && suite.tests) {
@@ -122,6 +136,7 @@ class DevBody extends Component {
             case test.duration <= TIMEOUT:
               return "critical";
           }
+          break;
 
         default:
           return "warning";
@@ -141,7 +156,7 @@ class DevBody extends Component {
   getSuiteHeading(suite) {
     return (
       <Paragraph size="large">
-        <Status value={this.getSuiteStatus(suite)}/>&nbsp;&nbsp;
+        <Status value={this.getStatuses(suite)}/>&nbsp;&nbsp;
         {suite.title}
       </Paragraph>
     );
