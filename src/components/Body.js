@@ -263,8 +263,8 @@ class Body extends Component {
 
   render() {
     return (
-      <Box direction="row">
-        <Box pad={{vertical:"large"}} justify="center" align="center" size="large">
+      <Box direction="row" responsive={true}>
+        <Box justify="center" align="center" size="large">
           <Meter
             legend={false}
             type="circle"
@@ -279,7 +279,7 @@ class Body extends Component {
           />
 
         </Box>
-        <Box alignSelf="center" align="center" pad="medium" basis="2/3" size="small">
+        <Box alignSelf="center" align="center" pad={{horizontal:"medium"}} basis="2/3" size="small">
           {this.getContent()}
         </Box>
       </Box>
