@@ -11,13 +11,6 @@ import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import Section from 'grommet/components/Section';
 
-import flatten from 'lodash.flatten';
-
-// var config = require('config');
-// const TIMEOUT = config.get('timeout');
-
-const TIMEOUT = 10000;
-
 class DevBody extends Component {
 
   constructor(props) {
@@ -116,6 +109,8 @@ class DevBody extends Component {
         result = 'critical';
       } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
         result = 'unknown';
+      } else if (suite.tests.some(test => this.getTestStatus(test) === 'warning') && !suite.tests.some(test => this.getTestStatus(test) === 'critical')){
+        result = "warning";
       } else {
         result = 'unknown';
       }
@@ -128,13 +123,19 @@ class DevBody extends Component {
     if (test && test.state) {
       switch (test.state) {
         case "passed":
-          return "ok";
+          switch(true){
+            case test.duration >= test._slow:
+              return "warning";
+            case test.duration < test._slow:
+              return "ok";
+          }
+          break;
 
         case "failed":
           switch(true){
-            case test.duration > TIMEOUT:
+            case test.duration >= test._timeout:
               return "warning";
-            case test.duration <= TIMEOUT:
+            case test.duration < test._timeout:
               return "critical";
           }
           break;
@@ -217,6 +218,16 @@ class DevBody extends Component {
     return obj;
   }
 
+  getWarningSuites(){
+    let obj = {suites:[]};
+    this.props.suite.suites.forEach(suite => {
+      if(this.getStatuses(suite) === 'warning'){
+        obj.suites.push(suite);
+      }
+    });
+    return obj;
+  }
+
   render() {
 
     return (
@@ -249,6 +260,16 @@ class DevBody extends Component {
             <Box alignContent="center" pad="small">
 
               {this.getSuite(this.getFailedSuites(this.props.suite))}
+
+            </Box>
+          </Tab>
+
+          <Tab title="Warnings">
+            <Box align="center">
+            </Box>
+            <Box alignContent="center" pad="small">
+
+              {this.getSuite(this.getWarningSuites(this.props.suite))}
 
             </Box>
           </Tab>

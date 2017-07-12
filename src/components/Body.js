@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import chunk from 'lodash.chunk';
 
 import Box from 'grommet/components/Box';
-import Split from 'grommet/components/Split';
 import Meter from 'grommet/components/Meter';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
@@ -13,15 +12,7 @@ import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
-import Status from 'grommet/components/icons/Status';
-import Columns from 'grommet/components/Columns';
-
-import PlotGraph from './PlotGraph';
-
-// var config = require('config');
-// const TIMEOUT = config.get('timeout');
-
-const TIMEOUT = 10000;
+import Value from 'grommet/components/Value';
 
 class Body extends Component {
 
@@ -48,7 +39,7 @@ class Body extends Component {
               stacked={true}
               series={[{"colorIndex": "ok", "value": Number(this.getTestPasses(suite))},
                 {"colorIndex": "critical", "value": Number(this.getTestFailures(suite))},
-                {"colorIndex": "warning", "value": Number(this.getTestTimeouts(suite))}
+                {"colorIndex": "warning", "value": Number(this.getTestWarnings(suite))}
               ]}
             />
 
@@ -62,10 +53,22 @@ class Body extends Component {
     if (test && test.state) {
       switch (test.state) {
         case "passed":
-          return "ok";
+          switch(true){
+            case test.duration >= test._slow:
+              return "warning";
+            case test.duration < test._slow:
+              return "ok";
+          }
+          break;
 
         case "failed":
-          return "critical";
+          switch(true){
+            case test.duration >= test._timeout:
+              return "warning";
+            case test.duration < test._timeout:
+              return "critical";
+          }
+          break;
 
         default:
           return "warning";
@@ -76,7 +79,7 @@ class Body extends Component {
   checkTimeout(suite){
     let result = false;
     suite.tests.forEach(test => {
-      if(test.duration > TIMEOUT){
+      if(test.duration > test._timeout){
         result = true;
       }
     });
@@ -95,7 +98,7 @@ class Body extends Component {
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
-        if (test.state === "passed") {
+        if (test.state === "passed" && test.duration < test._slow) {
           count++;
         }
       });
@@ -131,6 +134,20 @@ class Body extends Component {
     return fail;
   }
 
+  getSuiteWarnings(suite, warn) {
+    if (suite) {
+      suite.suites.forEach(item => {
+        if (item.tests.some(test => this.getTestStatus(test) === 'warning') && !item.tests.some(test => this.getTestStatus(test) === 'critical')) {
+          warn++;
+        }
+        if(item.suites.length > 0){
+          warn = this.getSuiteWarnings(item, warn);
+        }
+      });
+    }
+    return warn;
+  }
+
   getSuiteLength(suite, count) {
     if (suite) {
       count += suite.suites.length;
@@ -147,7 +164,7 @@ class Body extends Component {
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
-        if (test.duration > TIMEOUT) {
+        if (test.duration > test._timeout) {
           count++;
         }
       });
@@ -155,11 +172,27 @@ class Body extends Component {
     }
   }
 
+  getSlowTests(suite){
+    let count = 0;
+    if (suite) {
+      suite.tests.forEach(test => {
+        if (test.duration >= test._slow && test.duration < test._timeout) {
+          count++;
+        }
+      });
+      return count;
+    }
+  }
+
+  getTestWarnings(suite){
+    return this.getTestTimeouts(suite) + this.getSlowTests(suite);
+  }
+
   getTestFailures(suite) {
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
-        if (test.state === "failed" && test.duration <= TIMEOUT) {
+        if (test.state === "failed" && test.duration <= test._timeout) {
           count++;
         }
       });
@@ -174,22 +207,20 @@ class Body extends Component {
   }
 
   isLoaded() {
-    if(this.getSuiteFailures(this.props.suite, 0) + this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0)) {
-      return true;
-    }
-      return false;
+    return this.getSuiteFailures(this.props.suite, 0) + this.getSuiteWarnings(this.props.suite, 0) + this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0);
   }
+
 
   splitSuites() {
     let result = this.props.failed_suites.map((suite, index) => {
       return this.getSuite(suite, index);
     });
-    if (this.isLoaded(this.props.suite)) {
+    if (this.isLoaded()) {
       result = chunk(result, 5).map((item, index) => {
         return (
-        <Box key={item}>
+        <Box key={item + index}>
           <Box pad="large" margin="medium">
-            <List key={index}>{item}</List>
+            <List key={item + index}>{item}</List>
           </Box>
         </Box>
         );
@@ -224,23 +255,31 @@ class Body extends Component {
     }
   }
 
+  getSuiteValue(){
+    return(
+      this.props.suite_list.length + " / " + this.getSuiteLength(this.props.suite, 0)
+    );
+  }
+
   render() {
     return (
-      <Box direction="row">
-        <Box pad={{vertical:"large"}} justify="center" align="center" size="large">
-          <AnnotatedMeter
+      <Box direction="row" responsive={true}>
+        <Box justify="center" align="center" size="large">
+          <Meter
             legend={false}
             type="circle"
             size="large"
-            units="suites"
+            stacked={true}
+            label={<Value responsive={true} size="large" units="suites" value={this.getSuiteValue()}/>}
             max={this.getSuiteLength(this.props.suite, 0)}
             series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses(this.props.suite, 0))},
-              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures(this.props.suite, 0))}
+              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures(this.props.suite, 0))},
+              {"label": "Warnings", "colorIndex": "warning", "value": Number(this.getSuiteWarnings(this.props.suite, 0))}
             ]}
           />
 
         </Box>
-        <Box alignSelf="center" align="center" pad="medium" basis="2/3" >
+        <Box alignSelf="center" align="center" pad={{horizontal:"medium"}} basis="2/3" size="small">
           {this.getContent()}
         </Box>
       </Box>
