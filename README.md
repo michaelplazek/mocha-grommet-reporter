@@ -1,6 +1,6 @@
 # Mocha Grommet Reporter
 
-This is a UI for the mocha reporter written in React/[Grommet](https://grommet.github.io/). The two current views are the Overhead Dashboard and Developer Dashboard, which include: <br />
+This is a UI for the Mocha test framework written in React/[Grommet](https://grommet.github.io/). It's implemented by overriding the standard reporter. The two current views are the Overhead Dashboard and Developer Dashboard, which include: <br />
 1. total pass/fail ratio for all suites/tests
 1. time of last completed test
 1. alert for timed out/slow tests <br />
