@@ -3,11 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import Box from 'grommet/components/Box';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 
-// var config = require('config');
-// const TIMEOUT = config.get('timeout');
-
-const TIMEOUT = 10000;
-
 class TestMeter extends Component{
   constructor(props){
     super(props);
@@ -26,7 +21,7 @@ class TestMeter extends Component{
     let count = 0;
     if (this.props.failures) {
       this.props.failures.forEach(test => {
-        if(test.duration <= TIMEOUT){
+        if(test.duration <= test._timeout){
           count++;
         }
       });
@@ -41,7 +36,7 @@ class TestMeter extends Component{
     let count = 0;
     if (this.props.failures) {
       this.props.failures.forEach(test => {
-        if(test.duration > TIMEOUT){
+        if(test.duration > test._timeout){
           count++;
         }
       });
@@ -50,6 +45,17 @@ class TestMeter extends Component{
       return 0;
     }
     return count;
+  }
+
+  getSlowTests(){
+    if(this.props.slow){
+      return this.props.slow.length;
+    }
+    return 0;
+  }
+
+  getWarnings(){
+    return this.getSlowTests() + this.getTimeOuts();
   }
 
   render(){
@@ -63,7 +69,7 @@ class TestMeter extends Component{
         units="tests"
         series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getPasses())},
           {"label": "Failed", "colorIndex": "critical", "value": Number(this.getFailures())},
-          {"label": "Timed Out", "colorIndex": "warning", "value": Number(this.getTimeOuts())}
+          {"label": "Warnings", "colorIndex": "warning", "value": Number(this.getWarnings())}
         ]}
       />
     </Box>
@@ -74,7 +80,8 @@ class TestMeter extends Component{
 TestMeter.propTypes = {
   passes: PropTypes.array,
   failures: PropTypes.array,
-  total: PropTypes.number
+  total: PropTypes.number,
+  slow: PropTypes.array
 };
 
 export default TestMeter;

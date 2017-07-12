@@ -39,6 +39,7 @@ class Main extends Component {
           suite_list = {this.props.suite_list}
           failed_suites = {this.props.failed_suites}
           last_test = {this.props.last_test}
+          slow = {this.props.slow}
         />
       </App>
     );
@@ -56,7 +57,8 @@ Main.propTypes = {
   errors: PropTypes.array,
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
-  last_test: PropTypes.array
+  last_test: PropTypes.array,
+  slow: PropTypes.array
 }
 
 export default Main;

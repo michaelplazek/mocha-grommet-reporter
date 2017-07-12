@@ -30,6 +30,10 @@ export default function reporter(runner) {
     }
   }
 
+  function getSlowTests(test){
+
+  }
+
   function addZero(currentdate){
     if(currentdate.getMinutes().toString().length === 1){
       return "0" + currentdate.getMinutes().toString();
@@ -71,6 +75,7 @@ export default function reporter(runner) {
   let errors = [];
   let time = [];
   let last_test = [];
+  let slow = [];
 
   ReactDOM.render(
     <Main
@@ -85,6 +90,7 @@ export default function reporter(runner) {
       errors = {errors}
       failed_suites = {failed_suites}
       last_test = {last_test}
+      slow = {slow}
     />
     , mochaElement);
 
@@ -107,7 +113,12 @@ export default function reporter(runner) {
   });
 
   runner.on('pass', function (test) {
-    passes.push(test);
+    if(test.duration >= test._slow){
+      slow.push(test);
+    }
+    else{
+      passes.push(test);
+    }
   });
 
   runner.on('fail', function (test, err) {
