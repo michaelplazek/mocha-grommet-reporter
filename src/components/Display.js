@@ -68,7 +68,7 @@ class Display extends Component {
         <Box>
           {timer}
           <Label>
-            <Status margin="small"  value="warning" />     {this.getSlowTests()} {slowtext}   |   {this.getTimeOuts()} {timeouttext}
+            <Status value="warning" />     {this.getSlowTests()} {slowtext}   |   {this.getTimeOuts()} {timeouttext}
           </Label>
         </Box>
       );
@@ -151,6 +151,7 @@ class Display extends Component {
             total = {this.props.total}
             slow = {this.getSlowTests()}
             timedout = {this.getTimeOuts()}
+            tests = {this.props.tests}
           />
 
           <Label>

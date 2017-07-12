@@ -99,7 +99,9 @@ export default function reporter(runner) {
   });
 
   runner.on('suite end', function (suite) {
-    suites.push(suite);
+    if(suite.tests.length > 0){
+      suites.push(suite);
+    }
   });
 
   runner.on('test end', function (test) {

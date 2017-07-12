@@ -12,6 +12,7 @@ import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
+import Value from 'grommet/components/Value';
 
 class Body extends Component {
 
@@ -254,15 +255,22 @@ class Body extends Component {
     }
   }
 
+  getSuiteValue(){
+    return(
+      this.props.suite_list.length + " / " + this.getSuiteLength(this.props.suite, 0)
+    );
+  }
+
   render() {
     return (
       <Box direction="row">
         <Box pad={{vertical:"large"}} justify="center" align="center" size="large">
-          <AnnotatedMeter
+          <Meter
             legend={false}
             type="circle"
             size="large"
-            units="suites"
+            stacked={true}
+            label={<Value responsive={true} size="large" units="suites" value={this.getSuiteValue()}/>}
             max={this.getSuiteLength(this.props.suite, 0)}
             series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses(this.props.suite, 0))},
               {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures(this.props.suite, 0))},
