@@ -11,9 +11,9 @@ This is a UI for the mocha reporter written in React/[Grommet](https://grommet.g
 
 ## Screenshots:
 
-![Overhead Dashboard](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/images/dashboard.PNG)
+![Overhead Dashboard](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/images/dashview.PNG)
 
-![Developer Dashboard](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/images/developer.PNG)
+![Developer Dashboard](https://github.com/michaelplazek/mocha-grommet-reporter/blob/master/images/devview.PNG)
 
 ## To use:
 

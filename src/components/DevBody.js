@@ -168,7 +168,7 @@ class DevBody extends Component {
 
   checkTimeOut(test) {
     if (test && test.timedOut) {
-      if (test.status == "failed") {
+      if (test.status === "failed") {
         return ("Test timed out...");
       }
     }
