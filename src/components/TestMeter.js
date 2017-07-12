@@ -49,7 +49,6 @@ class TestMeter extends Component{
     return(
     <Box margin="medium">
       <Meter
-        legend={false}
         stacked={true}
         type="circle"
         size="small"

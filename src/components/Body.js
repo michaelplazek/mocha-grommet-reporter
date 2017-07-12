@@ -266,7 +266,6 @@ class Body extends Component {
       <Box direction="row" responsive={true}>
         <Box justify="center" align="center" size="large">
           <Meter
-            legend={false}
             type="circle"
             size="large"
             stacked={true}

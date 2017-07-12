@@ -1,4 +1,5 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
 import DevBody from './DevBody';
 
@@ -14,9 +15,20 @@ const Developer = (props) => {
         pending = {props.pending}
         total = {props.total}
         errors = {props.errors}
+        stacks = {props.stacks}
       />
     </Box>
   );
+};
+
+Developer.propTypes = {
+  suite: PropTypes.object,
+  passes: PropTypes.array,
+  failures: PropTypes.array,
+  pending: PropTypes.array,
+  total: PropTypes.number,
+  errors: PropTypes.array,
+  stacks: PropTypes.array,
 };
 
 export default Developer;

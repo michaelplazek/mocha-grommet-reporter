@@ -73,6 +73,7 @@ export default function reporter(runner) {
   let failures = [];
   let passes = [];
   let errors = [];
+  let stacks = [];
   let time = [];
   let last_test = [];
   let slow = [];
@@ -88,6 +89,7 @@ export default function reporter(runner) {
       total = {runner.total}
       time = {time}
       errors = {errors}
+      stacks = {stacks}
       failed_suites = {failed_suites}
       last_test = {last_test}
       slow = {slow}
@@ -126,6 +128,7 @@ export default function reporter(runner) {
   runner.on('fail', function (test, err) {
     failures.push(test);
     errors.push(err.message);
+    stacks.push(err.stack);
   });
 
   runner.on('pending', function (test) {

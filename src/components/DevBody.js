@@ -11,6 +11,8 @@ import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import Section from 'grommet/components/Section';
 
+import split from 'lodash.split'
+
 class DevBody extends Component {
 
   constructor(props) {
@@ -175,10 +177,10 @@ class DevBody extends Component {
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="medium" margin="none">{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
+      return <Label size="medium" margin="none">Duration:&nbsp;{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
     }
     else {
-      return <Label size="medium" margin="none">~0 s{this.checkTimeOut(test)}</Label>;
+      return <Label size="medium" margin="none">Duration: >1 s{this.checkTimeOut(test)}</Label>;
     }
   }
 
@@ -187,9 +189,18 @@ class DevBody extends Component {
       return (
         <Label size="medium" margin="none">
           {this.props.errors[this.props.errors.length - 1]}
+          {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
         </Label>
       );
     }
+  }
+
+  getStack(stack){
+    let newstack = split(stack, "at");
+    let result = newstack.map((item, index) =>
+      <Label key={item + index}>{item}</Label>
+    );
+    return result;
   }
 
   getBody(test) {
@@ -235,8 +246,6 @@ class DevBody extends Component {
         <Tabs justify="start">
 
           <Tab title="All">
-            <Box align="center">
-            </Box>
             <Box alignContent="center" pad="small">
 
               {this.getSuite(this.props.suite)}
@@ -245,8 +254,6 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title="Passes">
-            <Box align="center">
-            </Box>
             <Box alignContent="center" pad="small">
 
               {this.getSuite(this.getPassedSuites(this.props.suite))}
@@ -255,8 +262,6 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title="Failures">
-            <Box align="center">
-            </Box>
             <Box alignContent="center" pad="small">
 
               {this.getSuite(this.getFailedSuites(this.props.suite))}
@@ -265,8 +270,6 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title="Warnings">
-            <Box align="center">
-            </Box>
             <Box alignContent="center" pad="small">
 
               {this.getSuite(this.getWarningSuites(this.props.suite))}
@@ -285,7 +288,9 @@ DevBody.propTypes = {
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
-  total: PropTypes.number
+  total: PropTypes.number,
+  errors: PropTypes.array,
+  stacks: PropTypes.array
 };
 
 export default DevBody;

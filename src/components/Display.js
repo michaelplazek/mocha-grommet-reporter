@@ -112,6 +112,7 @@ class Display extends Component {
           pending={this.props.pending}
           total={this.props.total}
           errors={this.props.errors}
+          stacks = {this.props.stacks}
         />
       );
     }
@@ -182,6 +183,7 @@ Display.propTypes = {
   failed_suites: PropTypes.array,
   last_test: PropTypes.array,
   errors: PropTypes.array,
+  stacks: PropTypes.array,
   slow: PropTypes.array
 };
 
