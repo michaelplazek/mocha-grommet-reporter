@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import chunk from 'lodash.chunk';
 
 import Box from 'grommet/components/Box';
-import Split from 'grommet/components/Split';
 import Meter from 'grommet/components/Meter';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
@@ -174,22 +173,20 @@ class Body extends Component {
   }
 
   isLoaded() {
-    if(this.getSuiteFailures(this.props.suite, 0) + this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0)) {
-      return true;
-    }
-      return false;
+    return this.getSuiteFailures(this.props.suite, 0) + this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0);
   }
+
 
   splitSuites() {
     let result = this.props.failed_suites.map((suite, index) => {
       return this.getSuite(suite, index);
     });
-    if (this.isLoaded(this.props.suite)) {
+    if (this.isLoaded()) {
       result = chunk(result, 5).map((item, index) => {
         return (
-        <Box key={item}>
+        <Box key={item + index}>
           <Box pad="large" margin="medium">
-            <List key={index}>{item}</List>
+            <List key={item + index}>{item}</List>
           </Box>
         </Box>
         );
@@ -240,7 +237,7 @@ class Body extends Component {
           />
 
         </Box>
-        <Box alignSelf="center" align="center" pad="medium" basis="2/3" >
+        <Box alignSelf="center" align="center" pad="medium" basis="2/3" size="small">
           {this.getContent()}
         </Box>
       </Box>

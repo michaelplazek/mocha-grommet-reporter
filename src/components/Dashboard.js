@@ -19,10 +19,10 @@ const Dashboard = (props) => {
         failed_suites={props.failed_suites}
       />
 
-      <Alert
-        suite={props.suite_list}
-        tests={props.tests}
-      />
+      {/*<Alert*/}
+        {/*suite={props.suite_list}*/}
+        {/*tests={props.tests}*/}
+      {/*/>*/}
     </Box>
   );
 };

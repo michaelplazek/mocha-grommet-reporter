@@ -31,8 +31,7 @@ export default function reporter(runner) {
   }
 
   function addZero(currentdate){
-    let test = currentdate.getMinutes().toString();
-    if(currentdate.getMinutes().toString().length == 1){
+    if(currentdate.getMinutes().toString().length === 1){
       return "0" + currentdate.getMinutes().toString();
     }
     else{
@@ -42,7 +41,7 @@ export default function reporter(runner) {
 
   function getTime(){
     let currentdate = new Date();
-    if(last_test.length == 0){
+    if(last_test.length === 0){
       last_test.push((currentdate.getMonth()+1) + "/"
         + currentdate.getDate() + "/"
         + currentdate.getFullYear() + " at "
