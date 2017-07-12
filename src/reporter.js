@@ -17,19 +17,25 @@ export default function reporter(runner) {
     });
   }
 
-  function findFailedSuites(){
+  function findFailedSuites(suites){
     if(suites){
       suites.forEach(suite => {
         if(suite.tests.some(test => test.state === "failed")){
           failed_suites.push(suite);
+          if(suite.suites.length > 0){
+            findFailedSuites(suite.suites);
+          }
         }
-      })
+      });
     }
   }
 
+  function getSlowTests(test){
+
+  }
+
   function addZero(currentdate){
-    let test = currentdate.getMinutes().toString();
-    if(currentdate.getMinutes().toString().length == 1){
+    if(currentdate.getMinutes().toString().length === 1){
       return "0" + currentdate.getMinutes().toString();
     }
     else{
@@ -39,7 +45,7 @@ export default function reporter(runner) {
 
   function getTime(){
     let currentdate = new Date();
-    if(last_test.length == 0){
+    if(last_test.length === 0){
       last_test.push((currentdate.getMonth()+1) + "/"
         + currentdate.getDate() + "/"
         + currentdate.getFullYear() + " at "
@@ -67,8 +73,10 @@ export default function reporter(runner) {
   let failures = [];
   let passes = [];
   let errors = [];
+  let stacks = [];
   let time = [];
   let last_test = [];
+  let slow = [];
 
   ReactDOM.render(
     <Main
@@ -81,8 +89,10 @@ export default function reporter(runner) {
       total = {runner.total}
       time = {time}
       errors = {errors}
+      stacks = {stacks}
       failed_suites = {failed_suites}
       last_test = {last_test}
+      slow = {slow}
     />
     , mochaElement);
 
@@ -91,7 +101,9 @@ export default function reporter(runner) {
   });
 
   runner.on('suite end', function (suite) {
-    suites.push(suite);
+    if(suite.tests.length > 0){
+      suites.push(suite);
+    }
   });
 
   runner.on('test end', function (test) {
@@ -105,12 +117,18 @@ export default function reporter(runner) {
   });
 
   runner.on('pass', function (test) {
-    passes.push(test);
+    if(test.duration >= test._slow){
+      slow.push(test);
+    }
+    else{
+      passes.push(test);
+    }
   });
 
   runner.on('fail', function (test, err) {
     failures.push(test);
     errors.push(err.message);
+    stacks.push(err.stack);
   });
 
   runner.on('pending', function (test) {
@@ -118,11 +136,9 @@ export default function reporter(runner) {
   });
 
   runner.on('end', function () {
-    findFailedSuites();
+    findFailedSuites(suites);
     getTime();
     notifyListeners();
     console.log("END mocha-grommet-reporter called");
   });
 }
-
-

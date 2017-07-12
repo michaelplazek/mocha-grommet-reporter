@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import Heading from 'grommet/components/Headline';
+import Headline from 'grommet/components/Headline';
 import CheckBox from 'grommet/components/CheckBox';
 import Article from 'grommet/components/Article';
 import Header from 'grommet/components/Header';
 import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
+import Status from 'grommet/components/icons/Status';
+import DashboardIcon from 'grommet/components/icons/base/Dashboard';
+import TroubleshootIcon from 'grommet/components/icons/base/Troubleshoot';
 
 import Dashboard from './Dashboard';
 import Developer from './Developer';
@@ -19,16 +22,60 @@ class Display extends Component {
     super(props);
 
     this.setPage = this.setPage.bind(this);
-
     this.state = {page: 0};
+  }
+
+  getTimeOuts() {
+    let count = 0;
+    if (this.props.failures) {
+      this.props.failures.forEach(test => {
+        if(test.duration > test._timeout){
+          count++;
+        }
+      });
+    }
+    else {
+      return 0;
+    }
+    return count;
+  }
+
+  getSlowTests(){
+    if(this.props.slow){
+      return this.props.slow.length;
+    }
+    return 0;
   }
 
   getLastTestTag() {
     let result = null;
     if (this.props.last_test.length > 0) {
-      result = <Label>Last test performed on&nbsp;{this.props.last_test[0]}</Label>;
+      result = <Label margin="small">Last test performed on&nbsp;{this.props.last_test[0]}</Label>;
     }
     return result;
+  }
+
+  getSubHeader(){
+    let timer = this.getLastTestTag();
+    let slowtext =  "slow tests";
+    let timeouttext = "timeouts";
+
+    if(this.getSlowTests() === 1){slowtext = "slow test";}
+    if(this.getTimeOuts() === 1){timeouttext = "timeout";}
+
+    if(this.getSlowTests() > 0 || this.getTimeOuts() > 0){
+      return(
+        <Box>
+          {timer}
+          <Label margin="none">
+            <Status value="warning" />     {this.getSlowTests()} {slowtext}   |   {this.getTimeOuts()} {timeouttext}
+          </Label>
+        </Box>
+      );
+    }
+    else{
+      return timer;
+    }
   }
 
   setPage() {
@@ -65,6 +112,7 @@ class Display extends Component {
           pending={this.props.pending}
           total={this.props.total}
           errors={this.props.errors}
+          stacks = {this.props.stacks}
         />
       );
     }
@@ -79,26 +127,41 @@ class Display extends Component {
     }
   }
 
+  getToggleLabel(){
+    if (this.state.page === 1){
+      return <DashboardIcon type="logo"/>;
+    }
+    else{
+      return <TroubleshootIcon type="logo"/>;
+    }
+  }
+
   render() {
 
     return (
       <Article full={true}>
-        <Header colorIndex="grey-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
+        <Header colorIndex="light-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
           <Box>
-            <Heading>{this.getTitle()}</Heading>
-            {this.getLastTestTag()}
+            <Headline>{this.getTitle()}</Headline>
+            {this.getSubHeader()}
           </Box>
 
           <TestMeter
             passes = {this.props.passes}
             failures = {this.props.failures}
             total = {this.props.total}
+            slow = {this.getSlowTests()}
+            timedout = {this.getTimeOuts()}
+            tests = {this.props.tests}
           />
 
-          <CheckBox
-            toggle={true}
-            onChange={this.setPage}
-          />
+          <Label>
+            <CheckBox
+              toggle={true}
+              onChange={this.setPage}
+              label={this.getToggleLabel()}
+            />
+          </Label>
 
         </Header>
 
@@ -119,7 +182,9 @@ Display.propTypes = {
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
   last_test: PropTypes.array,
-  errors: PropTypes.array
+  errors: PropTypes.array,
+  stacks: PropTypes.array,
+  slow: PropTypes.array
 };
 
 export default Display;

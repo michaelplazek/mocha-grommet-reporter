@@ -2,11 +2,9 @@ import React, { Component, PropTypes } from 'react';
 
 import Box from 'grommet/components/Box';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
+import Meter from 'grommet/components/Meter';
+import Value from 'grommet/components/Value';
 
-// var config = require('config');
-// const TIMEOUT = config.get('timeout');
-
-const TIMEOUT = 10000;
 
 class TestMeter extends Component{
   constructor(props){
@@ -26,7 +24,7 @@ class TestMeter extends Component{
     let count = 0;
     if (this.props.failures) {
       this.props.failures.forEach(test => {
-        if(test.duration <= TIMEOUT){
+        if(test.duration <= test._timeout){
           count++;
         }
       });
@@ -37,33 +35,28 @@ class TestMeter extends Component{
     return count;
   }
 
-  getTimeOuts() {
-    let count = 0;
-    if (this.props.failures) {
-      this.props.failures.forEach(test => {
-        if(test.duration > TIMEOUT){
-          count++;
-        }
-      });
-    }
-    else {
-      return 0;
-    }
-    return count;
+  getWarnings(){
+    return this.props.slow + this.props.timedout;
   }
+
+  getTestValue(){
+      return(
+        this.props.tests.length + " / " + this.props.total
+      );
+    }
 
   render(){
     return(
-    <Box>
-      <AnnotatedMeter
-        legend={false}
+    <Box margin="medium">
+      <Meter
+        stacked={true}
         type="circle"
         size="small"
         max={this.props.total}
-        units="tests"
+        label={<Value responsive={true} units="tests" value={this.getTestValue()}/>}
         series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getPasses())},
           {"label": "Failed", "colorIndex": "critical", "value": Number(this.getFailures())},
-          {"label": "Timed Out", "colorIndex": "warning", "value": Number(this.getTimeOuts())}
+          {"label": "Warnings", "colorIndex": "warning", "value": Number(this.getWarnings())}
         ]}
       />
     </Box>
@@ -74,7 +67,10 @@ class TestMeter extends Component{
 TestMeter.propTypes = {
   passes: PropTypes.array,
   failures: PropTypes.array,
-  total: PropTypes.number
+  total: PropTypes.number,
+  slow: PropTypes.number,
+  timedout: PropTypes.number,
+  tests: PropTypes.array
 };
 
 export default TestMeter;
