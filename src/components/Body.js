@@ -5,7 +5,6 @@ import chunk from 'lodash.chunk';
 
 import Box from 'grommet/components/Box';
 import Meter from 'grommet/components/Meter';
-import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Paragraph from 'grommet/components/Paragraph';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
