@@ -50,7 +50,7 @@ class Display extends Component {
   getLastTestTag() {
     let result = null;
     if (this.props.last_test.length > 0) {
-      result = <Label>Last test performed on&nbsp;{this.props.last_test[0]}</Label>;
+      result = <Label margin="small">Last test performed on&nbsp;{this.props.last_test[0]}</Label>;
     }
     return result;
   }
@@ -67,7 +67,7 @@ class Display extends Component {
       return(
         <Box>
           {timer}
-          <Label>
+          <Label margin="none">
             <Status value="warning" />     {this.getSlowTests()} {slowtext}   |   {this.getTimeOuts()} {timeouttext}
           </Label>
         </Box>
