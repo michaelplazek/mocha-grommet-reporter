@@ -18,11 +18,6 @@ const Dashboard = (props) => {
         total={props.total}
         failed_suites={props.failed_suites}
       />
-
-      {/*<Alert*/}
-        {/*suite={props.suite_list}*/}
-        {/*tests={props.tests}*/}
-      {/*/>*/}
     </Box>
   );
 };

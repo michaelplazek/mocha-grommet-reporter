@@ -32,30 +32,8 @@ class TestMeter extends Component{
     return count;
   }
 
-  getTimeOuts() {
-    let count = 0;
-    if (this.props.failures) {
-      this.props.failures.forEach(test => {
-        if(test.duration > test._timeout){
-          count++;
-        }
-      });
-    }
-    else {
-      return 0;
-    }
-    return count;
-  }
-
-  getSlowTests(){
-    if(this.props.slow){
-      return this.props.slow.length;
-    }
-    return 0;
-  }
-
   getWarnings(){
-    return this.getSlowTests() + this.getTimeOuts();
+    return this.props.slow + this.props.timedout;
   }
 
   render(){
@@ -81,7 +59,8 @@ TestMeter.propTypes = {
   passes: PropTypes.array,
   failures: PropTypes.array,
   total: PropTypes.number,
-  slow: PropTypes.array
+  slow: PropTypes.number,
+  timedout: PropTypes.number
 };
 
 export default TestMeter;

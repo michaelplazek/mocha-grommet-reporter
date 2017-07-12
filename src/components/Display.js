@@ -149,7 +149,8 @@ class Display extends Component {
             passes = {this.props.passes}
             failures = {this.props.failures}
             total = {this.props.total}
-            slow = {this.props.slow}
+            slow = {this.getSlowTests()}
+            timedout = {this.getTimeOuts()}
           />
 
           <Label>
