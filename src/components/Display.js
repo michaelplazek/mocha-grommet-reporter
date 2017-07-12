@@ -127,7 +127,7 @@ class Display extends Component {
   }
 
   getToggleLabel(){
-    if (this.state.page === 0){
+    if (this.state.page === 1){
       return <DashboardIcon type="logo"/>;
     }
     else{
