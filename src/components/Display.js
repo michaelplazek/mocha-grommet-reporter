@@ -66,7 +66,7 @@ class Display extends Component {
         <Box>
           {timer}
           <Label>
-            <Status value="warning" />     {this.getSlowTests()} {slowtext}   |   {this.getTimeOuts()} {timeouttext}
+            <Status margin="small"  value="warning" />     {this.getSlowTests()} {slowtext}   |   {this.getTimeOuts()} {timeouttext}
           </Label>
         </Box>
       );
