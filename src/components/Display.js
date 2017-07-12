@@ -9,6 +9,8 @@ import Header from 'grommet/components/Header';
 import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
 import Status from 'grommet/components/icons/Status';
+import DashboardIcon from 'grommet/components/icons/base/Dashboard';
+import TroubleshootIcon from 'grommet/components/icons/base/Troubleshoot';
 
 import Dashboard from './Dashboard';
 import Developer from './Developer';
@@ -124,6 +126,15 @@ class Display extends Component {
     }
   }
 
+  getToggleLabel(){
+    if (this.state.page === 0){
+      return <DashboardIcon type="logo"/>;
+    }
+    else{
+      return <TroubleshootIcon type="logo"/>;
+    }
+  }
+
   render() {
 
     return (
@@ -141,10 +152,13 @@ class Display extends Component {
             slow = {this.props.slow}
           />
 
-          <CheckBox
-            toggle={true}
-            onChange={this.setPage}
-          />
+          <Label>
+            <CheckBox
+              toggle={true}
+              onChange={this.setPage}
+              label={this.getToggleLabel()}
+            />
+          </Label>
 
         </Header>
 
