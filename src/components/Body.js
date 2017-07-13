@@ -255,9 +255,7 @@ class Body extends Component {
   }
 
   getSuiteValue(){
-    return(
-      this.props.suite_list.length + " / " + this.getSuiteLength(this.props.suite, 0)
-    );
+    return this.props.suite_list.length + " / " + this.getSuiteLength(this.props.suite, 0)
   }
 
   render() {
@@ -265,6 +263,7 @@ class Body extends Component {
       <Box direction="row" responsive={true}>
         <Box justify="center" align="center" size="large">
           <Meter
+            onActive={(index) => {this.getSuiteValue(index);}}
             type="circle"
             size="large"
             stacked={true}

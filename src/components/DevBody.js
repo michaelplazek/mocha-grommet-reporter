@@ -10,8 +10,12 @@ import Paragraph from 'grommet/components/Paragraph';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import Section from 'grommet/components/Section';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
 
-import split from 'lodash.split'
+import ClockIcon from 'grommet/components/icons/base/Clock';
+
+import split from 'lodash.split';
 
 class DevBody extends Component {
 
@@ -177,20 +181,28 @@ class DevBody extends Component {
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="medium" margin="none">Duration:&nbsp;{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
     }
-    else {
-      return <Label size="medium" margin="none">Duration: >1 s{this.checkTimeOut(test)}</Label>;
-    }
+    // else {
+    //   return <Label size="medium" margin="none">Duration: >1 s{this.checkTimeOut(test)}</Label>;
+    // }
   }
 
   getError(test) {
-    if (test && test.state && test.state == 'failed') {
+    if (test && test.state && test.state === 'failed') {
       return (
-        <Label size="medium" margin="none">
-          {this.props.errors[this.props.errors.length - 1]}
-          {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
-        </Label>
+        <List>
+          <ListItem>
+            <Label size="medium" margin="none">
+              {this.props.errors[this.props.errors.length - 1]}
+            </Label>
+          </ListItem>
+          <ListItem>
+            <Label margin="none">
+              {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
+            </Label>
+          </ListItem>
+        </List>
       );
     }
   }

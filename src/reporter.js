@@ -30,10 +30,6 @@ export default function reporter(runner) {
     }
   }
 
-  function getSlowTests(test){
-
-  }
-
   function addZero(currentdate){
     if(currentdate.getMinutes().toString().length === 1){
       return "0" + currentdate.getMinutes().toString();
@@ -61,6 +57,25 @@ export default function reporter(runner) {
         + addZero(currentdate));
     }
   }
+
+  // function getTime(){
+  //   let currentdate = new Date();
+  //   if(last_test.length === 0){
+  //     last_test.push((currentdate.getMonth()+1) + "/"
+  //       + currentdate.getDate() + "/"
+  //       + currentdate.getFullYear() + " at "
+  //       + currentdate.getHours() + ":"
+  //       + addZero(currentdate));
+  //   }
+  //   else{
+  //     last_test.pop();
+  //     last_test.push((currentdate.getMonth()+1) + "/"
+  //       + currentdate.getDate() + "/"
+  //       + currentdate.getFullYear() + " at "
+  //       + currentdate.getHours() + ":"
+  //       + addZero(currentdate));
+  //   }
+  // }
 
   const mochaElement = document.getElementById('mocha');
 
