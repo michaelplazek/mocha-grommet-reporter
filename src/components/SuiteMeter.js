@@ -7,20 +7,57 @@ import Value from 'grommet/components/Value';
 class SuiteMeter extends Component{
   constructor(props){
     super(props);
+
+    const { suite_list, total_suites } = this.props;
+
+    this.state = {
+      value: suite_list.length + " / " + total_suites,
+      units:"suites"
+    };
   }
 
-  getSuiteValue(){
-    return this.props.suite_list.length + " / " + this.props.total_suites;
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      value: nextProps.suite_list.length + " / " + nextProps.total_suites,
+      units:"suites"
+    });
+  }
+
+  getSuiteDisplay(index){
+    if(index === 0){
+      this.setState({
+        value:this.props.pass_count,
+        units:"passes"
+      });
+    }
+    else if(index === 1){
+      this.setState({
+        value:this.props.fail_count,
+        units:"failures"
+      });
+    }
+    else if(index === 2){
+      this.setState({
+        value:this.props.warning_count,
+        units:"warnings"
+      });
+    }
+    else{
+      this.setState({
+        value:this.props.suite_list.length + " / " + this.props.total_suites,
+        units:"suites"
+      });
+    }
   }
 
   render(){
     return(
       <Meter
-        onActive={(index) => {this.getSuiteValue(index);}}
+        onActive={(index) => {this.getSuiteDisplay(index);}}
         type="circle"
         size={this.props.size}
         stacked={true}
-        label={<Value responsive={true}  size={this.props.size} units="suites" value={this.getSuiteValue()}/>}
+        label={<Value responsive={true}  size={this.props.size} units={this.state.units} value={this.state.value}/>}
         max={this.props.total_suites}
         series={[{"label": "Passed", "colorIndex": "ok", "value": this.props.pass_count},
           {"label": "Failed", "colorIndex": "critical", "value": this.props.fail_count},
