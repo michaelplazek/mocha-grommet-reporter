@@ -21,10 +21,11 @@ export default function reporter(runner) {
     if(suites){
       suites.forEach(suite => {
         if(suite.tests.some(test => test.state === "failed")){
-          failed_suites.push(suite);
           if(suite.suites.length > 0){
             findFailedSuites(suite.suites);
           }
+          if(failed_suites.every(failed_suite => failed_suite.title !== suite.title))
+          {failed_suites.push(suite);}
         }
       });
     }

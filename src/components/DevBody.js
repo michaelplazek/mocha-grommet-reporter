@@ -29,7 +29,8 @@ class DevBody extends Component {
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(){
+    this.setState({tab:this.props.tab});
   }
 
   getSuite(suite) {

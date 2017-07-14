@@ -25,6 +25,7 @@ class Display extends Component {
     };
 
     this.setPage = this.setPage.bind(this);
+    this.getSuiteMeter = this.getSuiteMeter.bind(this);
   }
 
   // SUITE GETTERS
@@ -160,6 +161,7 @@ class Display extends Component {
     }
   }
 
+
   getPage(){
     if (this.state.page === 0) {
       return (
@@ -210,6 +212,9 @@ class Display extends Component {
           fail_count={this.getSuiteFailures(this.props.suite, 0)}
           warning_count={this.getSuiteWarnings(this.props.suite, 0)}
           total_suites={this.getSuiteLength(this.props.suite, 0)}
+          click_pass = {() => {this.handleChildClickPass();}}
+          click_fail = {() => {this.handleChildClickFail();}}
+          click_warn = {() => {this.handleChildClickWarn();}}
         />
       );
     }
