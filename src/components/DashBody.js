@@ -181,6 +181,9 @@ class DashBody extends Component {
             fail_count={this.props.fail_count}
             warning_count={this.props.warning_count}
             total_suites={this.props.total_suites}
+            click_pass={this.props.click_pass}
+            click_fail={this.props.click_fail}
+            click_warn={this.props.click_warn}
           />
         </Box>
         <Box alignSelf="center" align="center" pad={{horizontal:"medium"}} basis="2/3" size="small">
@@ -202,7 +205,10 @@ DashBody.propTypes = {
   pass_count: PropTypes.number,
   fail_count: PropTypes.number,
   warning_count: PropTypes.number,
-  total_suites: PropTypes.number
+  total_suites: PropTypes.number,
+  click_pass: PropTypes.func,
+  click_fail: PropTypes.func,
+  click_warn: PropTypes.func
 };
 
 export default DashBody;

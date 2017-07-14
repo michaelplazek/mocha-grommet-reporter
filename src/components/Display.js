@@ -9,8 +9,6 @@ import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
 import Status from 'grommet/components/icons/Status';
 import Animate from 'grommet/components/Animate';
-import DashboardIcon from 'grommet/components/icons/base/Dashboard';
-import TroubleshootIcon from 'grommet/components/icons/base/Troubleshoot';
 
 import DashBody from './DashBody';
 import DevBody from './DevBody';
@@ -21,8 +19,12 @@ class Display extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      page: 0,
+      tab: 0
+    };
+
     this.setPage = this.setPage.bind(this);
-    this.state = {page: 0};
   }
 
   // SUITE GETTERS
@@ -145,10 +147,16 @@ class Display extends Component {
 
   setPage() {
     if (this.state.page === 0) {
-      this.setState({page: 1});
+      this.setState({
+        page: 1,
+        tab:0
+      });
     }
     else {
-      this.setState({page: 0});
+      this.setState({
+        page: 0,
+        tab:0
+      });
     }
   }
 
@@ -168,6 +176,9 @@ class Display extends Component {
           fail_count={this.getSuiteFailures(this.props.suite, 0)}
           warning_count={this.getSuiteWarnings(this.props.suite, 0)}
           total_suites={this.getSuiteLength(this.props.suite, 0)}
+          click_pass = {() => {this.handleChildClickPass();}}
+          click_fail = {() => {this.handleChildClickFail();}}
+          click_warn = {() => {this.handleChildClickWarn();}}
         />
       );
     }
@@ -182,6 +193,7 @@ class Display extends Component {
           total={this.props.total}
           errors={this.props.errors}
           stacks = {this.props.stacks}
+          tab = {this.state.tab}
         />
       );
     }
@@ -202,6 +214,27 @@ class Display extends Component {
       );
     }
       return null;
+  }
+
+  handleChildClickPass(){
+    this.setState({
+      page:1,
+      tab:1
+    });
+  }
+
+  handleChildClickFail(){
+    this.setState({
+      page:1,
+      tab:2
+    });
+  }
+
+  handleChildClickWarn(){
+    this.setState({
+      page:1,
+      tab:3
+    });
   }
 
   getTitle(){
@@ -231,7 +264,6 @@ class Display extends Component {
   }
 
   render() {
-
     return (
       <Article full={true}>
         <Header colorIndex="light-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
@@ -243,7 +275,7 @@ class Display extends Component {
           {this.getSuiteMeter()}
 
           <Box justify="center">
-            <Label justify="center" margin="none" align="center">
+            <Label margin="none" align="center">
             <CheckBox
               reverse={true}
               toggle={true}
@@ -274,7 +306,7 @@ Display.propTypes = {
   last_test: PropTypes.array,
   errors: PropTypes.array,
   stacks: PropTypes.array,
-  slow: PropTypes.array
+  slow: PropTypes.array,
 };
 
 export default Display;

@@ -25,6 +25,7 @@ class DevBody extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {tab: this.props.tab};
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
@@ -167,18 +168,13 @@ class DevBody extends Component {
     );
   }
 
-  checkTimeOut(test) {
-    if (test && test.timedOut) {
-      if (test.status === "failed") {
-        return ("Test timed out...");
-      }
-    }
-  }
-
   getTestDuration(test) {
 
     if (test && test.duration) {
       return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;</Label>;
+    }
+    else{
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
     }
   }
 
@@ -186,10 +182,10 @@ class DevBody extends Component {
     if (test && test.state && test.state === 'failed') {
       return (
         <List>
-          <ListItem>
-            <Label size="medium" margin="none">
-              {this.props.errors[this.props.errors.length - 1]}
-            </Label>
+          <ListItem margin="none">
+              <pre style={{"fontSize":"medium","tabSize":"1"}}>
+                {this.props.errors[this.props.errors.length - 1]}
+              </pre>
           </ListItem>
           <ListItem>
             <Label margin="none">
@@ -202,44 +198,13 @@ class DevBody extends Component {
   }
 
   getStack(stack){
-    let newstack = split(stack, "at");
-    let result = newstack.map((item, index) =>
-      <pre key={item + index}>{item}</pre>
-    );
-    return result;
+    return <pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre>;
   }
 
   getBody(test) {
     if (test && test.body) {
-      return test.body;
+      return <pre style={{"fontSize":"small","tabSize":"1"}}><code>{test.body}</code></pre>
     }
-  }
-
-  getPassedSuites(suite){
-    let passed_suites = [];
-
-  }
-
-
-
-  getFailedSuites(){
-    let obj = {suites:[]};
-    this.props.suite.suites.forEach(suite => {
-      if(this.getStatuses(suite) === 'critical'){
-        obj.suites.push(suite);
-      }
-    });
-    return obj;
-  }
-
-  getWarningSuites(){
-    let obj = {suites:[]};
-    this.props.suite.suites.forEach(suite => {
-      if(this.getStatuses(suite) === 'warning'){
-        obj.suites.push(suite);
-      }
-    });
-    return obj;
   }
 
   getTabTitle(status){
@@ -269,7 +234,7 @@ class DevBody extends Component {
 
     return (
       <Box margin="small">
-        <Tabs justify="start">
+        <Tabs justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">
             <Box alignContent="center" pad="small">
@@ -324,7 +289,8 @@ DevBody.propTypes = {
   pending: PropTypes.array,
   total: PropTypes.number,
   errors: PropTypes.array,
-  stacks: PropTypes.array
+  stacks: PropTypes.array,
+  tab: PropTypes.number
 };
 
 export default DevBody;

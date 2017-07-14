@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import Meter from 'grommet/components/Meter';
 import Value from 'grommet/components/Value';
 
-
 class SuiteMeter extends Component{
   constructor(props){
     super(props);
@@ -59,9 +58,9 @@ class SuiteMeter extends Component{
         stacked={true}
         label={<Value responsive={true}  size={this.props.size} units={this.state.units} value={this.state.value}/>}
         max={this.props.total_suites}
-        series={[{"label": "Passed", "colorIndex": "ok", "value": this.props.pass_count},
-          {"label": "Failed", "colorIndex": "critical", "value": this.props.fail_count},
-          {"label": "Warnings", "colorIndex": "warning", "value": this.props.warning_count}
+        series={[{"label": "Passed", "onClick":this.props.click_pass, "colorIndex": "ok", "value": this.props.pass_count},
+          {"label": "Failed", "onClick":this.props.click_fail, "colorIndex": "critical", "value": this.props.fail_count},
+          {"label": "Warnings", "onClick":this.props.click_warn, "colorIndex": "warning", "value": this.props.warning_count}
         ]}
       />
     );
@@ -75,7 +74,10 @@ SuiteMeter.propTypes = {
   pass_count: PropTypes.number,
   fail_count: PropTypes.number,
   warning_count: PropTypes.number,
-  total_suites: PropTypes.number
+  total_suites: PropTypes.number,
+  click_pass: PropTypes.func,
+  click_fail: PropTypes.func,
+  click_warn: PropTypes.func
 };
 
 export default SuiteMeter;

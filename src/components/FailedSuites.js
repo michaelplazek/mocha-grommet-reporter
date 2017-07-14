@@ -141,10 +141,10 @@ class FailedSuites extends Component{
     if (test && test.state && test.state === 'failed') {
       return (
         <List>
-          <ListItem>
-            <Label size="medium" margin="none">
-              {this.props.errors[this.props.errors.length - 1]}
-            </Label>
+          <ListItem margin="none">
+              <pre style={{"fontSize":"medium","tabSize":"1"}}>
+                {this.props.errors[this.props.errors.length - 1]}
+              </pre>
           </ListItem>
           <ListItem>
             <Label margin="none">
@@ -157,11 +157,13 @@ class FailedSuites extends Component{
   }
 
   getStack(stack){
-    let newstack = split(stack, "at");
-    let result = newstack.map((item, index) =>
-      <pre key={item + index}>{item}</pre>
-    );
-    return result;
+    return <pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre>;
+  }
+
+  getBody(test) {
+    if (test && test.body) {
+      return <pre style={{"fontSize":"small","tabSize":"1"}}><code>{test.body}</code></pre>
+    }
   }
 
   render(){
