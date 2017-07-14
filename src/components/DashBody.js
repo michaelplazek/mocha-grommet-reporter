@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import SuiteMeter from './SuiteMeter';
+
 import chunk from 'lodash.chunk';
 
 import Box from 'grommet/components/Box';
@@ -12,8 +14,9 @@ import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
 import Value from 'grommet/components/Value';
+import Animate from 'grommet/components/Animate';
 
-class Body extends Component {
+class DashBody extends Component {
 
   constructor(props) {
     super(props);
@@ -61,28 +64,12 @@ class Body extends Component {
           break;
 
         case "failed":
-          switch(true){
-            case test.duration >= test._timeout:
-              return "warning";
-            case test.duration < test._timeout:
-              return "critical";
-          }
-          break;
+          return "critical";
 
         default:
           return "warning";
       }
     }
-  }
-
-  checkTimeout(suite){
-    let result = false;
-    suite.tests.forEach(test => {
-      if(test.duration > test._timeout){
-        result = true;
-      }
-    });
-    return result;
   }
 
   getSuiteHeading(suite) {
@@ -105,73 +92,7 @@ class Body extends Component {
     }
   }
 
-  getSuitePasses(suite, pass) {
-    if (suite) {
-      suite.suites.forEach(item => {
-        if (item.tests.every(test => this.getTestStatus(test) === 'ok')) {
-          pass++;
-        }
-        if(item.suites.length > 0){
-          pass = this.getSuitePasses(item, pass);
-        }
-      });
-    }
-    return pass;
-  }
-
-  getSuiteFailures(suite, fail) {
-    if (suite) {
-      suite.suites.forEach(item => {
-        if (item.tests.some(test => this.getTestStatus(test) === 'critical')) {
-          fail++;
-        }
-        if(item.suites.length > 0){
-          fail = this.getSuiteFailures(item, fail);
-        }
-      });
-    }
-    return fail;
-  }
-
-  getSuiteWarnings(suite, warn) {
-    if (suite) {
-      suite.suites.forEach(item => {
-        if (item.tests.some(test => this.getTestStatus(test) === 'warning') && !item.tests.some(test => this.getTestStatus(test) === 'critical')) {
-          warn++;
-        }
-        if(item.suites.length > 0){
-          warn = this.getSuiteWarnings(item, warn);
-        }
-      });
-    }
-    return warn;
-  }
-
-  getSuiteLength(suite, count) {
-    if (suite) {
-      count += suite.suites.length;
-      suite.suites.forEach(item => {
-        if(item.suites.length > 0){
-          count = this.getSuiteLength(item, count);
-        }
-      });
-    }
-    return count;
-  }
-
-  getTestTimeouts(suite){
-    let count = 0;
-    if (suite) {
-      suite.tests.forEach(test => {
-        if (test.duration > test._timeout) {
-          count++;
-        }
-      });
-      return count;
-    }
-  }
-
-  getSlowTests(suite){
+  getTestWarnings(suite){
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
@@ -183,15 +104,11 @@ class Body extends Component {
     }
   }
 
-  getTestWarnings(suite){
-    return this.getTestTimeouts(suite) + this.getSlowTests(suite);
-  }
-
   getTestFailures(suite) {
     let count = 0;
     if (suite) {
       suite.tests.forEach(test => {
-        if (test.state === "failed" && test.duration <= test._timeout) {
+        if (test.state === "failed") {
           count++;
         }
       });
@@ -199,16 +116,9 @@ class Body extends Component {
     }
   }
 
-  getSuitesMessage() {
-    if (this.isLoaded()) {
-      return <Paragraph size="small">4 out of {this.getSuiteLength(this.props.suite, 0)} suites</Paragraph>;
-    }
-  }
-
   isLoaded() {
-    return this.getSuiteFailures(this.props.suite, 0) + this.getSuiteWarnings(this.props.suite, 0) + this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0);
+    return this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites;
   }
-
 
   splitSuites() {
     let result = this.props.failed_suites.map((suite, index) => {
@@ -234,47 +144,44 @@ class Body extends Component {
 
     if (suites.length > 0 ) {
       return (
-        <Carousel
-          autoplay={true}
-          infinite={true}
-          persistentNav={true}
-          autoplaySpeed={4000}
-        >
-          {suites}
-        </Carousel>
+        <Animate enter={{"animation": "fade", "duration": 1500, "delay": 400}}>
+          <Carousel
+            autoplay={true}
+            infinite={true}
+            persistentNav={true}
+            autoplaySpeed={4000}
+          >
+            {suites}
+          </Carousel>
+        </Animate>
       );
     }
-    else if(this.getSuitePasses(this.props.suite, 0) === this.getSuiteLength(this.props.suite, 0)){
+    else if(this.props.pass_count === this.props.total_suites){
       return <Label size="large">All Suites Passed</Label>;
     }
     else {
       return (
-        <Spinning size="large"/>
+        <Box align="center">
+          <Spinning size="medium"/>
+          <Label margin="small">Running tests...</Label>
+        </Box>
       );
     }
-  }
-
-  getSuiteValue(){
-    return this.props.suite_list.length + " / " + this.getSuiteLength(this.props.suite, 0)
   }
 
   render() {
     return (
       <Box direction="row" responsive={true}>
         <Box justify="center" align="center" size="large">
-          <Meter
-            onActive={(index) => {this.getSuiteValue(index);}}
-            type="circle"
+          <SuiteMeter
             size="large"
-            stacked={true}
-            label={<Value responsive={true} size="large" units="suites" value={this.getSuiteValue()}/>}
-            max={this.getSuiteLength(this.props.suite, 0)}
-            series={[{"label": "Passed", "colorIndex": "ok", "value": Number(this.getSuitePasses(this.props.suite, 0))},
-              {"label": "Failed", "colorIndex": "critical", "value": Number(this.getSuiteFailures(this.props.suite, 0))},
-              {"label": "Warnings", "colorIndex": "warning", "value": Number(this.getSuiteWarnings(this.props.suite, 0))}
-            ]}
+            suite={this.props.suite}
+            suite_list={this.props.suite_list}
+            pass_count={this.props.pass_count}
+            fail_count={this.props.fail_count}
+            warning_count={this.props.warning_count}
+            total_suites={this.props.total_suites}
           />
-
         </Box>
         <Box alignSelf="center" align="center" pad={{horizontal:"medium"}} basis="2/3" size="small">
           {this.getContent()}
@@ -284,14 +191,18 @@ class Body extends Component {
   }
 }
 
-Body.propTypes = {
+DashBody.propTypes = {
   suite: PropTypes.object,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
   suite_list: PropTypes.array,
-  failed_suites: PropTypes.array
+  failed_suites: PropTypes.array,
+  pass_count: PropTypes.number,
+  fail_count: PropTypes.number,
+  warning_count: PropTypes.number,
+  total_suites: PropTypes.number
 };
 
-export default Body;
+export default DashBody;

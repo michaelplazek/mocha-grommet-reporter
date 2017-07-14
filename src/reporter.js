@@ -58,25 +58,6 @@ export default function reporter(runner) {
     }
   }
 
-  // function getTime(){
-  //   let currentdate = new Date();
-  //   if(last_test.length === 0){
-  //     last_test.push((currentdate.getMonth()+1) + "/"
-  //       + currentdate.getDate() + "/"
-  //       + currentdate.getFullYear() + " at "
-  //       + currentdate.getHours() + ":"
-  //       + addZero(currentdate));
-  //   }
-  //   else{
-  //     last_test.pop();
-  //     last_test.push((currentdate.getMonth()+1) + "/"
-  //       + currentdate.getDate() + "/"
-  //       + currentdate.getFullYear() + " at "
-  //       + currentdate.getHours() + ":"
-  //       + addZero(currentdate));
-  //   }
-  // }
-
   const mochaElement = document.getElementById('mocha');
 
   console.log("START mocha-grommet-reporter called");

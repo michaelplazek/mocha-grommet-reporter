@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import PassedSuites from './PassedSuites';
+import FailedSuites from './FailedSuites';
+import WarningSuites from './WarningSuites';
+
 import Status from 'grommet/components/icons/Status';
 import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
@@ -12,7 +16,6 @@ import Tab from 'grommet/components/Tab';
 import Section from 'grommet/components/Section';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
-
 import ClockIcon from 'grommet/components/icons/base/Clock';
 
 import split from 'lodash.split';
@@ -138,13 +141,7 @@ class DevBody extends Component {
           break;
 
         case "failed":
-          switch(true){
-            case test.duration >= test._timeout:
-              return "warning";
-            case test.duration < test._timeout:
-              return "critical";
-          }
-          break;
+          return "critical";
 
         default:
           return "warning";
@@ -181,11 +178,8 @@ class DevBody extends Component {
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;</Label>;
     }
-    // else {
-    //   return <Label size="medium" margin="none">Duration: >1 s{this.checkTimeOut(test)}</Label>;
-    // }
   }
 
   getError(test) {
@@ -210,7 +204,7 @@ class DevBody extends Component {
   getStack(stack){
     let newstack = split(stack, "at");
     let result = newstack.map((item, index) =>
-      <Label key={item + index}>{item}</Label>
+      <pre key={item + index}>{item}</pre>
     );
     return result;
   }
@@ -221,15 +215,12 @@ class DevBody extends Component {
     }
   }
 
-  getPassedSuites(){
-    let obj = {suites:[]};
-    this.props.suite.suites.forEach(suite => {
-      if(this.getStatuses(suite) === 'ok'){
-        obj.suites.push(suite);
-      }
-    });
-    return obj;
+  getPassedSuites(suite){
+    let passed_suites = [];
+
   }
+
+
 
   getFailedSuites(){
     let obj = {suites:[]};
@@ -251,6 +242,29 @@ class DevBody extends Component {
     return obj;
   }
 
+  getTabTitle(status){
+    let title = null;
+    switch(status){
+      case "ok":
+        title = "Passes";
+        break;
+      case "critical":
+        title = "Failures";
+        break;
+      case "warning":
+        title = "Warnings";
+        break;
+      default:
+        title = null;
+    }
+
+    return(
+      <Label>
+        <Status value={status}/>&nbsp;{title}
+      </Label>
+    );
+  }
+
   render() {
 
     return (
@@ -265,26 +279,34 @@ class DevBody extends Component {
             </Box>
           </Tab>
 
-          <Tab title="Passes">
+          <Tab title={this.getTabTitle("ok")}>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getPassedSuites(this.props.suite))}
+              <PassedSuites
+                suite = {this.props.suite}
+              />
 
             </Box>
           </Tab>
 
-          <Tab title="Failures">
+          <Tab title={this.getTabTitle("critical")}>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getFailedSuites(this.props.suite))}
+              <FailedSuites
+                suite={this.props.suite}
+                errors = {this.props.errors}
+                stacks = {this.props.stacks}
+              />
 
             </Box>
           </Tab>
 
-          <Tab title="Warnings">
+          <Tab title={this.getTabTitle("warning")}>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getWarningSuites(this.props.suite))}
+              <WarningSuites
+                suite={this.props.suite}
+              />
 
             </Box>
           </Tab>
