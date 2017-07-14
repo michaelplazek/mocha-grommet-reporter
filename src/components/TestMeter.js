@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 import Box from 'grommet/components/Box';
-import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 import Meter from 'grommet/components/Meter';
 import Value from 'grommet/components/Value';
 
@@ -21,22 +20,13 @@ class TestMeter extends Component{
   }
 
   getFailures() {
-    let count = 0;
-    if (this.props.failures) {
-      this.props.failures.forEach(test => {
-        if(test.duration <= test._timeout){
-          count++;
-        }
-      });
+    if(this.props.failures){
+      return this.props.failures.length;
     }
-    else {
-      return 0;
-    }
-    return count;
   }
 
   getWarnings(){
-    return this.props.slow + this.props.timedout;
+    return this.props.slow.length;
   }
 
   getTestValue(){
@@ -69,7 +59,6 @@ TestMeter.propTypes = {
   failures: PropTypes.array,
   total: PropTypes.number,
   slow: PropTypes.number,
-  timedout: PropTypes.number,
   tests: PropTypes.array
 };
 

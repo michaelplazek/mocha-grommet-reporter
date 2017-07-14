@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
 import Dashboard from '../Dashboard';
-import Body from '../Body';
+import Body from '../DashBody';
 import Alert from '../Alert';
 
 describe('<Dashboard />', () => {

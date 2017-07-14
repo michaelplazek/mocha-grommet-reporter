@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-import Body from '../Body';
+import Body from '../DashBody';
 import AnnotatedMeter from 'grommet-addons/components/AnnotatedMeter';
 
 describe('<Body />', () => {

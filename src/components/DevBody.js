@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import PassedSuites from './PassedSuites';
+import FailedSuites from './FailedSuites';
+import WarningSuites from './WarningSuites';
+
 import Status from 'grommet/components/icons/Status';
 import Box from 'grommet/components/Box';
 import Label from 'grommet/components/Label';
@@ -10,18 +14,23 @@ import Paragraph from 'grommet/components/Paragraph';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import Section from 'grommet/components/Section';
+import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
+import ClockIcon from 'grommet/components/icons/base/Clock';
 
-import split from 'lodash.split'
+import split from 'lodash.split';
 
 class DevBody extends Component {
 
   constructor(props) {
     super(props);
 
+    this.state = {tab: this.props.tab};
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(){
+    this.setState({tab:this.props.tab});
   }
 
   getSuite(suite) {
@@ -134,13 +143,7 @@ class DevBody extends Component {
           break;
 
         case "failed":
-          switch(true){
-            case test.duration >= test._timeout:
-              return "warning";
-            case test.duration < test._timeout:
-              return "critical";
-          }
-          break;
+          return "critical";
 
         default:
           return "warning";
@@ -166,84 +169,73 @@ class DevBody extends Component {
     );
   }
 
-  checkTimeOut(test) {
-    if (test && test.timedOut) {
-      if (test.status === "failed") {
-        return ("Test timed out...");
-      }
-    }
-  }
-
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="medium" margin="none">Duration:&nbsp;{test.duration / 1000}&nbsp;s&nbsp;{this.checkTimeOut(test)}</Label>;
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;</Label>;
     }
-    else {
-      return <Label size="medium" margin="none">Duration: >1 s{this.checkTimeOut(test)}</Label>;
+    else{
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
     }
   }
 
   getError(test) {
-    if (test && test.state && test.state == 'failed') {
+    if (test && test.state && test.state === 'failed') {
       return (
-        <Label size="medium" margin="none">
-          {this.props.errors[this.props.errors.length - 1]}
-          {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
-        </Label>
+        <List>
+          <ListItem margin="none">
+              <pre style={{"fontSize":"medium","tabSize":"1"}}>
+                {this.props.errors[this.props.errors.length - 1]}
+              </pre>
+          </ListItem>
+          <ListItem>
+            <Label margin="none">
+              {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
+            </Label>
+          </ListItem>
+        </List>
       );
     }
   }
 
   getStack(stack){
-    let newstack = split(stack, "at");
-    let result = newstack.map((item, index) =>
-      <Label key={item + index}>{item}</Label>
-    );
-    return result;
+    return <pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre>;
   }
 
   getBody(test) {
     if (test && test.body) {
-      return test.body;
+      return <pre style={{"fontSize":"small","tabSize":"1"}}><code>{test.body}</code></pre>
     }
   }
 
-  getPassedSuites(){
-    let obj = {suites:[]};
-    this.props.suite.suites.forEach(suite => {
-      if(this.getStatuses(suite) === 'ok'){
-        obj.suites.push(suite);
-      }
-    });
-    return obj;
-  }
+  getTabTitle(status){
+    let title = null;
+    switch(status){
+      case "ok":
+        title = "Passes";
+        break;
+      case "critical":
+        title = "Failures";
+        break;
+      case "warning":
+        title = "Warnings";
+        break;
+      default:
+        title = null;
+    }
 
-  getFailedSuites(){
-    let obj = {suites:[]};
-    this.props.suite.suites.forEach(suite => {
-      if(this.getStatuses(suite) === 'critical'){
-        obj.suites.push(suite);
-      }
-    });
-    return obj;
-  }
-
-  getWarningSuites(){
-    let obj = {suites:[]};
-    this.props.suite.suites.forEach(suite => {
-      if(this.getStatuses(suite) === 'warning'){
-        obj.suites.push(suite);
-      }
-    });
-    return obj;
+    return(
+      <Label>
+        <Status value={status}/>&nbsp;{title}
+      </Label>
+    );
   }
 
   render() {
 
     return (
       <Box margin="small">
-        <Tabs justify="start">
+        <Tabs justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">
             <Box alignContent="center" pad="small">
@@ -253,26 +245,34 @@ class DevBody extends Component {
             </Box>
           </Tab>
 
-          <Tab title="Passes">
+          <Tab title={this.getTabTitle("ok")}>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getPassedSuites(this.props.suite))}
+              <PassedSuites
+                suite = {this.props.suite}
+              />
 
             </Box>
           </Tab>
 
-          <Tab title="Failures">
+          <Tab title={this.getTabTitle("critical")}>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getFailedSuites(this.props.suite))}
+              <FailedSuites
+                suite={this.props.suite}
+                errors = {this.props.errors}
+                stacks = {this.props.stacks}
+              />
 
             </Box>
           </Tab>
 
-          <Tab title="Warnings">
+          <Tab title={this.getTabTitle("warning")}>
             <Box alignContent="center" pad="small">
 
-              {this.getSuite(this.getWarningSuites(this.props.suite))}
+              <WarningSuites
+                suite={this.props.suite}
+              />
 
             </Box>
           </Tab>
@@ -290,7 +290,8 @@ DevBody.propTypes = {
   pending: PropTypes.array,
   total: PropTypes.number,
   errors: PropTypes.array,
-  stacks: PropTypes.array
+  stacks: PropTypes.array,
+  tab: PropTypes.number
 };
 
 export default DevBody;
