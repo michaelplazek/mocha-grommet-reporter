@@ -178,6 +178,7 @@ class Display extends Component {
           fail_count={this.getSuiteFailures(this.props.suite, 0)}
           warning_count={this.getSuiteWarnings(this.props.suite, 0)}
           total_suites={this.getSuiteLength(this.props.suite, 0)}
+          click = {() => {this.handleChildClickAll();}}
           click_pass = {() => {this.handleChildClickPass();}}
           click_fail = {() => {this.handleChildClickFail();}}
           click_warn = {() => {this.handleChildClickWarn();}}
@@ -219,6 +220,13 @@ class Display extends Component {
       );
     }
       return null;
+  }
+
+  handleChildClickAll(){
+    this.setState({
+      page:1,
+      tab:0
+    });
   }
 
   handleChildClickPass(){
