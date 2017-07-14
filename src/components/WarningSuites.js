@@ -108,6 +108,9 @@ class WarningSuites extends Component{
     if (test && test.duration) {
       return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
     }
+    else{
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
+    }
   }
 
   getTestStatus(test) {

@@ -113,6 +113,9 @@ class FailedSuites extends Component{
     if (test && test.duration) {
       return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
     }
+    else{
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
+    }
   }
 
   getTestStatus(test) {
@@ -140,18 +143,14 @@ class FailedSuites extends Component{
   getError(test) {
     if (test && test.state && test.state === 'failed') {
       return (
-        <List>
-          <ListItem margin="none">
-              <pre style={{"fontSize":"medium","tabSize":"1"}}>
-                {this.props.errors[this.props.errors.length - 1]}
-              </pre>
-          </ListItem>
-          <ListItem>
-            <Label margin="none">
-              {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
-            </Label>
-          </ListItem>
-        </List>
+        <Box margin={{vertical:"small"}}>
+          <pre style={{"fontSize":"medium","tabSize":"1"}}>
+            {this.props.errors[this.props.errors.length - 1]}
+          </pre>
+          <Label margin="none">
+            {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
+          </Label>
+        </Box>
       );
     }
   }
