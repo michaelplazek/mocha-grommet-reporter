@@ -121,7 +121,6 @@ class DashBody extends Component {
 
   splitSuites() {
     let failed_suites = this.props.failed_suites.concat(this.props.warning_suites);
-
     let result = failed_suites.map((suite, index) => {
       return this.getSuite(suite, index);
     });
@@ -146,6 +145,7 @@ class DashBody extends Component {
     if (suites.length > 0 ) {
       return (
         <Animate enter={{"animation": "fade", "duration": 1500, "delay": 400}}>
+          {/*<Label size="large" align="center" pad={{vertical:"medium"}}>Problem Suites</Label>*/}
           <Carousel
             autoplay={true}
             infinite={true}
@@ -175,7 +175,8 @@ class DashBody extends Component {
       <Box direction="row" responsive={true}>
         <Box justify="center" align="center" size="large">
           <SuiteMeter
-            size="large"
+            meter_size="large"
+            text_size="large"
             suite={this.props.suite}
             suite_list={this.props.suite_list}
             pass_count={this.props.pass_count}

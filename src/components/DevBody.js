@@ -17,6 +17,7 @@ import Section from 'grommet/components/Section';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import ClockIcon from 'grommet/components/icons/base/Clock';
+import Button from 'grommet/components/Button';
 
 import split from 'lodash.split';
 
@@ -25,7 +26,11 @@ class DevBody extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {tab: this.props.tab};
+    this.state = {
+      tab: this.props.tab,
+      suite_panels: [],
+      test_panels: []
+    };
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
@@ -50,6 +55,7 @@ class DevBody extends Component {
       result = (
         <Box>
           <Accordion
+            active={this.state.test_panels}
             openMulti={true}
           >
             {
@@ -80,6 +86,7 @@ class DevBody extends Component {
       result = (
         <Box>
           <Accordion
+            active={this.state.suite_panels}
             openMulti={true}
           >
             {
@@ -229,7 +236,7 @@ class DevBody extends Component {
         title = "Failures";
         break;
       case "warning":
-        title = "Warnings";
+        title = "Slow";
         break;
       default:
         title = null;
@@ -242,10 +249,15 @@ class DevBody extends Component {
     );
   }
 
+  setSuitePanels(){
+    this.setState({suite_panels:[2,4,6]});
+  }
+
   render() {
 
     return (
       <Box margin="small">
+        {/*<Button onClick={this.setSuitePanels} />*/}
         <Tabs responsive={false} justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">

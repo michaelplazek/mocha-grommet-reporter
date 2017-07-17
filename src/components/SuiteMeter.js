@@ -7,19 +7,53 @@ class SuiteMeter extends Component{
   constructor(props){
     super(props);
 
-    const { suite_list, total_suites } = this.props;
+    if(this.isLoaded()){
+      this.state = {
+        value: this.props.pass_count + " / " + this.props.total_suites,
+        units:"suites passed"
+      };
+    }
+    else{
+      this.state = {
+        value: Number((this.props.suite_list.length/this.props.total_suites)*100).toFixed(0) + "%",
+        units:"completed"
+      };
+    }
+  }
 
-    this.state = {
-      value: Number((suite_list.length/total_suites)*100).toFixed(0) + "%",
-      units:"suites"
-    };
+  isLoaded() {
+    return this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites;
+  }
+
+  getSuiteMeterLabel(){
+    if(this.isLoaded()){
+      this.setState({
+        value: this.props.pass_count + " / " + this.props.total_suites,
+        units:"suites passed"
+      });
+    }
+    else{
+      this.setState({
+        value: Number((this.props.suite_list.length/this.props.total_suites)*100).toFixed(0) + "%",
+        units:"completed"
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps){
-    this.setState({
-      value: Number((nextProps.suite_list.length/nextProps.total_suites)*100).toFixed(0) + "%",
-      units:"suites"
-    });
+
+    if(this.isLoaded()){
+      this.setState({
+        value: nextProps.pass_count + " / " + nextProps.total_suites,
+        units:"suites passed"
+      });
+    }
+    else{
+      this.setState({
+        value: Number((nextProps.suite_list.length/nextProps.total_suites)*100).toFixed(0) + "%",
+        units:"completed"
+      });
+    }
   }
 
   getSuiteDisplay(index){
@@ -38,14 +72,11 @@ class SuiteMeter extends Component{
     else if(index === 2){
       this.setState({
         value:this.props.warning_count,
-        units:"warnings"
+        units:"slow"
       });
     }
     else{
-      this.setState({
-        value:Number((this.props.suite_list.length/this.props.total_suites)*100).toFixed(0) + "%",
-        units:"suites"
-      });
+      this.getSuiteMeterLabel();
     }
   }
 
@@ -54,13 +85,13 @@ class SuiteMeter extends Component{
       <Meter
         onActive={(index) => {this.getSuiteDisplay(index);}}
         type="circle"
-        size={this.props.size}
+        size={this.props.meter_size}
         stacked={true}
-        label={<Value responsive={true}  size={this.props.size} units={this.state.units} value={this.state.value}/>}
+        label={<Value responsive={true}  size={this.props.text_size} units={this.state.units} value={this.state.value}/>}
         max={this.props.total_suites}
         series={[{"label": "Passed", "onClick":this.props.click_pass, "colorIndex": "ok", "value": this.props.pass_count},
           {"label": "Failed", "onClick":this.props.click_fail, "colorIndex": "critical", "value": this.props.fail_count},
-          {"label": "Warnings", "onClick":this.props.click_warn, "colorIndex": "warning", "value": this.props.warning_count}
+          {"label": "Slow", "onClick":this.props.click_warn, "colorIndex": "warning", "value": this.props.warning_count}
         ]}
       />
     );
@@ -69,7 +100,8 @@ class SuiteMeter extends Component{
 
 SuiteMeter.propTypes = {
   suite: PropTypes.object,
-  size: PropTypes.string,
+  meter_size: PropTypes.string,
+  text_size: PropTypes.string,
   suite_list: PropTypes.array,
   pass_count: PropTypes.number,
   fail_count: PropTypes.number,
