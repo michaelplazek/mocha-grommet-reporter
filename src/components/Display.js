@@ -26,6 +26,7 @@ class Display extends Component {
 
     this.setPage = this.setPage.bind(this);
     this.getSuiteMeter = this.getSuiteMeter.bind(this);
+    this.handleChildClickWarn = this.handleChildClickWarn.bind(this);
   }
 
   // SUITE GETTERS
@@ -134,7 +135,7 @@ class Display extends Component {
         <Animate enter={{"animation": "fade", "duration": 1500, "delay": 250}}>
           <Box>
             {timer}
-            <Label margin="none" >
+            <Label margin="none" style={{ cursor: 'pointer' }} onClick={this.handleChildClickWarn}>
               <Status value="warning" />     {this.getSlowTests()} {slowtext}
             </Label>
           </Box>
