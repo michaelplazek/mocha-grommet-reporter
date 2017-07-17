@@ -134,7 +134,7 @@ class Display extends Component {
         <Animate enter={{"animation": "fade", "duration": 1500, "delay": 250}}>
           <Box>
             {timer}
-            <Label margin="none">
+            <Label margin="none" >
               <Status value="warning" />     {this.getSlowTests()} {slowtext}
             </Label>
           </Box>

@@ -235,7 +235,7 @@ class DevBody extends Component {
 
     return (
       <Box margin="small">
-        <Tabs justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
+        <Tabs responsive={false} justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">
             <Box alignContent="center" pad="small">

@@ -61,8 +61,6 @@ export default function reporter(runner) {
 
   const mochaElement = document.getElementById('mocha');
 
-  console.log("START mocha-grommet-reporter called");
-
   let suites = [];
   let failed_suites = [];
   let tests = [];
@@ -136,6 +134,5 @@ export default function reporter(runner) {
     findFailedSuites(suites);
     getTime();
     notifyListeners();
-    console.log("END mocha-grommet-reporter called");
   });
 }

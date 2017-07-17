@@ -13,7 +13,6 @@ import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
-import Value from 'grommet/components/Value';
 import Animate from 'grommet/components/Animate';
 
 class DashBody extends Component {
