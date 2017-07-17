@@ -31,6 +31,20 @@ export default function reporter(runner) {
     }
   }
 
+  function findWarningSuites(suites){
+    if(suites){
+      suites.forEach(suite => {
+        if(suite.tests.some(test => test.state === "passed" && test.duration > test._slow)){
+          if(suite.suites.length > 0){
+            findWarningSuites(suite.suites);
+          }
+          if(warning_suites.every(warning_suite => warning_suite.title !== suite.title))
+          {warning_suites.push(suite);}
+        }
+      });
+    }
+  }
+
   function addZero(currentdate){
     if(currentdate.getMinutes().toString().length === 1){
       return "0" + currentdate.getMinutes().toString();
@@ -63,6 +77,7 @@ export default function reporter(runner) {
 
   let suites = [];
   let failed_suites = [];
+  let warning_suites = [];
   let tests = [];
   let pending = [];
   let failures = [];
@@ -86,6 +101,7 @@ export default function reporter(runner) {
       errors = {errors}
       stacks = {stacks}
       failed_suites = {failed_suites}
+      warning_suites = {warning_suites}
       last_test = {last_test}
       slow = {slow}
     />
@@ -132,6 +148,7 @@ export default function reporter(runner) {
 
   runner.on('end', function () {
     findFailedSuites(suites);
+    findWarningSuites(suites);
     getTime();
     notifyListeners();
   });

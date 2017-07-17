@@ -175,6 +175,7 @@ class Display extends Component {
           pending={this.props.pending}
           total={this.props.total}
           failed_suites={this.props.failed_suites}
+          warning_suites = {this.props.warning_suites}
           pass_count={this.getSuitePasses(this.props.suite, 0)}
           fail_count={this.getSuiteFailures(this.props.suite, 0)}
           warning_count={this.getSuiteWarnings(this.props.suite, 0)}
@@ -317,6 +318,7 @@ Display.propTypes = {
   total: PropTypes.number,
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
+  warning_suites: PropTypes.array,
   last_test: PropTypes.array,
   errors: PropTypes.array,
   stacks: PropTypes.array,

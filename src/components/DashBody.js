@@ -120,7 +120,9 @@ class DashBody extends Component {
   }
 
   splitSuites() {
-    let result = this.props.failed_suites.map((suite, index) => {
+    let failed_suites = this.props.failed_suites.concat(this.props.warning_suites);
+
+    let result = failed_suites.map((suite, index) => {
       return this.getSuite(suite, index);
     });
     if (this.isLoaded()) {
@@ -205,6 +207,7 @@ DashBody.propTypes = {
   fail_count: PropTypes.number,
   warning_count: PropTypes.number,
   total_suites: PropTypes.number,
+  warning_suites: PropTypes.array,
   click: PropTypes.func,
   click_pass: PropTypes.func,
   click_fail: PropTypes.func,

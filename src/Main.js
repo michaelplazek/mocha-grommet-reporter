@@ -39,6 +39,7 @@ class Main extends Component {
           stacks = {this.props.stacks}
           suite_list = {this.props.suite_list}
           failed_suites = {this.props.failed_suites}
+          warning_suites = {this.props.warning_suites}
           last_test = {this.props.last_test}
           slow = {this.props.slow}
         />
@@ -59,6 +60,7 @@ Main.propTypes = {
   stacks: PropTypes.array,
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
+  warning_suites: PropTypes.array,
   last_test: PropTypes.array,
   slow: PropTypes.array
 }
