@@ -10,14 +10,14 @@ class SuiteMeter extends Component{
     const { suite_list, total_suites } = this.props;
 
     this.state = {
-      value: suite_list.length + " / " + total_suites,
+      value: Number((suite_list.length/total_suites)*100).toFixed(0) + "%",
       units:"suites"
     };
   }
 
   componentWillReceiveProps(nextProps){
     this.setState({
-      value: nextProps.suite_list.length + " / " + nextProps.total_suites,
+      value: Number((nextProps.suite_list.length/nextProps.total_suites)*100).toFixed(0) + "%",
       units:"suites"
     });
   }
@@ -43,7 +43,7 @@ class SuiteMeter extends Component{
     }
     else{
       this.setState({
-        value:this.props.suite_list.length + " / " + this.props.total_suites,
+        value:Number((this.props.suite_list.length/this.props.total_suites)*100).toFixed(0) + "%",
         units:"suites"
       });
     }

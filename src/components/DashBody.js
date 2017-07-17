@@ -38,9 +38,9 @@ class DashBody extends Component {
               type="bar"
               size="large"
               stacked={true}
-              series={[{"colorIndex": "ok", "onClick":this.props.click, "value": Number(this.getTestPasses(suite))},
-                {"colorIndex": "critical", "onClick":this.props.click, "value": Number(this.getTestFailures(suite))},
-                {"colorIndex": "warning", "onClick":this.props.click, "value": Number(this.getTestWarnings(suite))}
+              series={[{"colorIndex": "ok", "onClick":this.props.click_pass, "value": Number(this.getTestPasses(suite))},
+                {"colorIndex": "critical", "onClick":this.props.click_fail, "value": Number(this.getTestFailures(suite))},
+                {"colorIndex": "warning", "onClick":this.props.click_warn, "value": Number(this.getTestWarnings(suite))}
               ]}
             />
 

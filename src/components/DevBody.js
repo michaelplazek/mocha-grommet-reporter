@@ -169,13 +169,24 @@ class DevBody extends Component {
     );
   }
 
+
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;</Label>;
+      if(test.duration > test._slow && test.duration < test._timeout){
+        return (
+          <Box>
+            <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>
+            <Label size="large" margin="small">Expected test to be less than {test._slow/1000} s</Label>
+          </Box>
+        );
+      }
+      else if(test.duration < test._slow){
+        return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
+      }
     }
     else{
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;under 1 s</Label>;
     }
   }
 
