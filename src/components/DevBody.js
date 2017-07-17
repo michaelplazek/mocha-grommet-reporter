@@ -17,6 +17,7 @@ import Section from 'grommet/components/Section';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import ClockIcon from 'grommet/components/icons/base/Clock';
+import Button from 'grommet/components/Button';
 
 import split from 'lodash.split';
 
@@ -25,7 +26,11 @@ class DevBody extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {tab: this.props.tab};
+    this.state = {
+      tab: this.props.tab,
+      suite_panels: [],
+      test_panels: []
+    };
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
@@ -50,6 +55,7 @@ class DevBody extends Component {
       result = (
         <Box>
           <Accordion
+            active={this.state.test_panels}
             openMulti={true}
           >
             {
@@ -80,6 +86,7 @@ class DevBody extends Component {
       result = (
         <Box>
           <Accordion
+            active={this.state.suite_panels}
             openMulti={true}
           >
             {
@@ -169,13 +176,24 @@ class DevBody extends Component {
     );
   }
 
+
   getTestDuration(test) {
 
     if (test && test.duration) {
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s&nbsp;</Label>;
+      if(test.duration > test._slow && test.duration < test._timeout){
+        return (
+          <Box>
+            <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>
+            <Label size="large" margin="small">Expected test to be less than {test._slow/1000} s</Label>
+          </Box>
+        );
+      }
+      else if(test.duration < test._slow){
+        return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
+      }
     }
     else{
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;under 1 s</Label>;
     }
   }
 
@@ -218,7 +236,7 @@ class DevBody extends Component {
         title = "Failures";
         break;
       case "warning":
-        title = "Warnings";
+        title = "Slow";
         break;
       default:
         title = null;
@@ -231,14 +249,19 @@ class DevBody extends Component {
     );
   }
 
+  setSuitePanels(){
+    this.setState({suite_panels:[2,4,6]});
+  }
+
   render() {
 
     return (
       <Box margin="small">
-        <Tabs justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
+        {/*<Button onClick={this.setSuitePanels} />*/}
+        <Tabs responsive={false} justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               {this.getSuite(this.props.suite)}
 
@@ -246,7 +269,7 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title={this.getTabTitle("ok")}>
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               <PassedSuites
                 suite = {this.props.suite}
@@ -256,7 +279,7 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title={this.getTabTitle("critical")}>
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               <FailedSuites
                 suite={this.props.suite}
@@ -268,7 +291,7 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title={this.getTabTitle("warning")}>
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               <WarningSuites
                 suite={this.props.suite}

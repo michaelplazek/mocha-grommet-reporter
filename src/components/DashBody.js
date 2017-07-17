@@ -13,7 +13,6 @@ import ListItem from 'grommet/components/ListItem';
 import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
-import Value from 'grommet/components/Value';
 import Animate from 'grommet/components/Animate';
 
 class DashBody extends Component {
@@ -39,9 +38,9 @@ class DashBody extends Component {
               type="bar"
               size="large"
               stacked={true}
-              series={[{"colorIndex": "ok", "onClick":this.props.click, "value": Number(this.getTestPasses(suite))},
-                {"colorIndex": "critical", "onClick":this.props.click, "value": Number(this.getTestFailures(suite))},
-                {"colorIndex": "warning", "onClick":this.props.click, "value": Number(this.getTestWarnings(suite))}
+              series={[{"colorIndex": "ok", "onClick":this.props.click_pass, "value": Number(this.getTestPasses(suite))},
+                {"colorIndex": "critical", "onClick":this.props.click_fail, "value": Number(this.getTestFailures(suite))},
+                {"colorIndex": "warning", "onClick":this.props.click_warn, "value": Number(this.getTestWarnings(suite))}
               ]}
             />
 
@@ -121,7 +120,8 @@ class DashBody extends Component {
   }
 
   splitSuites() {
-    let result = this.props.failed_suites.map((suite, index) => {
+    let failed_suites = this.props.failed_suites.concat(this.props.warning_suites);
+    let result = failed_suites.map((suite, index) => {
       return this.getSuite(suite, index);
     });
     if (this.isLoaded()) {
@@ -145,6 +145,7 @@ class DashBody extends Component {
     if (suites.length > 0 ) {
       return (
         <Animate enter={{"animation": "fade", "duration": 1500, "delay": 400}}>
+          {/*<Label size="large" align="center" pad={{vertical:"medium"}}>Problem Suites</Label>*/}
           <Carousel
             autoplay={true}
             infinite={true}
@@ -174,7 +175,8 @@ class DashBody extends Component {
       <Box direction="row" responsive={true}>
         <Box justify="center" align="center" size="large">
           <SuiteMeter
-            size="large"
+            meter_size="large"
+            text_size="large"
             suite={this.props.suite}
             suite_list={this.props.suite_list}
             pass_count={this.props.pass_count}
@@ -206,6 +208,7 @@ DashBody.propTypes = {
   fail_count: PropTypes.number,
   warning_count: PropTypes.number,
   total_suites: PropTypes.number,
+  warning_suites: PropTypes.array,
   click: PropTypes.func,
   click_pass: PropTypes.func,
   click_fail: PropTypes.func,

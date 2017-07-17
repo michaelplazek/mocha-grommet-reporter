@@ -9,6 +9,9 @@ import Label from 'grommet/components/Label';
 import Box from 'grommet/components/Box';
 import Status from 'grommet/components/icons/Status';
 import Animate from 'grommet/components/Animate';
+import Button from 'grommet/components/Button';
+import DashboardIcon from 'grommet/components/icons/base/Dashboard';
+import ServicesIcon from 'grommet/components/icons/base/Services';
 
 import DashBody from './DashBody';
 import DevBody from './DevBody';
@@ -26,6 +29,7 @@ class Display extends Component {
 
     this.setPage = this.setPage.bind(this);
     this.getSuiteMeter = this.getSuiteMeter.bind(this);
+    this.handleChildClickWarn = this.handleChildClickWarn.bind(this);
   }
 
   // SUITE GETTERS
@@ -115,6 +119,12 @@ class Display extends Component {
     return 0;
   }
 
+  getFailedTests(){
+    if(this.props.failures.length){
+      return this.props.failures.length;
+    }
+  }
+
   getLastTestTag() {
     let result = null;
     if (this.props.last_test.length > 0) {
@@ -126,24 +136,38 @@ class Display extends Component {
   getSubHeader(){
     let timer = this.getLastTestTag();
     let slowtext =  "slow tests";
+    let failtext = "failed tests"
+    let warn_status = null;
+    let fail_status = null;
 
     if(this.getSlowTests() === 1){slowtext = "slow test";}
+    if(this.getFailedTests() === 1){failtext = "failed test";}
 
     if(this.getSlowTests() > 0){
-      return(
-        <Animate enter={{"animation": "fade", "duration": 1500, "delay": 250}}>
-          <Box>
-            {timer}
-            <Label margin="none">
-              <Status value="warning" />     {this.getSlowTests()} {slowtext}
-            </Label>
-          </Box>
-        </Animate>
+      warn_status = (
+        <Label margin="none" style={{ cursor: 'pointer' }} onClick={this.handleChildClickWarn}>
+          <Status value="warning" />     {this.getSlowTests()} {slowtext}
+        </Label>
       );
     }
-    else{
-      return timer;
+
+    if(this.getFailedTests() > 0){
+      fail_status = (
+        <Label margin="none" style={{ cursor: 'pointer' }} onClick={this.handleChildClickFail}>
+          <Status value="critical" />     {this.getFailedTests()} {failtext}
+        </Label>
+      );
     }
+
+    return(
+      <Animate enter={{"animation": "fade", "duration": 1500, "delay": 250}}>
+        <Box>
+          {timer}
+          {warn_status}
+          {fail_status}
+        </Box>
+      </Animate>
+    );
   }
 
   setPage() {
@@ -174,6 +198,7 @@ class Display extends Component {
           pending={this.props.pending}
           total={this.props.total}
           failed_suites={this.props.failed_suites}
+          warning_suites = {this.props.warning_suites}
           pass_count={this.getSuitePasses(this.props.suite, 0)}
           fail_count={this.getSuiteFailures(this.props.suite, 0)}
           warning_count={this.getSuiteWarnings(this.props.suite, 0)}
@@ -206,7 +231,8 @@ class Display extends Component {
     if(this.state.page === 1){
       return(
         <SuiteMeter
-          size="small"
+          text_size="small"
+          meter_size="small"
           suite={this.props.suite}
           suite_list={this.props.suite_list}
           pass_count={this.getSuitePasses(this.props.suite, 0)}
@@ -252,26 +278,39 @@ class Display extends Component {
 
   getTitle(){
     if(this.state.page === 0){
-      return "Overhead Dashboard";
+      return "Dashboard";
     }
     else{
-      return "Developer Dashboard";
+      return "Details";
     }
   }
 
-  getToggleLabel(){
+  getButtonLabel(){
     if (this.state.page === 1){
       return (
-        <Label size="small" margin="small">
-          Switch to Overhead View
+        <Label margin="small">
+          Dashboard View
         </Label>
       );
     }
     else{
       return (
-        <Label size="small" margin="small">
-          Switch to Developer View
+        <Label margin="small">
+          Detailed View
         </Label>
+      );
+    }
+  }
+
+  getButtonIcon(){
+    if (this.state.page === 1){
+      return (
+        <DashboardIcon />
+      );
+    }
+    else{
+      return (
+        <ServicesIcon />
       );
     }
   }
@@ -289,13 +328,14 @@ class Display extends Component {
 
           <Box justify="center">
             <Label margin="none" align="center">
-            <CheckBox
-              reverse={true}
-              toggle={true}
-              onChange={this.setPage}
+            <Button
+              primary={true}
+              type="button"
+              onClick={this.setPage}
+              label={this.getButtonLabel()}
+              icon={this.getButtonIcon()}
             />
             </Label>
-            {this.getToggleLabel()}
           </Box>
 
         </Header>
@@ -316,6 +356,7 @@ Display.propTypes = {
   total: PropTypes.number,
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
+  warning_suites: PropTypes.array,
   last_test: PropTypes.array,
   errors: PropTypes.array,
   stacks: PropTypes.array,
