@@ -261,7 +261,7 @@ class DevBody extends Component {
         <Tabs responsive={false} justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               {this.getSuite(this.props.suite)}
 
@@ -269,7 +269,7 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title={this.getTabTitle("ok")}>
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               <PassedSuites
                 suite = {this.props.suite}
@@ -279,7 +279,7 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title={this.getTabTitle("critical")}>
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               <FailedSuites
                 suite={this.props.suite}
@@ -291,7 +291,7 @@ class DevBody extends Component {
           </Tab>
 
           <Tab title={this.getTabTitle("warning")}>
-            <Box alignContent="center" pad="small">
+            <Box alignContent="center">
 
               <WarningSuites
                 suite={this.props.suite}
