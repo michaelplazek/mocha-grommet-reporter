@@ -296,7 +296,7 @@ class Display extends Component {
     else{
       return (
         <Label margin="small">
-          Details View
+          Detailed View
         </Label>
       );
     }
