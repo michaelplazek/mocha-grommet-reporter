@@ -130,10 +130,10 @@ class Display extends Component {
     let result = null;
     if (this.props.last_test.length > 0) {
       if(this.state.page === 0){
-        result = <Label size="large">Last suite completed on&nbsp;{this.props.last_test[0]}</Label>;
+        result = <b><Label size="large">Last suite completed on&nbsp;{this.props.last_test[0]}</Label></b>;
       }
       else{
-        result = <Label size="medium">Last test completed on&nbsp;{this.props.last_test[0]}</Label>;
+        result = <Label size="medium" margin="none">Last test completed on&nbsp;{this.props.last_test[0]}</Label>;
       }
     }
     return result;
