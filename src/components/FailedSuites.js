@@ -114,7 +114,7 @@ class FailedSuites extends Component{
       return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
     }
     else{
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;>1 s</Label>;
+      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;under 1 s</Label>;
     }
   }
 
