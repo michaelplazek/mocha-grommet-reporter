@@ -9,8 +9,8 @@ class SuiteMeter extends Component{
 
     if(this.isLoaded()){
       this.state = {
-        value: this.props.pass_count + " / " + this.props.total_suites,
-        units:"suites passed"
+        value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+        units:"suites failed"
       };
     }
     else{
@@ -28,8 +28,8 @@ class SuiteMeter extends Component{
   getSuiteMeterLabel(){
     if(this.isLoaded()){
       this.setState({
-        value: this.props.pass_count + " / " + this.props.total_suites,
-        units:"suites passed"
+        value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+        units:"suites failed"
       });
     }
     else{
@@ -44,8 +44,8 @@ class SuiteMeter extends Component{
 
     if(this.isLoaded()){
       this.setState({
-        value: nextProps.pass_count + " / " + nextProps.total_suites,
-        units:"suites passed"
+        value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+        units:"suites failed"
       });
     }
     else{

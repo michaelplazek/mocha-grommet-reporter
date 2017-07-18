@@ -16,6 +16,7 @@ import ServicesIcon from 'grommet/components/icons/base/Services';
 import DashBody from './DashBody';
 import DevBody from './DevBody';
 import SuiteMeter from "./SuiteMeter";
+import TestMeter from './TestMeter';
 
 class Display extends Component {
 
@@ -28,7 +29,7 @@ class Display extends Component {
     };
 
     this.setPage = this.setPage.bind(this);
-    this.getSuiteMeter = this.getSuiteMeter.bind(this);
+    this.getTestMeter = this.getTestMeter.bind(this);
     this.handleChildClickWarn = this.handleChildClickWarn.bind(this);
   }
 
@@ -128,43 +129,23 @@ class Display extends Component {
   getLastTestTag() {
     let result = null;
     if (this.props.last_test.length > 0) {
-      result = <Label margin="small">Last test performed on&nbsp;{this.props.last_test[0]}</Label>;
+      if(this.state.page === 0){
+        result = <Label size="large">Last suite completed on&nbsp;{this.props.last_test[0]}</Label>;
+      }
+      else{
+        result = <Label size="medium">Last test completed on&nbsp;{this.props.last_test[0]}</Label>;
+      }
     }
     return result;
   }
 
   getSubHeader(){
     let timer = this.getLastTestTag();
-    let slowtext =  "slow tests";
-    let failtext = "failed tests"
-    let warn_status = null;
-    let fail_status = null;
-
-    if(this.getSlowTests() === 1){slowtext = "slow test";}
-    if(this.getFailedTests() === 1){failtext = "failed test";}
-
-    if(this.getSlowTests() > 0){
-      warn_status = (
-        <Label margin="none" style={{ cursor: 'pointer' }} onClick={this.handleChildClickWarn}>
-          <Status value="warning" />     {this.getSlowTests()} {slowtext}
-        </Label>
-      );
-    }
-
-    if(this.getFailedTests() > 0){
-      fail_status = (
-        <Label margin="none" style={{ cursor: 'pointer' }} onClick={this.handleChildClickFail}>
-          <Status value="critical" />     {this.getFailedTests()} {failtext}
-        </Label>
-      );
-    }
 
     return(
       <Animate enter={{"animation": "fade", "duration": 1500, "delay": 250}}>
-        <Box>
+        <Box align="center">
           {timer}
-          {warn_status}
-          {fail_status}
         </Box>
       </Animate>
     );
@@ -227,18 +208,17 @@ class Display extends Component {
     }
   }
 
-  getSuiteMeter(){
+  getTestMeter(){
     if(this.state.page === 1){
       return(
-        <SuiteMeter
+        <TestMeter
           text_size="small"
           meter_size="small"
-          suite={this.props.suite}
-          suite_list={this.props.suite_list}
-          pass_count={this.getSuitePasses(this.props.suite, 0)}
-          fail_count={this.getSuiteFailures(this.props.suite, 0)}
-          warning_count={this.getSuiteWarnings(this.props.suite, 0)}
-          total_suites={this.getSuiteLength(this.props.suite, 0)}
+          passes = {this.props.passes}
+          failures = {this.props.failures}
+          slow = {this.props.slow}
+          tests = {this.props.tests}
+          total = {this.props.total}
           click_pass = {() => {this.handleChildClickPass();}}
           click_fail = {() => {this.handleChildClickFail();}}
           click_warn = {() => {this.handleChildClickWarn();}}
@@ -277,11 +257,8 @@ class Display extends Component {
   }
 
   getTitle(){
-    if(this.state.page === 0){
-      return "Dashboard";
-    }
-    else{
-      return "Details";
+    if(this.state.page === 1){
+      return "Test Details";
     }
   }
 
@@ -315,16 +292,21 @@ class Display extends Component {
     }
   }
 
+  // getFix(){
+  //   if(this.state.page === 0){return false;}
+  //   else{return true;}
+  // }
+
   render() {
     return (
       <Article full={true}>
-        <Header colorIndex="light-2" pad="large" justify="between" direction="row" margin={{vertical:"small"}}>
+        <Header colorIndex="light-2" pad={{horizontal:"medium", vertical:"small"}} justify="between" direction="row" margin={{vertical:"medium"}}>
           <Box>
-            <Headline>{this.getTitle()}</Headline>
+            <Headline strong={true} size="small" margin="none">{this.getTitle()}</Headline>
             {this.getSubHeader()}
           </Box>
 
-          {this.getSuiteMeter()}
+          {this.getTestMeter()}
 
           <Box justify="center">
             <Label margin="none" align="center">

@@ -125,7 +125,7 @@ class DashBody extends Component {
       return this.getSuite(suite, index);
     });
     if (this.isLoaded()) {
-      result = chunk(result, 5).map((item, index) => {
+      result = chunk(result, 4).map((item, index) => {
         return (
         <Box key={item + index}>
           <Box pad="large" margin="medium">
@@ -173,7 +173,7 @@ class DashBody extends Component {
   render() {
     return (
       <Box direction="row" responsive={true}>
-        <Box justify="center" align="center" size="large">
+        <Box justify="start" align="center" size="large" margin={{vertical:"medium"}}>
           <SuiteMeter
             meter_size="large"
             text_size="large"
