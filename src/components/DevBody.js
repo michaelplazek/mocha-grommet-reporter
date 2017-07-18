@@ -18,6 +18,7 @@ import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import ClockIcon from 'grommet/components/icons/base/Clock';
 import Button from 'grommet/components/Button';
+import Header from 'grommet/components/Header'
 
 import split from 'lodash.split';
 
@@ -258,7 +259,7 @@ class DevBody extends Component {
     return (
       <Box margin="small">
         {/*<Button onClick={this.setSuitePanels} />*/}
-        <Tabs responsive={false} justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
+          <Tabs responsive={false} justify="start" onActive={(index) => {this.setState({tab:index});}} activeIndex={this.state.tab}>
 
           <Tab title="All">
             <Box alignContent="center">

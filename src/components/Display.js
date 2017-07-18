@@ -130,7 +130,7 @@ class Display extends Component {
     let result = null;
     if (this.props.last_test.length > 0) {
       if(this.state.page === 0){
-        result = <b><Label size="large">Last suite completed on&nbsp;{this.props.last_test[0]}</Label></b>;
+        result = <b><Label size="medium">Last suite completed on&nbsp;{this.props.last_test[0]}</Label></b>;
       }
       else{
         result = <Label size="medium" margin="none">Last test completed on&nbsp;{this.props.last_test[0]}</Label>;
@@ -213,7 +213,7 @@ class Display extends Component {
       return(
         <TestMeter
           text_size="small"
-          meter_size="small"
+          meter_size="medium"
           passes = {this.props.passes}
           failures = {this.props.failures}
           slow = {this.props.slow}
@@ -259,6 +259,9 @@ class Display extends Component {
   getTitle(){
     if(this.state.page === 1){
       return "Test Details";
+    }
+    else{
+      return "Summary";
     }
   }
 
@@ -308,15 +311,15 @@ class Display extends Component {
 
           {this.getTestMeter()}
 
-          <Box justify="center">
-            <Label margin="none" align="center">
-            <Button
-              primary={true}
-              type="button"
-              onClick={this.setPage}
-              label={this.getButtonLabel()}
-              icon={this.getButtonIcon()}
-            />
+          <Box>
+            <Label margin="none" >
+              <Button
+                primary={true}
+                type="button"
+                onClick={this.setPage}
+                label={this.getButtonLabel()}
+                icon={this.getButtonIcon()}
+              />
             </Label>
           </Box>
 

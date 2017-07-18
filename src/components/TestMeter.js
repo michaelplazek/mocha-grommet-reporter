@@ -13,10 +13,18 @@ class TestMeter extends Component{
     super(props);
 
     if(this.isLoaded()){
-      this.state = {
-        value: this.getStatusList(),
-        units:""
-      };
+      if(this.getPasses() === this.props.total){
+        this.state = {
+          value: "",
+          units:"All Tests Passed"
+        };
+      }
+      else{
+        this.state = {
+          value: (this.getFailures() + this.getWarnings()) + " / " + this.props.total,
+          units:"tests failed"
+        };
+      }
     }
     else{
       this.state = {
@@ -29,10 +37,18 @@ class TestMeter extends Component{
   componentWillReceiveProps(){
 
     if(this.isLoaded()){
-      this.setState({
-        value: this.getStatusList(),
-        units:""
-      });
+      if(this.getPasses() === this.props.total){
+        this.setState({
+          value: "",
+          units:"All Tests Passed"
+        });
+      }
+      else{
+        this.setState({
+          value: (this.getFailures() + this.getWarnings()) + " / " + this.props.total,
+          units:"tests failed"
+        });
+      }
     }
     else{
       this.setState({
@@ -68,10 +84,18 @@ class TestMeter extends Component{
 
   getTestMeterLabel(){
     if(this.isLoaded()){
-      this.setState({
-        value: this.getStatusList(),
-        units:""
-      });
+      if(this.getPasses() === this.props.total){
+        this.setState({
+          value: "",
+          units:"All Tests Passed"
+        });
+      }
+      else{
+        this.setState({
+          value: (this.getFailures() + this.getWarnings()) + " / " + this.props.total,
+          units:"tests failed"
+        });
+      }
     }
     else{
       this.setState({
@@ -157,7 +181,7 @@ class TestMeter extends Component{
       <Meter
         onActive={(index) => {this.getTestDisplay(index);}}
         stacked={true}
-        type="circle"
+        type="bar"
         size={this.props.meter_size}
         max={this.props.total}
         label={<Value responsive={true} size={this.props.text_size} units={this.state.units} value={this.state.value}/>}

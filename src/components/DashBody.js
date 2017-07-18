@@ -14,6 +14,7 @@ import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
 import Animate from 'grommet/components/Animate';
+import Status from 'grommet/components/icons/Status';
 
 class DashBody extends Component {
 
@@ -158,7 +159,7 @@ class DashBody extends Component {
       );
     }
     else if(this.props.pass_count === this.props.total_suites){
-      return <Label size="large">All Suites Passed</Label>;
+      return <Label size="large"><Status value="ok" size="medium" />     All Suites Passed</Label>;
     }
     else {
       return (
