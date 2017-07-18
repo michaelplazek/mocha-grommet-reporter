@@ -8,10 +8,18 @@ class SuiteMeter extends Component{
     super(props);
 
     if(this.isLoaded()){
-      this.state = {
-        value: this.props.pass_count + " / " + this.props.total_suites,
-        units:"suites passed"
-      };
+      if(this.props.pass_count === this.props.total_suites){
+        this.state = {
+          value: "",
+          units:"Suites Passed"
+        };
+      }
+      else{
+        this.state = {
+          value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+          units:"suites failed"
+        };
+      }
     }
     else{
       this.state = {
@@ -27,10 +35,18 @@ class SuiteMeter extends Component{
 
   getSuiteMeterLabel(){
     if(this.isLoaded()){
-      this.setState({
-        value: this.props.pass_count + " / " + this.props.total_suites,
-        units:"suites passed"
-      });
+      if(this.props.pass_count === this.props.total_suites){
+        this.setState({
+          value:"",
+          units:"Suites Passed"
+        });
+      }
+      else{
+        this.setState({
+          value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+          units:"suites failed"
+        });
+      }
     }
     else{
       this.setState({
@@ -43,10 +59,18 @@ class SuiteMeter extends Component{
   componentWillReceiveProps(nextProps){
 
     if(this.isLoaded()){
-      this.setState({
-        value: nextProps.pass_count + " / " + nextProps.total_suites,
-        units:"suites passed"
-      });
+      if(this.props.pass_count === this.props.total_suites){
+        this.setState({
+          value:"",
+          units:"Suites Passed"
+        });
+      }
+      else{
+        this.setState({
+          value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+          units:"suites failed"
+        });
+      }
     }
     else{
       this.setState({

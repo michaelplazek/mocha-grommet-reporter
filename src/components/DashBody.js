@@ -14,6 +14,7 @@ import Carousel from 'grommet/components/Carousel';
 import Spinning from 'grommet/components/icons/Spinning';
 import Label from 'grommet/components/Label';
 import Animate from 'grommet/components/Animate';
+import Status from 'grommet/components/icons/Status';
 
 class DashBody extends Component {
 
@@ -125,7 +126,7 @@ class DashBody extends Component {
       return this.getSuite(suite, index);
     });
     if (this.isLoaded()) {
-      result = chunk(result, 5).map((item, index) => {
+      result = chunk(result, 4).map((item, index) => {
         return (
         <Box key={item + index}>
           <Box pad="large" margin="medium">
@@ -158,7 +159,7 @@ class DashBody extends Component {
       );
     }
     else if(this.props.pass_count === this.props.total_suites){
-      return <Label size="large">All Suites Passed</Label>;
+      return <Label size="large"><Status value="ok" size="medium" />     All Suites Passed</Label>;
     }
     else {
       return (
@@ -173,7 +174,7 @@ class DashBody extends Component {
   render() {
     return (
       <Box direction="row" responsive={true}>
-        <Box justify="center" align="center" size="large">
+        <Box justify="start" align="center" size="large" margin={{vertical:"medium"}}>
           <SuiteMeter
             meter_size="large"
             text_size="large"
