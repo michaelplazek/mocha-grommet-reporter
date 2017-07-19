@@ -65,7 +65,7 @@ class DevBody extends Component {
                   key={test.title}
                   heading={this.getTestHeading(test)}
                 >
-                  <Box pad="medium">
+                  <Box pad="medium" wrap={true}>
 
                     {this.getTestDuration(test)}
                     {this.getError(test)}
