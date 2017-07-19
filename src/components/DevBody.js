@@ -65,7 +65,7 @@ class DevBody extends Component {
                   key={test.title}
                   heading={this.getTestHeading(test)}
                 >
-                  <Box pad="medium" wrap={true}>
+                  <Box pad="medium">
 
                     {this.getTestDuration(test)}
                     {this.getError(test)}
@@ -218,7 +218,7 @@ class DevBody extends Component {
   }
 
   getStack(stack){
-    return <pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre>;
+    return <Box wrap={true}><pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre></Box>;
   }
 
   getBody(test) {
