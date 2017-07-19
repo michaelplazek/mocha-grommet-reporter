@@ -13,9 +13,9 @@ This reporter was designed mainly to be displayed as a status board over a respe
 
 ## Screenshots:
 
-![Overhead Dashboard](http://i.imgur.com/8jMXQsp.png)
+![Overhead Dashboard](http://i.imgur.com/jp7g4q3.png)
 
-![Developer Dashboard](http://i.imgur.com/7Kbsvp1.png)
+![Developer Dashboard](http://i.imgur.com/0qfuLzP.png)
 
 ## To use:
 
