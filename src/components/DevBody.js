@@ -20,7 +20,7 @@ import ClockIcon from 'grommet/components/icons/base/Clock';
 import Button from 'grommet/components/Button';
 import Header from 'grommet/components/Header'
 
-import split from 'lodash.split';
+import findIndex from 'lodash.findindex';
 
 class DevBody extends Component {
 
@@ -200,16 +200,17 @@ class DevBody extends Component {
 
   getError(test) {
     if (test && test.state && test.state === 'failed') {
+      let index = findIndex(this.props.failures, function(o){return o.title === test.title;});
       return (
         <List>
           <ListItem margin="none">
               <pre style={{"fontSize":"medium","tabSize":"1"}}>
-                {this.props.errors[this.props.errors.length - 1]}
+                {this.props.errors[index]}
               </pre>
           </ListItem>
           <ListItem>
             <Label margin="none">
-              {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
+              {this.getStack(this.props.stacks[index])}
             </Label>
           </ListItem>
         </List>

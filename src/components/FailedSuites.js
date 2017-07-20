@@ -41,7 +41,10 @@ class FailedSuites extends Component{
   getSuites(suites) {
     let result = null;
     if (suites && suites.length > 0) {
-      suites = suites.filter(suite => {return suite.tests.some(test => this.getTestStatus(test) === 'critical');});
+      suites = suites.filter(suite => {return (
+        suite.tests.some(test => this.getTestStatus(test) === 'critical')) ||
+        suite.suites.some(suite => this.getSuiteStatus(suite) === 'critical');
+      });
       result = (
         <Box>
           <Accordion
@@ -115,6 +118,24 @@ class FailedSuites extends Component{
     }
     else{
       return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;under 1 s</Label>;
+    }
+  }
+
+  getSuiteStatus(suite) {
+    let result = 'unknown';
+    if (suite && suite.tests) {
+      if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+        result = 'ok';
+      } else if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
+        result = 'critical';
+      } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
+        result = 'unknown';
+      } else if (suite.tests.some(test => this.getTestStatus(test) === 'warning') && !suite.tests.some(test => this.getTestStatus(test) === 'critical')){
+        result = "warning";
+      } else {
+        result = 'unknown';
+      }
+      return result;
     }
   }
 
