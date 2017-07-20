@@ -158,8 +158,11 @@ class DashBody extends Component {
         </Animate>
       );
     }
-    else if(this.props.pass_count === this.props.total_suites){
+    else if(this.props.pass_count === this.props.total_suites && this.props.tests.length !== 0){
       return <Label size="large"><Status value="ok" size="medium" />     All Suites Passed</Label>;
+    }
+    else if(this.props.tests.length === 0){
+      return null;
     }
     else {
       return (
@@ -179,6 +182,7 @@ class DashBody extends Component {
             meter_size="large"
             text_size="large"
             suite={this.props.suite}
+            tests = {this.props.tests}
             suite_list={this.props.suite_list}
             pass_count={this.props.pass_count}
             fail_count={this.props.fail_count}
@@ -199,6 +203,7 @@ class DashBody extends Component {
 
 DashBody.propTypes = {
   suite: PropTypes.object,
+  tests: PropTypes.array,
   passes: PropTypes.array,
   failures: PropTypes.array,
   pending: PropTypes.array,

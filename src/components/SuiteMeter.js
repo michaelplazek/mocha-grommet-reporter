@@ -22,16 +22,32 @@ class SuiteMeter extends Component{
         };
       }
     }
+
+    else if(this.isEmpty()){
+      this.state = {
+        value: "",
+        units:"No Suites"
+      };
+    }
     else{
       this.state = {
-        value: Number((this.props.suite_list.length/this.props.total_suites)*100).toFixed(0) + "%",
+        value: this.getPercent(this.props),
         units:"completed"
       };
     }
   }
 
   isLoaded() {
-    return this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites;
+    return this.props.total_suites !== 0 && (this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites);
+  }
+
+  getPercent(props){
+    if(this.props.total_suites > 0 && this.props.tests.length > 0){
+      return Number((props.suite_list.length/props.total_suites)*100).toFixed(0) + "%";
+    }
+    else if(this.props.total_suites > 0 && this.props.tests.length === 0){
+      return 100 + "%";
+    }
   }
 
   getSuiteMeterLabel(){
@@ -49,12 +65,22 @@ class SuiteMeter extends Component{
         });
       }
     }
+    else if(this.isEmpty()){
+      this.setState({
+        value:"",
+        units:"No Suites"
+      });
+    }
     else{
       this.setState({
-        value: Number((this.props.suite_list.length/this.props.total_suites)*100).toFixed(0) + "%",
+        value: this.getPercent(this.props),
         units:"completed"
       });
     }
+  }
+
+  isEmpty(){
+    return this.props.total_suites === 0;
   }
 
   componentWillReceiveProps(nextProps){
@@ -73,9 +99,15 @@ class SuiteMeter extends Component{
         });
       }
     }
+    else if(this.isEmpty()){
+      this.setState({
+        value:"",
+        units:"No Suites"
+      });
+    }
     else{
       this.setState({
-        value: Number((nextProps.suite_list.length/nextProps.total_suites)*100).toFixed(0) + "%",
+        value: this.getPercent(nextProps),
         units:"completed"
       });
     }
@@ -125,6 +157,7 @@ class SuiteMeter extends Component{
 
 SuiteMeter.propTypes = {
   suite: PropTypes.object,
+  tests: PropTypes.array,
   meter_size: PropTypes.string,
   text_size: PropTypes.string,
   suite_list: PropTypes.array,
