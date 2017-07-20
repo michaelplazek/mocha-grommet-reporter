@@ -26,6 +26,12 @@ class TestMeter extends Component{
         };
       }
     }
+    else if(this.isEmpty()){
+      this.state = {
+        value: "",
+        units:"No Tests"
+      };
+    }
     else{
       this.state = {
         value: Number((this.props.tests.length/this.props.total)*100).toFixed(0) + "%",
@@ -49,6 +55,12 @@ class TestMeter extends Component{
           units:"tests failed"
         });
       }
+    }
+    else if(this.isEmpty()){
+      this.setState({
+        value: "",
+        units:"No Tests"
+      });
     }
     else{
       this.setState({
@@ -97,6 +109,12 @@ class TestMeter extends Component{
         });
       }
     }
+    else if(this.isEmpty()){
+      this.setState({
+        value: "",
+        units:"No Tests"
+      });
+    }
     else{
       this.setState({
         value: Number((this.props.tests.length/this.props.total)*100).toFixed(0) + "%",
@@ -106,7 +124,7 @@ class TestMeter extends Component{
   }
 
   isLoaded(){
-    return this.props.passes.length + this.props.failures.length + this.props.slow.length === this.props.total;
+    return this.props.total !== 0 && (this.props.passes.length + this.props.failures.length + this.props.slow.length === this.props.total);
   }
 
   getPasses() {
@@ -130,6 +148,10 @@ class TestMeter extends Component{
         this.props.tests.length + " / " + this.props.total
       );
     }
+
+  isEmpty(){
+    return this.props.tests.length === 0;
+  }
 
   getStatusList(){
     let slowtext =  "slow";
