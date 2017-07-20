@@ -189,6 +189,11 @@ class DevBody extends Component {
           </Box>
         );
       }
+      else if(test.duration > test._timeout){
+        return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
+
+
+      }
       else if(test.duration < test._slow){
         return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
       }
@@ -203,8 +208,8 @@ class DevBody extends Component {
       let index = findIndex(this.props.failures, function(o){return o.title === test.title;});
       return (
         <List>
-          <ListItem margin="none">
-              <pre style={{"fontSize":"medium","tabSize":"1"}}>
+          <ListItem margin="none" wrap={true}>
+              <pre style={{"fontSize":"medium","tabSize":"1", "white-space":"pre-wrap"}}>
                 {this.props.errors[index]}
               </pre>
           </ListItem>
@@ -219,7 +224,7 @@ class DevBody extends Component {
   }
 
   getStack(stack){
-    return <Box wrap={true}><pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre></Box>;
+    return <pre style={{"fontSize":"small","tabSize":"1", "white-space":"pre-wrap"}}>{stack}</pre>;
   }
 
   getBody(test) {

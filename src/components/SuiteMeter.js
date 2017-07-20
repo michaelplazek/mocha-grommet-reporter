@@ -144,7 +144,7 @@ class SuiteMeter extends Component{
         type="circle"
         size={this.props.meter_size}
         stacked={true}
-        label={<Box wrap={true}><Value responsive={true}  size={this.props.text_size} units={this.state.units} value={this.state.value}/></Box>}
+        label={<Box responsive={true} wrap={true}><Value responsive={true} size={this.props.text_size} units={this.state.units} value={this.state.value}/></Box>}
         max={this.props.total_suites}
         series={[{"label": "Passed", "onClick":this.props.click_pass, "colorIndex": "ok", "value": this.props.pass_count},
           {"label": "Failed", "onClick":this.props.click_fail, "colorIndex": "critical", "value": this.props.fail_count},

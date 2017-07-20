@@ -87,6 +87,7 @@ export default function reporter(runner) {
   let time = [];
   let last_test = [];
   let slow = [];
+  let hooks = [];
 
   ReactDOM.render(
     <Main
@@ -109,6 +110,11 @@ export default function reporter(runner) {
 
   runner.on('start', ()=> {
 
+  });
+
+  runner.on('hook', function(hook, err){
+    hooks.push(hook);
+    console.log(err);
   });
 
   runner.on('suite end', function (suite) {
