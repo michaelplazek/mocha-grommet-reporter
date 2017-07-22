@@ -178,6 +178,7 @@ class Display extends Component {
           failures={this.props.failures}
           pending={this.props.pending}
           total={this.props.total}
+          unreached={this.props.unreached}
           failed_suites={this.props.failed_suites}
           warning_suites = {this.props.warning_suites}
           pass_count={this.getSuitePasses(this.props.suite, 0)}
@@ -203,6 +204,7 @@ class Display extends Component {
           errors={this.props.errors}
           stacks = {this.props.stacks}
           tab = {this.state.tab}
+          unreached={this.props.unreached}
         />
       );
     }
@@ -300,6 +302,16 @@ class Display extends Component {
   //   else{return true;}
   // }
 
+  getNotification(){
+    if(this.props.unreached > 0 && this.state.page === 0){
+      return <Label size="small"><Status value="warning" />&nbsp;&nbsp;{this.getMessage()}</Label>
+    }
+  }
+
+  getMessage(){
+    return this.props.unreached + " suites were skipped. Check hooks."
+  }
+
   render() {
     return (
       <Article full={true}>
@@ -308,6 +320,8 @@ class Display extends Component {
             <Headline strong={true} size="small" margin="none">{this.getTitle()}</Headline>
             {this.getSubHeader()}
           </Box>
+
+          {this.getNotification()}
 
           {this.getTestMeter()}
 
@@ -346,6 +360,7 @@ Display.propTypes = {
   errors: PropTypes.array,
   stacks: PropTypes.array,
   slow: PropTypes.array,
+  unreached: PropTypes.array
 };
 
 export default Display;

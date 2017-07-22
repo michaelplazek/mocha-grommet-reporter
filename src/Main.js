@@ -42,6 +42,7 @@ class Main extends Component {
           warning_suites = {this.props.warning_suites}
           last_test = {this.props.last_test}
           slow = {this.props.slow}
+          unreached={this.props.unreached}
         />
       </App>
     );
@@ -62,7 +63,8 @@ Main.propTypes = {
   failed_suites: PropTypes.array,
   warning_suites: PropTypes.array,
   last_test: PropTypes.array,
-  slow: PropTypes.array
+  slow: PropTypes.array,
+  unreached: PropTypes.array
 }
 
 export default Main;

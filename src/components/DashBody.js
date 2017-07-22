@@ -21,7 +21,24 @@ class DashBody extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      unreached:this.getUnreached(this.props)
+    };
+
     this.getTestStatus = this.getTestStatus.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({unreached:this.getUnreached(nextProps)});
+  }
+
+  getUnreached(props){
+    if(props.unreached && props.unreached.length > 0){
+      return props.unreached[0];
+    }
+    else{
+      return 0;
+    }
   }
 
   getSuite(suite, index) {
@@ -117,7 +134,7 @@ class DashBody extends Component {
   }
 
   isLoaded() {
-    return this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites;
+    return this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites - this.getUnreached(this.props);
   }
 
   splitSuites() {
@@ -158,7 +175,7 @@ class DashBody extends Component {
         </Animate>
       );
     }
-    else if(this.props.pass_count === this.props.total_suites && this.props.tests.length !== 0){
+    else if(this.props.pass_count === (this.props.total_suites - this.state.unreached) && this.props.tests.length !== 0){
       return <Label size="large"><Status value="ok" size="medium" />     All Suites Passed</Label>;
     }
     else if(this.props.tests.length === 0){
@@ -191,6 +208,7 @@ class DashBody extends Component {
             click_pass={this.props.click_pass}
             click_fail={this.props.click_fail}
             click_warn={this.props.click_warn}
+            unreached={this.state.unreached}
           />
         </Box>
         <Box alignSelf="center" align="center" pad={{horizontal:"medium"}} basis="2/3" size="small">
@@ -208,6 +226,7 @@ DashBody.propTypes = {
   failures: PropTypes.array,
   pending: PropTypes.array,
   total: PropTypes.number,
+  unreached: PropTypes.array,
   suite_list: PropTypes.array,
   failed_suites: PropTypes.array,
   pass_count: PropTypes.number,

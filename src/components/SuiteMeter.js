@@ -17,7 +17,7 @@ class SuiteMeter extends Component{
       }
       else{
         this.state = {
-          value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+          value: (this.props.fail_count + this.props.warning_count) + " / " + (this.props.total_suites - this.getUnreached()),
           units:"suites failed"
         };
       }
@@ -38,7 +38,7 @@ class SuiteMeter extends Component{
   }
 
   isLoaded() {
-    return this.props.total_suites !== 0 && (this.props.fail_count + this.props.warning_count + this.props.pass_count === this.props.total_suites);
+    return this.props.total_suites !== 0 && (this.props.fail_count + this.props.warning_count + this.props.pass_count === (this.props.total_suites - this.getUnreached()));
   }
 
   getPercent(props){
@@ -60,7 +60,7 @@ class SuiteMeter extends Component{
       }
       else{
         this.setState({
-          value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+          value: (this.props.fail_count + this.props.warning_count) + " / " + (this.props.total_suites - this.getUnreached()),
           units:"suites failed"
         });
       }
@@ -94,7 +94,7 @@ class SuiteMeter extends Component{
       }
       else{
         this.setState({
-          value: (this.props.fail_count + this.props.warning_count) + " / " + this.props.total_suites,
+          value: (this.props.fail_count + this.props.warning_count) + " / " + (this.props.total_suites - this.getUnreached()),
           units:"suites failed"
         });
       }
@@ -137,6 +137,15 @@ class SuiteMeter extends Component{
     }
   }
 
+  getUnreached(){
+    if(this.props.unreached && this.props.unreached.length > 0){
+      return this.props.unreached;
+    }
+    else{
+      return 0;
+    }
+  }
+
   render(){
     return(
       <Meter
@@ -167,7 +176,8 @@ SuiteMeter.propTypes = {
   total_suites: PropTypes.number,
   click_pass: PropTypes.func,
   click_fail: PropTypes.func,
-  click_warn: PropTypes.func
+  click_warn: PropTypes.func,
+  unreached: PropTypes.number
 };
 
 export default SuiteMeter;
