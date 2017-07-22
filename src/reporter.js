@@ -31,6 +31,25 @@ export default function reporter(runner) {
     }
   }
 
+  function getUnreachedSuiteCount(suite, count) {
+    if (suite) {
+      suite.suites.forEach(item => {
+        count++;
+        if(item.suites.length > 0){
+          count = getUnreachedSuiteCount(item, count);
+        }
+      });
+
+    }
+    return count;
+  }
+
+  // function getUnreached(){
+  //   if(unreached.length > 1){
+  //     unreached[0] += unreached.pop();
+  //   }
+  // }
+
   function findWarningSuites(suites){
     if(suites){
       suites.forEach(suite => {
@@ -88,6 +107,7 @@ export default function reporter(runner) {
   let last_test = [];
   let slow = [];
   let hooks = [];
+  let unreached = [];
 
   ReactDOM.render(
     <Main
@@ -105,6 +125,7 @@ export default function reporter(runner) {
       warning_suites = {warning_suites}
       last_test = {last_test}
       slow = {slow}
+      unreached = {unreached}
     />
     , mochaElement);
 
@@ -143,9 +164,14 @@ export default function reporter(runner) {
   });
 
   runner.on('fail', function (test, err) {
-    failures.push(test);
-    errors.push(err.message);
-    stacks.push(err.stack);
+    if(test.type === 'hook'){
+      unreached.push(getUnreachedSuiteCount(test.parent, 1));
+    }
+    else{
+      failures.push(test);
+      errors.push(err.message);
+      stacks.push(err.stack);
+    }
   });
 
   runner.on('pending', function (test) {
