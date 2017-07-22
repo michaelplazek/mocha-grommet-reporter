@@ -65,4 +65,4 @@ Use the [mocha-grommet-reporter-example](https://github.com/michaelplazek/mocha-
 
 More features coming soon. Feel free to email me at michael.plazek@hpe.com with suggestions.
 
-#### Special Thanks to [Tyr Johanson](https://github.com/tyrjo) for his wisdom, insight and guidance throughout with this project.
+### Special Thanks to [Tyr Johanson](https://github.com/tyrjo) for his wisdom, insight and guidance throughout with this project.
