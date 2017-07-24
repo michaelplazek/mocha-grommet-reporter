@@ -133,9 +133,8 @@ export default function reporter(runner) {
 
   });
 
-  runner.on('hook', function(hook, err){
+  runner.on('hook', function(hook){
     hooks.push(hook);
-    console.log(err);
   });
 
   runner.on('suite end', function (suite) {
