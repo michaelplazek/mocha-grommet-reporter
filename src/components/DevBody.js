@@ -209,7 +209,7 @@ class DevBody extends Component {
       return (
         <List>
           <ListItem margin="none" wrap={true}>
-              <pre style={{"fontSize":"medium","tabSize":"1", "whiteSpace":"pre-wrap"}}>
+              <pre style={{"fontSize":"medium","tabSize":"1", "white-space":"pre-wrap"}}>
                 {this.props.errors[index]}
               </pre>
           </ListItem>
@@ -224,7 +224,7 @@ class DevBody extends Component {
   }
 
   getStack(stack){
-    return <pre style={{"fontSize":"small","tabSize":"1", "whiteSpace":"pre-wrap"}}>{stack}</pre>;
+    return <pre style={{"fontSize":"small","tabSize":"1", "white-space":"pre-wrap"}}>{stack}</pre>;
   }
 
   getBody(test) {
