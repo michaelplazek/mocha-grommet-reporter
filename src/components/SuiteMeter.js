@@ -138,7 +138,7 @@ class SuiteMeter extends Component{
   }
 
   getUnreached(){
-    if(this.props.unreached && this.props.unreached.length > 0){
+    if(this.props.unreached && this.props.unreached > 0){
       return this.props.unreached;
     }
     else{
