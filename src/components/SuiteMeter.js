@@ -45,9 +45,9 @@ class SuiteMeter extends Component{
     if(this.props.total_suites > 0 && this.props.tests.length > 0){
       return Number((props.suite_list.length/props.total_suites)*100).toFixed(0) + "%";
     }
-    else if(this.props.total_suites > 0 && this.props.tests.length === 0){
-      return 100 + "%";
-    }
+    // else if(this.props.total_suites > 0 && this.props.tests.length === 0){
+    //   return 100 + "%";
+    // }
   }
 
   getSuiteMeterLabel(){
