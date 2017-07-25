@@ -38,7 +38,7 @@ class Display extends Component {
   getSuitePasses(suite, pass) {
     if (suite) {
       suite.suites.forEach(item => {
-        if (item.tests.every(test => this.getTestStatus(test) === 'ok')) {
+        if (item.tests.every(test => this.getTestStatus(test) === 'ok') && item.suites.every(suite => this.getSuiteStatus(suite) === 'ok')) {
           pass++;
         }
         if(item.suites.length > 0){
@@ -52,7 +52,7 @@ class Display extends Component {
   getSuiteFailures(suite, fail) {
     if (suite) {
       suite.suites.forEach(item => {
-        if (item.tests.some(test => this.getTestStatus(test) === 'critical')) {
+        if (item.tests.some(test => this.getTestStatus(test) === 'critical') || item.suites.some(suite => this.getSuiteStatus(suite) === 'critical')) {
           fail++;
         }
         if(item.suites.length > 0){
@@ -61,6 +61,24 @@ class Display extends Component {
       });
     }
     return fail;
+  }
+
+  getSuiteStatus(suite) {
+    let result = 'unknown';
+    if (suite && suite.tests) {
+      if (suite.tests.every(test => this.getTestStatus(test) === 'ok')) {
+        result = 'ok';
+      } else if (suite.tests.some(test => this.getTestStatus(test) === 'critical')) {
+        result = 'critical';
+      } else if (suite.tests.every(test => this.getTestStatus(test) === 'unknown')) {
+        result = 'unknown';
+      } else if (suite.tests.some(test => this.getTestStatus(test) === 'warning') && !suite.tests.some(test => this.getTestStatus(test) === 'critical')){
+        result = "warning";
+      } else {
+        result = 'unknown';
+      }
+      return result;
+    }
   }
 
   getSuiteWarnings(suite, warn) {
