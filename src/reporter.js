@@ -39,7 +39,6 @@ export default function reporter(runner) {
           count = getUnreachedSuiteCount(item, count);
         }
       });
-
     }
     return count;
   }
