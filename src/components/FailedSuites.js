@@ -165,7 +165,7 @@ class FailedSuites extends Component{
     if (test && test.state && test.state === 'failed') {
       return (
         <Box margin={{vertical:"small"}}>
-          <pre style={{"fontSize":"medium","tabSize":"1"}}>
+          <pre style={{"fontSize":"medium","tabSize":"1", "white-space":"pre-wrap"}}>
             {this.props.errors[this.props.errors.length - 1]}
           </pre>
           <Label margin="none">
@@ -177,12 +177,12 @@ class FailedSuites extends Component{
   }
 
   getStack(stack){
-    return <pre style={{"fontSize":"small","tabSize":"1"}}>{stack}</pre>;
+    return <pre style={{"fontSize":"small","tabSize":"1", "white-space":"pre-wrap"}}>{stack}</pre>;
   }
 
   getBody(test) {
     if (test && test.body) {
-      return <pre style={{"fontSize":"small","tabSize":"1"}}><code>{test.body}</code></pre>
+      return <pre style={{"fontSize":"small","tabSize":"1", "white-space":"pre-wrap"}}><code>{test.body}</code></pre>
     }
   }
 

@@ -3,6 +3,7 @@
 This is a custom reporter for the Mocha test framework written in React/[Grommet](https://grommet.github.io/). The two current views are the Dashboard and Details View, which include: <br />
 1. total pass/fail ratio for all suites/tests
 1. time of last completed test
+1. sorted test results
 1. alert for timed out/slow tests <br />
 1. duration of each test
 1. errors/stack trace from from failed tests
