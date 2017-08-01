@@ -35,34 +35,6 @@ class Display extends Component {
 
   // SUITE GETTERS
 
-  getSuitePasses(suite, pass) {
-    if (suite) {
-      suite.suites.forEach(item => {
-        if (item.tests.every(test => this.getTestStatus(test) === 'ok') && item.suites.every(suite => this.getSuiteStatus(suite) === 'ok')) {
-          pass++;
-        }
-        if(item.suites.length > 0){
-          pass = this.getSuitePasses(item, pass);
-        }
-      });
-    }
-    return pass;
-  }
-
-  getSuiteFailures(suite, fail) {
-    if (suite) {
-      suite.suites.forEach(item => {
-        if (item.tests.some(test => this.getTestStatus(test) === 'critical') || item.suites.some(suite => this.getSuiteStatus(suite) === 'critical')) {
-          fail++;
-        }
-        if(item.suites.length > 0){
-          fail = this.getSuiteFailures(item, fail);
-        }
-      });
-    }
-    return fail;
-  }
-
   getSuiteStatus(suite) {
     let result = 'unknown';
     if (suite && suite.tests) {
@@ -81,19 +53,61 @@ class Display extends Component {
     }
   }
 
+  getSuitePasses(suite, pass) {
+    if (suite) {
+      if (suite.tests.every(test => this.getTestStatus(test) === 'ok')
+        && suite.suites.every(suite => (this.getSuiteStatus(suite) === 'ok'))
+        && !suite.root){
+        pass++;
+      }
+      suite.suites.forEach(item => {
+        pass = this.getSuitePasses(item, pass);
+      });
+    }
+    return pass;
+  }
+
   getSuiteWarnings(suite, warn) {
     if (suite) {
+      if ((suite.tests.some(test => this.getTestStatus(test) === 'warning') && !suite.tests.some(test => this.getTestStatus(test) === 'critical'))
+        || (suite.suites.some(suite => this.getSuiteStatus(suite) === 'warning') && !suite.suites.some(test => this.getSuiteStatus(suite) === 'critical'))
+        && !suite.root){
+        warn++;
+      }
       suite.suites.forEach(item => {
-        if (item.tests.some(test => this.getTestStatus(test) === 'warning') && !item.tests.some(test => this.getTestStatus(test) === 'critical')) {
-          warn++;
-        }
-        if(item.suites.length > 0){
-          warn = this.getSuiteWarnings(item, warn);
-        }
+        warn = this.getSuiteWarnings(item, warn);
       });
     }
     return warn;
   }
+
+  getSuiteFailures(suite, fail) {
+    if (suite) {
+      if (suite.tests.some(test => this.getTestStatus(test) === 'critical')
+        || suite.suites.some(suite => this.getSuiteStatus(suite) === 'critical')
+        && !suite.root){
+        fail++;
+      }
+      suite.suites.forEach(item => {
+        fail = this.getSuiteFailures(item, fail);
+      });
+    }
+    return fail;
+  }
+
+  // getSuiteFailures(suite, fail) {
+  //   if (suite) {
+  //     suite.suites.forEach(item => {
+  //       if (item.tests.some(test => this.getTestStatus(test) === 'critical') || item.suites.some(suite => this.getSuiteStatus(suite) === 'critical')) {
+  //         fail++;
+  //       }
+  //       if(item.suites.length > 0){
+  //         fail = this.getSuiteFailures(item, fail);
+  //       }
+  //     });
+  //   }
+  //   return fail;
+  // }
 
   getSuiteLength(suite, count) {
     if (suite) {
