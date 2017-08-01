@@ -197,7 +197,7 @@ class DashBody extends Component {
         <Box justify="start" align="center" size="large" margin={{vertical:"medium"}}>
           <SuiteMeter
             meter_size="large"
-            text_size="large"
+            text_size="medium"
             suite={this.props.suite}
             tests = {this.props.tests}
             suite_list={this.props.suite_list}
