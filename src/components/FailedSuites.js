@@ -41,7 +41,8 @@ class FailedSuites extends Component{
   getSuites(suites) {
     let result = null;
     if (suites && suites.length > 0) {
-      suites = suites.filter(suite => {return (
+      suites = suites.filter(suite => {
+        return (
         suite.tests.some(test => this.getTestStatus(test) === 'critical')) ||
         suite.suites.some(suite => this.getSuiteStatus(suite) === 'critical');
       });

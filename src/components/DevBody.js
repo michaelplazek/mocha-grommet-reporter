@@ -185,21 +185,21 @@ class DevBody extends Component {
         return (
           <Box>
             <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>
-            <Label size="large" margin="small">Expected test to be less than {test._slow/1000} s</Label>
+            <Label size="medium" margin="small">Expected test to be less than {test._slow/1000} s</Label>
           </Box>
         );
       }
       else if(test.duration > test._timeout){
-        return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
+        return <Label size="medium" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
 
 
       }
       else if(test.duration < test._slow){
-        return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
+        return <Label size="medium" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;{test.duration / 1000}&nbsp;s</Label>;
       }
     }
     else{
-      return <Label size="large" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;under 1 s</Label>;
+      return <Label size="medium" margin="small"><ClockIcon type="logo"/>&nbsp;&nbsp;under 1 s</Label>;
     }
   }
 
