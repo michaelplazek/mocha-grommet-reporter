@@ -18,13 +18,23 @@ import DevBody from './DevBody';
 import SuiteMeter from "./SuiteMeter";
 import TestMeter from './TestMeter';
 
+let storage = window.sessionStorage;
+
 class Display extends Component {
 
   constructor(props) {
     super(props);
 
+    let page;
+    if(storage.length > 0){
+      page = parseInt(storage.getItem('page'));
+    }
+    else{
+      page = 0;
+    }
+
     this.state = {
-      page: 0,
+      page,
       tab: 0
     };
 
@@ -185,19 +195,14 @@ class Display extends Component {
 
   setPage() {
     if (this.state.page === 0) {
-      this.setState({
-        page: 1,
-        tab:0
-      });
+      storage.setItem('page','1');
+      this.setState({page:1});
     }
     else {
-      this.setState({
-        page: 0,
-        tab:0
-      });
+      storage.setItem('page','0');
+      this.setState({page:0});
     }
   }
-
 
   getPage(){
     if (this.state.page === 0) {
