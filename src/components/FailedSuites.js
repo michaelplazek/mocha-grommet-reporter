@@ -18,6 +18,10 @@ class FailedSuites extends Component{
   constructor(props){
     super(props);
 
+    // this.state = {
+    //   expanded: false
+    // };
+
     this.getSuite = this.getSuite.bind(this);
     this.getSuites = this.getSuites.bind(this);
     this.getTests = this.getTests.bind(this);
@@ -26,6 +30,10 @@ class FailedSuites extends Component{
     this.getTestStatus = this.getTestStatus.bind(this);
     this.getTestHeading = this.getTestHeading.bind(this);
   }
+
+  // componentWillReceiveProps(nextProps){
+  //   this.setState({expanded: nextProps.expanded});
+  // }
 
   getSuite(suite) {
     if (suite) {
@@ -50,6 +58,7 @@ class FailedSuites extends Component{
         <Box>
           <Accordion
             openMulti={true}
+            active={this.isExpanded(suites)}
           >
             {
               suites.map((suite, index) => (
@@ -68,6 +77,30 @@ class FailedSuites extends Component{
     return result;
   }
 
+  isExpanded(suites){
+    let arr = null;
+    if(this.props.expanded === false){
+      arr = this.collapse();
+    }
+    else if(this.props.expanded === true){
+      arr = this.expand(suites);
+    }
+
+    return arr;
+  }
+
+  expand(suites){
+    let arr = [];
+    for(let i = 0; i < suites.length; i++){
+      arr[i] = i;
+    }
+    return arr;
+  }
+
+  collapse(){
+    return null;
+  }
+
   getSuiteHeading(suite) {
     return (
       <Paragraph size="large">{suite.title}</Paragraph>
@@ -81,6 +114,7 @@ class FailedSuites extends Component{
       result = (
         <Box>
           <Accordion
+            active = {this.isExpanded(tests)}
             openMulti={true}
           >
             {

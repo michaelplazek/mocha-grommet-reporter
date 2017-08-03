@@ -12,6 +12,8 @@ import Animate from 'grommet/components/Animate';
 import Button from 'grommet/components/Button';
 import DashboardIcon from 'grommet/components/icons/base/Dashboard';
 import ServicesIcon from 'grommet/components/icons/base/Services';
+import ExpandIcon from 'grommet/components/icons/base/Expand';
+import ContractIcon from 'grommet/components/icons/base/Contract';
 
 import DashBody from './DashBody';
 import DevBody from './DevBody';
@@ -35,12 +37,14 @@ class Display extends Component {
 
     this.state = {
       page,
-      tab: 0
+      tab: 0,
+      expanded: false
     };
 
     this.setPage = this.setPage.bind(this);
     this.getTestMeter = this.getTestMeter.bind(this);
     this.handleChildClickWarn = this.handleChildClickWarn.bind(this);
+    this.setExpanded = this.setExpanded.bind(this);
   }
 
   // SUITE GETTERS
@@ -242,6 +246,7 @@ class Display extends Component {
           stacks = {this.props.stacks}
           tab = {this.state.tab}
           unreached={this.props.unreached}
+          expanded = {this.state.expanded}
         />
       );
     }
@@ -334,6 +339,56 @@ class Display extends Component {
     }
   }
 
+  setExpanded() {
+    if (this.state.expanded === false) {
+      this.setState({
+        expanded: true
+      });
+    }
+    else if (this.state.expanded === true) {
+      this.setState({
+        expanded: false
+      });
+    }
+  }
+
+
+  getExpandButton(){
+    if(this.state.page === 1){
+      if(this.state.expanded === false){
+        return (
+          <Label align="center">
+            <Button
+              icon={<ExpandIcon />}
+              type="button"
+              onClick={this.setExpanded}
+              label="Expand All"
+              secondary = {true}
+              // plain = {true}
+            />
+          </Label>
+        );
+      }
+      else{
+        return (
+          <Label align="center">
+            <Button
+              icon = {<ContractIcon />}
+              type="button"
+              onClick={this.setExpanded}
+              label="Collapse All"
+              secondary = {true}
+              // plain = {true}
+            />
+          </Label>
+        );
+      }
+    }
+    else{
+      return null;
+    }
+  }
+
   // getFix(){
   //   if(this.state.page === 0){return false;}
   //   else{return true;}
@@ -372,6 +427,7 @@ class Display extends Component {
                 icon={this.getButtonIcon()}
               />
             </Label>
+              {this.getExpandButton()}
           </Box>
 
         </Header>
