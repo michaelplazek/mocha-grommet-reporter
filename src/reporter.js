@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import moment from 'moment';
+
 import Main from './Main';
 
 const listeners = [];
@@ -73,21 +75,22 @@ export default function reporter(runner) {
   }
 
   function getTime(){
-    let currentdate = new Date();
+    let currentdate = moment().format('MMMM Do YYYY, h:mm a');
+    // let currentdate = new Date();
     if(last_test.length === 0){
-      last_test.push((currentdate.getMonth()+1) + "/"
-        + currentdate.getDate() + "/"
-        + currentdate.getFullYear() + " at "
-        + currentdate.getHours() + ":"
-        + addZero(currentdate));
+      last_test.push(currentdate);
+    //     + currentdate.getDate() + "/"
+    //     + currentdate.getFullYear() + " at "
+    //     + currentdate.getHours() + ":"
+    //     + addZero(currentdate));
     }
     else{
       last_test.pop();
-      last_test.push((currentdate.getMonth()+1) + "/"
-        + currentdate.getDate() + "/"
-        + currentdate.getFullYear() + " at "
-        + currentdate.getHours() + ":"
-        + addZero(currentdate));
+      last_test.push(currentdate);
+    //     + currentdate.getDate() + "/"
+    //     + currentdate.getFullYear() + " at "
+    //     + currentdate.getHours() + ":"
+    //     + addZero(currentdate));
     }
   }
 
