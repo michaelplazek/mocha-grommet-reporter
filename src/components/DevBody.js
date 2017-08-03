@@ -29,14 +29,16 @@ class DevBody extends Component {
 
     this.state = {
       tab: this.props.tab,
-      suite_panels: [],
-      test_panels: []
+      expanded: this.props.expanded
     };
     this.getTestStatus = this.getTestStatus.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
-    this.setState({tab:nextProps.tab});
+    this.setState({
+      // tab: nextProps.tab,
+      expanded: nextProps.expanded
+    });
   }
 
   getSuite(suite) {
@@ -56,8 +58,8 @@ class DevBody extends Component {
       result = (
         <Box>
           <Accordion
-            active={this.state.test_panels}
             openMulti={true}
+            active={this.isExpanded(tests)}
           >
             {
               tests.map(test => (
@@ -87,8 +89,8 @@ class DevBody extends Component {
       result = (
         <Box>
           <Accordion
-            active={this.state.suite_panels}
             openMulti={true}
+            active={this.isExpanded(suites)}
           >
             {
               suites.map(suite => (
@@ -105,6 +107,30 @@ class DevBody extends Component {
       );
     }
     return result;
+  }
+
+  isExpanded(suites){
+    let arr = null;
+    if(this.props.expanded === false){
+      arr = this.collapse();
+    }
+    else if(this.props.expanded === true){
+      arr = this.expand(suites);
+    }
+
+    return arr;
+  }
+
+  expand(suites){
+    let arr = [];
+    for(let i = 0; i < suites.length; i++){
+      arr[i] = i;
+    }
+    return arr;
+  }
+
+  collapse(){
+    return null;
   }
 
   getStatuses(suite){
@@ -256,10 +282,6 @@ class DevBody extends Component {
     );
   }
 
-  setSuitePanels(){
-    this.setState({suite_panels:[2,4,6]});
-  }
-
   render() {
 
     return (
@@ -280,6 +302,7 @@ class DevBody extends Component {
 
               <PassedSuites
                 suite = {this.props.suite}
+                expanded = {this.state.expanded}
               />
 
             </Box>
@@ -292,6 +315,7 @@ class DevBody extends Component {
                 suite={this.props.suite}
                 errors = {this.props.errors}
                 stacks = {this.props.stacks}
+                expanded = {this.state.expanded}
               />
 
             </Box>
@@ -302,6 +326,7 @@ class DevBody extends Component {
 
               <WarningSuites
                 suite={this.props.suite}
+                expanded = {this.state.expanded}
               />
 
             </Box>

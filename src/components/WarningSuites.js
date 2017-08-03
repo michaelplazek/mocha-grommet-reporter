@@ -45,6 +45,7 @@ class WarningSuites extends Component{
       result = (
         <Box>
           <Accordion
+            active = {this.isExpanded(suites)}
             openMulti={true}
           >
             {
@@ -77,6 +78,7 @@ class WarningSuites extends Component{
       result = (
         <Box>
           <Accordion
+            active = {this.isExpanded(tests)}
             openMulti={true}
           >
             {
@@ -96,6 +98,30 @@ class WarningSuites extends Component{
       );
       return result;
     }
+  }
+
+  isExpanded(suites){
+    let arr = null;
+    if(this.props.expanded === false){
+      arr = this.collapse();
+    }
+    else if(this.props.expanded === true){
+      arr = this.expand(suites);
+    }
+
+    return arr;
+  }
+
+  expand(suites){
+    let arr = [];
+    for(let i = 0; i < suites.length; i++){
+      arr[i] = i;
+    }
+    return arr;
+  }
+
+  collapse(){
+    return null;
   }
 
   getTestHeading(test) {
