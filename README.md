@@ -14,11 +14,9 @@ This reporter was designed mainly to be displayed as a status board over a respe
 
 ## Screenshots:
 
-![Overhead Dashboard](http://i.imgur.com/jp7g4q3.png)
+![Overhead Dashboard](http://i.imgur.com/BsOGR5V.png)
 
-![Developer Dashboard](http://i.imgur.com/0qfuLzP.png)
-
-## To use:
+![Developer Dashboard](http://i.imgur.com/dmsxmgZ.png)
 
 `npm install mocha-grommet-reporter`
 
