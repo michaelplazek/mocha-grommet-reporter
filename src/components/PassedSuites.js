@@ -39,8 +39,8 @@ class PassedSuites extends Component{
     if (suites && suites.length > 0) {
       suites = suites.filter(suite => {
         return (
-          suite.tests.some(test => this.getTestStatus(test) === 'ok')) ||
-          suite.suites.some(suite => this.getSuiteStatus(suite) === 'ok');
+          suite.tests.some(test => this.getTestStatus(test) === 'ok') ||
+          suite.suites.some(suite => suite.tests.some(test => this.getTestStatus(test) === 'ok')));
       });
       result = (
         <Box>

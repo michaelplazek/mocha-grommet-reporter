@@ -39,8 +39,8 @@ class WarningSuites extends Component{
     if (suites && suites.length > 0) {
       suites = suites.filter(suite => {
         return (
-          suite.tests.some(test => this.getTestStatus(test) === 'warning')) ||
-          suite.suites.some(suite => this.getSuiteStatus(suite) === 'warning');
+          suite.tests.some(test => this.getTestStatus(test) === 'warning') ||
+          suite.suites.some(suite => suite.tests.some(test => this.getTestStatus(test) === 'warning')));
       });
       result = (
         <Box>
