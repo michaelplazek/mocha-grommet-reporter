@@ -316,6 +316,7 @@ class DevBody extends Component {
                 errors = {this.props.errors}
                 stacks = {this.props.stacks}
                 expanded = {this.state.expanded}
+                failures = {this.props.failures}
               />
 
             </Box>
