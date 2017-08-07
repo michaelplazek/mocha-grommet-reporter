@@ -14,6 +14,8 @@ import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import ClockIcon from 'grommet/components/icons/base/Clock';
 
+import findIndex from 'lodash.findindex';
+
 class FailedSuites extends Component{
   constructor(props){
     super(props);
@@ -198,18 +200,38 @@ class FailedSuites extends Component{
 
   getError(test) {
     if (test && test.state && test.state === 'failed') {
+      let index = findIndex(this.props.failures, function(o){return o.title === test.title;});
       return (
-        <Box margin={{vertical:"small"}}>
-          <pre style={{"fontSize":"medium","tabSize":"1", "white-space":"pre-wrap"}}>
-            {this.props.errors[this.props.errors.length - 1]}
-          </pre>
-          <Label margin="none">
-            {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
-          </Label>
-        </Box>
+        <List>
+          <ListItem margin="none" wrap={true}>
+              <pre style={{"fontSize":"medium","tabSize":"1", "white-space":"pre-wrap"}}>
+                {this.props.errors[index]}
+              </pre>
+          </ListItem>
+          <ListItem>
+            <Label margin="none">
+              {this.getStack(this.props.stacks[index])}
+            </Label>
+          </ListItem>
+        </List>
       );
     }
   }
+
+  // getError(test) {
+  //   if (test && test.state && test.state === 'failed') {
+  //     return (
+  //       <Box margin={{vertical:"small"}}>
+  //         <pre style={{"fontSize":"medium","tabSize":"1", "white-space":"pre-wrap"}}>
+  //           {this.props.errors[this.props.errors.length - 1]}
+  //         </pre>
+  //         <Label margin="none">
+  //           {this.getStack(this.props.stacks[this.props.stacks.length - 1])}
+  //         </Label>
+  //       </Box>
+  //     );
+  //   }
+  // }
 
   getStack(stack){
     return <pre style={{"fontSize":"small","tabSize":"1", "white-space":"pre-wrap"}}>{stack}</pre>;
@@ -229,7 +251,8 @@ class FailedSuites extends Component{
 FailedSuites.propTypes = {
   suite: PropTypes.object.isRequired,
   errors: PropTypes.array.isRequired,
-  stacks: PropTypes.array.isRequired
+  stacks: PropTypes.array.isRequired,
+  failures: PropTypes.array.isRequired
 };
 
 export default FailedSuites;
