@@ -10,7 +10,7 @@ This is a custom reporter for the Mocha test framework written in React/[Grommet
 1. timeout information
 1. visually appealing widgets
 
-This reporter was designed mainly to be displayed as a status board over a respective workspace. The Details View is included to provide and expand on the functionality of any standard mocha reporter.
+This reporter was designed mainly to be displayed as a status board over a respective workspace. The Details View is included to provide and expand on the functionality of any standard mocha reporter. App licensed to HPE.
 
 ## Screenshots:
 
